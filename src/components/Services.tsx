@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const reviews = [
   // Neueste Bewertungen (2026)
@@ -266,7 +267,13 @@ export default function Services() {
       <section className="py-24 bg-[#F5F0EB]">
         <div className="max-w-4xl mx-auto px-4">
           {/* Header */}
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
             <span className="text-[#A68A75] font-bold uppercase tracking-widest text-xs mb-2 block">
               Das sagen unsere Paare
             </span>
@@ -295,7 +302,7 @@ export default function Services() {
             <p className="text-gray-500 text-sm">
               Basierend auf {totalReviews} Google Bewertungen
             </p>
-          </div>
+          </motion.div>
 
           {/* Review Card */}
           <div className="relative">

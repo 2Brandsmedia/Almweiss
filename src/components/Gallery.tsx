@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const galleryImages = [
   { src: "/images/annechris-2061-1.jpg", alt: "Brautpaar" },
@@ -83,7 +84,13 @@ export default function Gallery() {
       <section className="py-24 bg-white" id="galerie">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
             <span className="text-[#A68A75] font-bold uppercase tracking-widest text-xs">
               Impressionen
             </span>
@@ -93,7 +100,7 @@ export default function Gallery() {
             <p className="text-gray-600">
               Eindrücke von unvergesslichen Momenten bei Almweiß.
             </p>
-          </div>
+          </motion.div>
         </div>
 
         {/* Scrolling Gallery */}

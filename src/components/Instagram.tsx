@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Script from "next/script";
+import { motion } from "framer-motion";
 
 // Instagram Posts werden aus JSON geladen (aktualisiert via Cron Job)
 import instagramData from "@/data/instagram-posts.json";
@@ -72,7 +73,13 @@ export default function Instagram() {
     <section className="py-24 bg-white overflow-hidden" id="instagram">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-12"
+        >
           <div className="flex items-center justify-center gap-3 mb-4">
             <svg className="w-8 h-8 text-[#A68A75]" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -93,7 +100,7 @@ export default function Instagram() {
           <h2 className="font-display text-4xl font-bold mt-2 mb-4 text-gray-900">
             Folgen Sie uns auf Instagram
           </h2>
-        </div>
+        </motion.div>
 
         {/* 3D Karussell */}
         <div

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import LegalModals from "./LegalModals";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
@@ -12,9 +13,26 @@ export default function Footer() {
     <>
       <footer className="bg-[#292524] text-white py-16 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-12">
+          <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+          className="grid md:grid-cols-4 gap-12"
+        >
             {/* Logo & Description */}
-            <div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <span className="font-display text-2xl font-bold tracking-widest uppercase mb-4 block">
                 Almweiß
               </span>
@@ -39,10 +57,15 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Contact Info */}
-            <div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                 Kontakt
               </h4>
@@ -68,10 +91,15 @@ export default function Footer() {
                   </a>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Google Maps */}
-            <div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                 Anfahrt
               </h4>
@@ -87,10 +115,15 @@ export default function Footer() {
                   title="Almweiß Location"
                 />
               </div>
-            </div>
+            </motion.div>
 
             {/* Legal */}
-            <div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+              }}
+            >
               <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                 Rechtliches
               </h4>
@@ -144,8 +177,8 @@ export default function Footer() {
                   </button>
                 </li>
               </ul>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Copyright */}
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-xs text-gray-500">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 const stats = [
   { value: 1012, suffix: "", label: "Exklusive Feiern", duration: 3500 },
@@ -74,16 +75,35 @@ export default function Stats() {
   return (
     <section className="bg-[#F5F0EB] py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-200">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.15,
+              },
+            },
+          }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-200"
+        >
           {stats.map((stat) => (
-            <div key={stat.label} className="p-4">
+            <motion.div
+              key={stat.label}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+              }}
+              className="p-4"
+            >
               <Counter value={stat.value} suffix={stat.suffix} duration={stat.duration} />
               <p className="text-sm uppercase tracking-widest text-gray-500">
                 {stat.label}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const steps = [
   {
     number: "01",
@@ -30,7 +34,13 @@ export default function Process() {
     <section className="py-24 bg-[#F5F0EB]" id="leistungen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <span className="text-[#A68A75] font-bold uppercase tracking-widest text-xs">
             Ihr Weg zum Traum
           </span>
@@ -40,16 +50,31 @@ export default function Process() {
           <p className="text-gray-600">
             Wir machen es Ihnen einfach. Der Weg zu Ihrer Traumfeier ist klar definiert.
           </p>
-        </div>
+        </motion.div>
 
         {/* Steps */}
         <div className="grid md:grid-cols-4 gap-8 relative">
           {/* Connecting Line */}
-          <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-300 z-0" />
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+            className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-300 z-0 origin-left"
+          />
 
-          {steps.map((step) => (
-            <div key={step.number} className="relative z-10 text-center">
-              <div
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.number}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.15, ease: "easeOut" }}
+              className="relative z-10 text-center"
+            >
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
                 className={`w-24 h-24 mx-auto bg-white rounded-full border-4 ${
                   step.active
                     ? "border-[#A68A75]"
@@ -65,14 +90,14 @@ export default function Process() {
                 >
                   {step.number}
                 </span>
-              </div>
+              </motion.div>
               <h3 className="font-bold text-lg mb-2 text-gray-900 uppercase tracking-wide">
                 {step.title}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 {step.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

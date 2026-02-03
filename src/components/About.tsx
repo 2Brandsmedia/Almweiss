@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
@@ -6,7 +9,13 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
-          <div className="order-2 lg:order-1">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="order-2 lg:order-1"
+          >
             <span className="text-[#A68A75] font-bold uppercase tracking-widest text-sm mb-2 block">
               Warum Almweiß?
             </span>
@@ -26,7 +35,13 @@ export default function About() {
             </p>
 
             {/* Feature Box */}
-            <div className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]"
+            >
               <span className="material-icons text-[#A68A75] text-3xl">verified</span>
               <div>
                 <h4 className="font-bold text-gray-900">All Inclusive Service</h4>
@@ -34,10 +49,16 @@ export default function About() {
                   Von Essen bis DJ erhalten Sie alles aus einer Hand.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* CTA Link */}
-            <div className="mt-10">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="mt-10"
+            >
               <a
                 href="#kontakt"
                 className="inline-flex items-center text-[#A68A75] font-bold uppercase tracking-widest hover:text-gray-900 transition group"
@@ -47,26 +68,40 @@ export default function About() {
                   arrow_forward
                 </span>
               </a>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Images */}
           <div className="order-1 lg:order-2 relative">
             <div className="grid grid-cols-2 gap-4">
-              <Image
-                src="/images/annechris-3570-1.jpg"
-                alt="Brautpaar bei der Hochzeit"
-                width={400}
-                height={320}
-                className="rounded-lg shadow-xl w-full h-80 object-cover transform translate-y-8"
-              />
-              <Image
-                src="/images/brautpaar-rauch.jpg"
-                alt="Brautpaar vor Rauch"
-                width={400}
-                height={320}
-                className="rounded-lg shadow-xl w-full h-80 object-cover"
-              />
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+              >
+                <Image
+                  src="/images/annechris-3570-1.jpg"
+                  alt="Brautpaar bei der Hochzeit"
+                  width={400}
+                  height={320}
+                  className="rounded-lg shadow-xl w-full h-80 object-cover transform translate-y-8"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: -40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+              >
+                <Image
+                  src="/images/brautpaar-rauch.jpg"
+                  alt="Brautpaar vor Rauch"
+                  width={400}
+                  height={320}
+                  className="rounded-lg shadow-xl w-full h-80 object-cover"
+                />
+              </motion.div>
             </div>
             <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] border border-[#A68A75]/20 rounded-full" />
           </div>

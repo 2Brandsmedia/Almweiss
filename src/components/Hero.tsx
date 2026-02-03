@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { useBooking } from "@/context/BookingContext";
 
 declare global {
@@ -87,7 +88,12 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
-        <div className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-8"
+        >
           <Image
             src="/images/logo-transparent.png"
             alt="Almweiß Logo"
@@ -96,24 +102,39 @@ export default function Hero() {
             className="mx-auto brightness-0 invert drop-shadow-lg"
             style={{ filter: "brightness(0) invert(1)" }}
           />
-        </div>
+        </motion.div>
 
-        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+        >
           Die Hochzeits- &amp; <br />
           <span className="italic font-light text-[#A68A75]">Eventlocation</span>
-        </h1>
+        </motion.h1>
 
-        <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed"
+        >
           Feiern Sie Ihre Liebe an einem Ort, der so einzigartig ist wie Ihre Geschichte. Ein Tag, der bleibt. Ein Ort, der verzaubert.
-        </p>
+        </motion.p>
 
         {/* CTA Button - in hero */}
-        <button
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
           onClick={openModal}
-          className="inline-block bg-[#A68A75] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full animate-pulse-soft"
+          className="inline-block bg-[#A68A75] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full"
         >
           Jetzt Wunschtermin sichern
-        </button>
+        </motion.button>
       </div>
 
       {/* CTA Button - fixed, fades in bottom right when scrolled */}
