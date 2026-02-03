@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { useBooking } from "@/context/BookingContext";
 
 declare global {
@@ -81,15 +82,20 @@ export default function Hero() {
             title="Almweiß Video"
           />
         </div>
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/65" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white mt-16">
-        <div className="inline-block mb-6 px-4 py-1 border border-white/30 bg-white/10 backdrop-blur-sm rounded-full">
-          <span className="text-xs md:text-sm uppercase tracking-[0.2em] text-white font-semibold">
-            Almweiß Leverkusen
-          </span>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
+        <div className="mb-8">
+          <Image
+            src="/images/logo-transparent.png"
+            alt="Almweiß Logo"
+            width={200}
+            height={80}
+            className="mx-auto brightness-0 invert drop-shadow-lg"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
         </div>
 
         <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">

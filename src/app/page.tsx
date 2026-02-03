@@ -1,5 +1,4 @@
 import {
-  Navbar,
   Hero,
   Stats,
   About,
@@ -13,7 +12,6 @@ import {
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#FAF9F6]">
-      <Navbar />
       <Hero />
       <Stats />
       <About />
