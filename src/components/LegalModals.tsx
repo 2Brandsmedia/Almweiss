@@ -1,0 +1,426 @@
+"use client";
+
+import { useState } from "react";
+
+type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
+
+export function useLegalModals() {
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
+  return { activeModal, setActiveModal };
+}
+
+interface LegalModalsProps {
+  activeModal: ModalType;
+  onClose: () => void;
+}
+
+export default function LegalModals({ activeModal, onClose }: LegalModalsProps) {
+  if (!activeModal) return null;
+
+  const content = {
+    impressum: {
+      title: "Impressum",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">Angaben gemäß § 5 TMG</h3>
+          <p className="mb-4">
+            Hermann Seul<br />
+            Robert-Blum-Straße 62<br />
+            51373 Leverkusen
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Kontakt</h3>
+          <p className="mb-4">
+            Telefon: 0173 2814620<br />
+            E-Mail: info@almweiss.de
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Umsatzsteuer-ID</h3>
+          <p className="mb-4">
+            Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
+            [USt-IdNr. hier einfügen]
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
+          <p className="mb-4">
+            Hermann Seul<br />
+            Robert-Blum-Straße 62<br />
+            51373 Leverkusen
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Streitschlichtung</h3>
+          <p className="mb-4">
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+            https://ec.europa.eu/consumers/odr/.<br />
+            Unsere E-Mail-Adresse finden Sie oben im Impressum.
+          </p>
+          <p className="mb-4">
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+            Verbraucherschlichtungsstelle teilzunehmen.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Haftung für Inhalte</h3>
+          <p className="mb-4">
+            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
+            allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+            verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
+            zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+          </p>
+          <p className="mb-4">
+            Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen
+            Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt
+            der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
+            Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Haftung für Links</h3>
+          <p className="mb-4">
+            Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
+            Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
+            verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die
+            verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft.
+            Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Urheberrecht</h3>
+          <p className="mb-4">
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
+            Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+            Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+            Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+          </p>
+        </>
+      ),
+    },
+    datenschutz: {
+      title: "Datenschutzerklärung",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">1. Datenschutz auf einen Blick</h3>
+          <h4 className="font-semibold mb-2">Allgemeine Hinweise</h4>
+          <p className="mb-4">
+            Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten
+            passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
+            persönlich identifiziert werden können.
+          </p>
+
+          <h4 className="font-semibold mb-2">Datenerfassung auf dieser Website</h4>
+          <p className="mb-4">
+            <strong>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</strong><br />
+            Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten
+            können Sie dem Impressum dieser Website entnehmen.
+          </p>
+
+          <p className="mb-4">
+            <strong>Wie erfassen wir Ihre Daten?</strong><br />
+            Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B.
+            um Daten handeln, die Sie in ein Kontaktformular eingeben. Andere Daten werden automatisch oder nach
+            Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst.
+          </p>
+
+          <p className="mb-4">
+            <strong>Wofür nutzen wir Ihre Daten?</strong><br />
+            Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten.
+            Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">2. Hosting</h3>
+          <p className="mb-4">
+            Wir hosten die Inhalte unserer Website bei folgendem Anbieter: [Hosting-Anbieter einfügen]
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">3. Allgemeine Hinweise und Pflichtinformationen</h3>
+          <h4 className="font-semibold mb-2">Datenschutz</h4>
+          <p className="mb-4">
+            Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre
+            personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie
+            dieser Datenschutzerklärung.
+          </p>
+
+          <h4 className="font-semibold mb-2">Hinweis zur verantwortlichen Stelle</h4>
+          <p className="mb-4">
+            Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:<br /><br />
+            Hermann Seul<br />
+            Robert-Blum-Straße 62<br />
+            51373 Leverkusen<br /><br />
+            Telefon: 0173 2814620<br />
+            E-Mail: info@almweiss.de
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">4. Datenerfassung auf dieser Website</h3>
+          <h4 className="font-semibold mb-2">Kontaktformular</h4>
+          <p className="mb-4">
+            Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular
+            inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall
+            von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">5. Ihre Rechte</h3>
+          <p className="mb-4">
+            Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer
+            gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung
+            oder Löschung dieser Daten zu verlangen.
+          </p>
+        </>
+      ),
+    },
+    agb: {
+      title: "Allgemeine Geschäftsbedingungen",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">§ 1 Geltungsbereich</h3>
+          <p className="mb-4">
+            Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge über die Vermietung und Nutzung der
+            Eventlocation &quot;Almweiß&quot; zwischen Hermann Seul (nachfolgend &quot;Vermieter&quot;) und dem Kunden
+            (nachfolgend &quot;Mieter&quot;).
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 2 Vertragsschluss</h3>
+          <p className="mb-4">
+            (1) Die Präsentation der Räumlichkeiten auf unserer Website stellt kein rechtlich bindendes Angebot dar.<br />
+            (2) Durch das Absenden einer Buchungsanfrage gibt der Mieter ein verbindliches Angebot ab.<br />
+            (3) Der Vertrag kommt erst durch schriftliche Bestätigung des Vermieters zustande.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 3 Preise und Zahlungsbedingungen</h3>
+          <p className="mb-4">
+            (1) Die Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer.<br />
+            (2) Eine Anzahlung in Höhe von 30% des Gesamtbetrags ist bei Vertragsschluss fällig.<br />
+            (3) Der Restbetrag ist spätestens 14 Tage vor der Veranstaltung zu begleichen.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 4 Stornierung</h3>
+          <p className="mb-4">
+            (1) Bei Stornierung bis 90 Tage vor dem Veranstaltungstermin: 30% des Gesamtpreises.<br />
+            (2) Bei Stornierung bis 60 Tage vor dem Veranstaltungstermin: 50% des Gesamtpreises.<br />
+            (3) Bei Stornierung bis 30 Tage vor dem Veranstaltungstermin: 80% des Gesamtpreises.<br />
+            (4) Bei späterer Stornierung oder Nichterscheinen: 100% des Gesamtpreises.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 5 Pflichten des Mieters</h3>
+          <p className="mb-4">
+            (1) Der Mieter verpflichtet sich, die Räumlichkeiten pfleglich zu behandeln.<br />
+            (2) Für Schäden, die durch den Mieter oder seine Gäste verursacht werden, haftet der Mieter.<br />
+            (3) Die Einhaltung der geltenden Lärmschutzvorschriften obliegt dem Mieter.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 6 Haftung</h3>
+          <p className="mb-4">
+            (1) Der Vermieter haftet nicht für Schäden an eingebrachten Gegenständen der Gäste.<br />
+            (2) Die Haftung des Vermieters für leichte Fahrlässigkeit ist ausgeschlossen, soweit nicht
+            wesentliche Vertragspflichten oder Schäden aus der Verletzung des Lebens, des Körpers oder
+            der Gesundheit betroffen sind.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 7 Mindestteilnehmerzahl</h3>
+          <p className="mb-4">
+            Die Mindestanzahl an Gästen beträgt 40 Personen. Die maximale Kapazität liegt bei 80 Personen.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">§ 8 Schlussbestimmungen</h3>
+          <p className="mb-4">
+            (1) Es gilt das Recht der Bundesrepublik Deutschland.<br />
+            (2) Gerichtsstand ist Leverkusen.<br />
+            (3) Sollten einzelne Bestimmungen unwirksam sein, bleibt die Wirksamkeit der übrigen Bestimmungen
+            unberührt.
+          </p>
+
+          <p className="mt-6 text-sm text-gray-500">
+            Stand: Februar 2025
+          </p>
+        </>
+      ),
+    },
+    barrierefreiheit: {
+      title: "Barrierefreiheit",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">Erklärung zur Barrierefreiheit</h3>
+          <p className="mb-4">
+            Wir sind bemüht, unsere Website im Einklang mit den nationalen Rechtsvorschriften zur Umsetzung
+            der Richtlinie (EU) 2016/2102 des Europäischen Parlaments barrierefrei zugänglich zu gestalten.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Stand der Vereinbarkeit mit den Anforderungen</h3>
+          <p className="mb-4">
+            Diese Website ist teilweise mit den Web Content Accessibility Guidelines (WCAG) 2.1 Level AA
+            vereinbar. Die Nichterfüllung der Anforderungen wird im Folgenden aufgeführt.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Nicht barrierefreie Inhalte</h3>
+          <p className="mb-4">
+            Einige Bilder verfügen möglicherweise nicht über ausreichende Alternativtexte. Wir arbeiten
+            kontinuierlich daran, die Barrierefreiheit unserer Website zu verbessern.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Barrierefreiheit der Location</h3>
+          <p className="mb-4">
+            Unsere Eventlocation &quot;Almweiß&quot; ist ebenerdig zugänglich. Bitte kontaktieren Sie uns im
+            Vorfeld Ihrer Veranstaltung, wenn Sie besondere Anforderungen an die Barrierefreiheit haben.
+            Wir unterstützen Sie gerne dabei, Ihr Event für alle Gäste zugänglich zu gestalten.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Feedback und Kontakt</h3>
+          <p className="mb-4">
+            Wenn Sie auf Barrieren stoßen oder Verbesserungsvorschläge haben, kontaktieren Sie uns bitte:<br /><br />
+            E-Mail: info@almweiss.de<br />
+            Telefon: 0173 2814620
+          </p>
+
+          <p className="mt-6 text-sm text-gray-500">
+            Diese Erklärung wurde am 1. Februar 2025 erstellt.
+          </p>
+        </>
+      ),
+    },
+    faq: {
+      title: "Häufig gestellte Fragen (FAQ)",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">Wie viele Gäste können bei Almweiß feiern?</h3>
+          <p className="mb-4">
+            Unsere Location bietet Platz für 40 bis 80 Gäste. Die Mindestanzahl von 40 Gästen ermöglicht
+            eine optimale Nutzung unserer Räumlichkeiten.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Welche Veranstaltungen können bei Almweiß gefeiert werden?</h3>
+          <p className="mb-4">
+            Wir richten Hochzeiten, Geburtstage, Firmenevents und weitere besondere Anlässe aus. Jede
+            Feier wird individuell auf Ihre Wünsche abgestimmt.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Ist Catering inbegriffen?</h3>
+          <p className="mb-4">
+            Wir bieten verschiedene Catering-Optionen an. Details besprechen wir gerne bei einem
+            persönlichen Beratungsgespräch, um das perfekte Angebot für Ihre Feier zu erstellen.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Wie weit im Voraus sollte ich buchen?</h3>
+          <p className="mb-4">
+            Wir empfehlen, Ihren Wunschtermin so früh wie möglich anzufragen. Besonders für Hochzeiten
+            in der Hauptsaison (Mai bis September) raten wir zu einer Buchung mindestens 6-12 Monate im Voraus.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Gibt es Parkmöglichkeiten?</h3>
+          <p className="mb-4">
+            Ja, ausreichend Parkplätze stehen in unmittelbarer Nähe zur Verfügung. Details teilen wir
+            Ihnen gerne bei der Buchung mit.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Kann ich die Location vorher besichtigen?</h3>
+          <p className="mb-4">
+            Selbstverständlich! Wir bieten nach Terminvereinbarung Besichtigungen an, damit Sie sich
+            persönlich von unserer Location überzeugen können. Kontaktieren Sie uns für einen Termin.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Wie sind die Stornierungsbedingungen?</h3>
+          <p className="mb-4">
+            Unsere Stornierungsbedingungen finden Sie in unseren AGB. Je nach Zeitpunkt der Stornierung
+            fallen unterschiedliche Gebühren an.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Haben Sie noch weitere Fragen?</h3>
+          <p className="mb-4">
+            Kontaktieren Sie uns gerne telefonisch unter 0173 2814620 oder per E-Mail an info@almweiss.de.
+            Wir helfen Ihnen gerne weiter!
+          </p>
+        </>
+      ),
+    },
+    cookies: {
+      title: "Cookie-Richtlinie",
+      content: (
+        <>
+          <h3 className="font-semibold text-lg mb-2">Was sind Cookies?</h3>
+          <p className="mb-4">
+            Cookies sind kleine Textdateien, die von Websites auf Ihrem Gerät gespeichert werden.
+            Sie helfen dabei, die Website funktionsfähig zu halten und Informationen über Ihre
+            Nutzung zu sammeln.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Welche Cookies verwenden wir?</h3>
+          <h4 className="font-semibold mb-2">Technisch notwendige Cookies</h4>
+          <p className="mb-4">
+            Diese Cookies sind für den Betrieb der Website unbedingt erforderlich. Sie ermöglichen
+            grundlegende Funktionen wie die Navigation und den Zugang zu gesicherten Bereichen.
+            Die Website kann ohne diese Cookies nicht richtig funktionieren.
+          </p>
+
+          <h4 className="font-semibold mb-2">Analyse-Cookies</h4>
+          <p className="mb-4">
+            Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.
+            Die Informationen werden anonymisiert gesammelt und dienen der Verbesserung unserer Website.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Google Maps</h3>
+          <p className="mb-4">
+            Unsere Website nutzt Google Maps zur Darstellung unseres Standorts. Bei der Nutzung
+            von Google Maps werden Informationen über Ihre Nutzung dieser Website (einschließlich
+            Ihrer IP-Adresse) an einen Server von Google in den USA übertragen und dort gespeichert.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Ihre Wahlmöglichkeiten</h3>
+          <p className="mb-4">
+            Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert
+            werden und einzeln über deren Annahme entscheiden oder die Annahme von Cookies für
+            bestimmte Fälle oder generell ausschließen. Bei der Deaktivierung von Cookies kann
+            die Funktionalität unserer Website eingeschränkt sein.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Wie Sie Cookies verwalten können</h3>
+          <p className="mb-4">
+            Die meisten Webbrowser ermöglichen eine Kontrolle der Cookies über die Browsereinstellungen.
+            Weitere Informationen finden Sie in der Hilfe-Funktion Ihres Browsers:<br /><br />
+            • Chrome: Einstellungen → Datenschutz und Sicherheit → Cookies<br />
+            • Firefox: Einstellungen → Datenschutz & Sicherheit<br />
+            • Safari: Einstellungen → Datenschutz<br />
+            • Edge: Einstellungen → Cookies und Websiteberechtigungen
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">Kontakt</h3>
+          <p className="mb-4">
+            Bei Fragen zu unserer Cookie-Richtlinie können Sie uns kontaktieren:<br /><br />
+            E-Mail: info@almweiss.de<br />
+            Telefon: 0173 2814620
+          </p>
+
+          <p className="mt-6 text-sm text-gray-500">
+            Stand: Februar 2025
+          </p>
+        </>
+      ),
+    },
+  };
+
+  const current = content[activeModal];
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] backdrop-blur-md bg-black/20 flex items-center justify-center md:p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-3xl md:rounded-2xl overflow-y-auto shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between md:rounded-t-2xl">
+          <h2 className="font-display text-2xl font-bold text-gray-900">
+            {current.title}
+          </h2>
+          <button
+            onClick={onClose}
+            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
+          >
+            <span className="material-icons text-gray-500">close</span>
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 text-gray-700 leading-relaxed">
+          {current.content}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,90 @@
+"use client";
+
+import { useEffect, useState, useRef } from "react";
+
+const stats = [
+  { value: 1012, suffix: "", label: "Exklusive Feiern", duration: 3500 },
+  { value: 607, suffix: "", label: "Glückliche Brautpaare", duration: 3500 },
+  { value: 4.8, suffix: "★", label: "Google Bewertung", duration: 1500 },
+  { value: 100, suffix: "%", label: "Alles aus eigener Hand", duration: 2500 },
+];
+
+function Counter({ value, suffix, duration }: { value: number; suffix: string; duration: number }) {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let startTime: number;
+    const isDecimal = value % 1 !== 0;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const currentValue = progress * value;
+      setCount(isDecimal ? Math.round(currentValue * 10) / 10 : Math.floor(currentValue));
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }, [isVisible, value, duration]);
+
+  return (
+    <div ref={ref} className="font-display text-5xl md:text-6xl text-[#A68A75] font-bold mb-2 flex items-baseline justify-center gap-1">
+      {value % 1 !== 0 ? (
+        <>
+          {Math.floor(count)}
+          <span className="text-3xl md:text-4xl">,{(count % 1).toFixed(1).split('.')[1]}</span>
+        </>
+      ) : (
+        count
+      )}
+      {suffix === "★" ? (
+        <span className="material-icons text-[#A68A75] text-4xl md:text-5xl">star</span>
+      ) : (
+        suffix
+      )}
+    </div>
+  );
+}
+
+export default function Stats() {
+  return (
+    <section className="bg-[#F5F0EB] py-16 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-200">
+          {stats.map((stat) => (
+            <div key={stat.label} className="p-4">
+              <Counter value={stat.value} suffix={stat.suffix} duration={stat.duration} />
+              <p className="text-sm uppercase tracking-widest text-gray-500">
+                {stat.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

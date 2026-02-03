@@ -1,26 +1,110 @@
 @import "tailwindcss";
+@import "@mantine/core/styles.css";
+@import "@mantine/dates/styles.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF9F6;
+  --foreground: #1f2937;
+  --primary: #A68A75;
+  --secondary: #D4C5B9;
+  --accent-light: #F5F0EB;
+  --accent-dark: #292524;
+  --background-light: #FAF9F6;
+  --background-dark: #1C1917;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #A68A75;
+  --color-secondary: #D4C5B9;
+  --color-accent-light: #F5F0EB;
+  --color-accent-dark: #292524;
+  --color-background-light: #FAF9F6;
+  --color-background-dark: #1C1917;
+  --font-sans: var(--font-lato);
+  --font-display: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* KEIN automatischer Dark Mode - immer helles Design */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #FAF9F6;
+  color: #1f2937;
+  font-family: var(--font-lato), 'Lato', sans-serif;
+}
+
+/* Hero Slideshow Animation */
+.hero-slideshow {
+  animation: slideshow 20s infinite;
+}
+
+@keyframes slideshow {
+  0%, 20% { opacity: 1; }
+  25%, 45% { opacity: 0; }
+  50%, 70% { opacity: 0; }
+  75%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.slide-2 { animation-delay: -15s; }
+.slide-3 { animation-delay: -10s; }
+.slide-4 { animation-delay: -5s; }
+
+/* Scroll Indicator Animation */
+.scroll-indicator {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+  40% { transform: translateY(-10px) translateX(-50%); }
+  60% { transform: translateY(-5px) translateX(-50%); }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Font Classes */
+.font-display {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', serif;
+}
+
+.font-body {
+  font-family: var(--font-lato), 'Lato', sans-serif;
+}
+
+/* Soft Pulse Animation for CTA Button */
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); box-shadow: 0 10px 25px rgba(166, 138, 117, 0.3); }
+  50% { transform: scale(1.03); box-shadow: 0 15px 35px rgba(166, 138, 117, 0.5); }
+}
+
+/* Mantine DatePicker - Container Width */
+.mantine-DatePickerInput-dropdown {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.mantine-DatePickerInput-calendar {
+  width: 100% !important;
+}
+
+.mantine-DatePickerInput-month {
+  width: 100% !important;
+}
+
+/* Wochenenden nicht rot markieren - alle Tage gleich */
+.mantine-DatePickerInput-day[data-weekend="true"] {
+  color: inherit !important;
+}
+
+/* Feiertage Tooltip */
+.mantine-DatePickerInput-day[title] {
+  cursor: help;
 }
