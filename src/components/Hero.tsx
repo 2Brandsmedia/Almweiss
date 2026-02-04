@@ -76,7 +76,7 @@ export default function Hero() {
         <div className="absolute inset-0 overflow-hidden grayscale">
           <iframe
             id="bg-video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78dvh] h-[100dvh] min-w-[100vw] min-h-[56.25vw] scale-[1.25] md:scale-100 pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[48%] w-[177.78dvh] h-[105dvh] min-w-[100vw] min-h-[60vw] scale-[1.35] md:scale-100 md:-translate-y-1/2 md:h-[100dvh] md:min-h-[56.25vw] pointer-events-none"
             src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
             allow="autoplay; encrypted-media"
             allowFullScreen
