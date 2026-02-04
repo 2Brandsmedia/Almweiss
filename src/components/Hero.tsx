@@ -70,13 +70,13 @@ export default function Hero() {
   }, [showVideo]);
 
   return (
-    <header className="relative h-[100dvh] flex items-center justify-center overflow-hidden">
+    <header className="relative h-[100dvh] flex items-center justify-center overflow-hidden bg-black">
       {/* YouTube Video Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="absolute inset-0 z-0 overflow-hidden bg-black">
         <div className="absolute inset-0 overflow-hidden grayscale">
           <iframe
             id="bg-video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] min-w-[100vw] min-h-[56.25vw] scale-[1.15] md:scale-100 pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78dvh] h-[100dvh] min-w-[100vw] min-h-[56.25vw] scale-[1.25] md:scale-100 pointer-events-none"
             src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
             allow="autoplay; encrypted-media"
             allowFullScreen
