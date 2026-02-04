@@ -70,7 +70,7 @@ export default function Hero() {
   }, [showVideo]);
 
   return (
-    <header className="relative h-screen flex items-center justify-center overflow-hidden">
+    <header className="relative h-[100dvh] flex items-center justify-center overflow-hidden">
       {/* YouTube Video Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden grayscale">
