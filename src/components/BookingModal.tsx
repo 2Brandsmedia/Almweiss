@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { DatePickerInput } from "@mantine/dates";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Berechnet Ostersonntag für ein gegebenes Jahr (Gaußsche Osterformel)
 function getEasterSunday(year: number): Date {
@@ -105,6 +106,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [countdown, setCountdown] = useState(10);
   const prevIsOpenRef = useRef(false);
   const prevFieldsCompleteRef = useRef(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Calculate date constraints - heute bis 31.12. in 5 Jahren
   const minDate = new Date();
@@ -145,6 +147,16 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const wunschterminHoliday = wunschtermin ? getHolidayName(wunschtermin) : null;
   const alternativHoliday = alternativDatum ? getHolidayName(alternativDatum) : null;
 
+  // Wörter zählen in der Nachricht
+  const wordCount = useMemo(() => {
+    const trimmed = formData.nachricht.trim();
+    if (trimmed === "") return 0;
+    return trimmed.split(/\s+/).length;
+  }, [formData.nachricht]);
+
+  const minWords = 10;
+  const wordsRemaining = Math.max(0, minWords - wordCount);
+
   // Check if all required fields are filled (without checkbox)
   const areFieldsComplete = useMemo(() => {
     const baseFieldsValid =
@@ -154,7 +166,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       formData.anrede !== "" &&
       formData.email !== "" &&
       formData.telefon !== "" &&
-      formData.nachricht !== "";
+      wordCount >= minWords;
 
     if (formData.anrede === "firma") {
       return (
@@ -170,7 +182,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         formData.nachname !== ""
       );
     }
-  }, [formData, wunschtermin]);
+  }, [formData, wunschtermin, wordCount]);
 
   // Form is valid when all fields are complete AND checkbox is confirmed
   const isFormValid = areFieldsComplete && fullServiceConfirmed;
@@ -198,6 +210,13 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       // Fields just became complete - start countdown
       setCountdown(10);
       setFullServiceConfirmed(false);
+      // Single smooth scroll after animation completes
+      setTimeout(() => {
+        scrollContainerRef.current?.scrollTo({
+          top: scrollContainerRef.current.scrollHeight,
+          behavior: "smooth"
+        });
+      }, 500);
     }
     prevFieldsCompleteRef.current = areFieldsComplete;
   }, [areFieldsComplete]);
@@ -303,7 +322,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
           {/* Form - scrollable content */}
           <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-          <div className="p-6 space-y-6 flex-1 overflow-y-auto">
+          <div ref={scrollContainerRef} className="p-6 space-y-6 flex-1 overflow-y-auto scroll-smooth">
           {/* Art der Feier */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -548,57 +567,124 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               placeholder="Teilen Sie uns gerne weitere Details zu Ihrer Feier mit..."
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition resize-none"
             />
+            <div className="flex justify-between items-center mt-1">
+              <p className={`text-xs ${wordCount >= minWords ? "text-green-600" : "text-gray-500"}`}>
+                {wordCount} / {minWords} Wörter {wordCount >= minWords && "✓"}
+              </p>
+              {wordsRemaining > 0 && (
+                <p className="text-xs text-gray-400">
+                  Noch {wordsRemaining} {wordsRemaining === 1 ? "Wort" : "Wörter"} erforderlich
+                </p>
+              )}
+            </div>
           </div>
+
+          {/* Full Service Confirmation - appears in scrollable area, pushes content up */}
+          <AnimatePresence mode="sync">
+            {areFieldsComplete && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{
+                  opacity: 1,
+                  height: "auto",
+                  transition: {
+                    height: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
+                    opacity: { duration: 0.4, delay: 0.1 }
+                  }
+                }}
+                exit={{
+                  opacity: 0,
+                  height: 0,
+                  transition: {
+                    height: { duration: 0.4, ease: [0.33, 1, 0.68, 1] },
+                    opacity: { duration: 0.2 }
+                  }
+                }}
+                className="overflow-hidden"
+              >
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{
+                    y: 0,
+                    opacity: 1,
+                    transition: {
+                      duration: 0.4,
+                      ease: [0.33, 1, 0.68, 1],
+                      delay: 0.05
+                    }
+                  }}
+                  className="bg-[#F5F0EB] rounded-lg p-4 mt-6"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 rounded-lg flex items-center justify-center relative">
+                        {/* Countdown background */}
+                        <div
+                          className={`absolute inset-0 rounded-lg transition-colors duration-500 ${
+                            countdown > 0 ? "bg-gray-300" : fullServiceConfirmed ? "bg-[#A68A75]" : "bg-white border-2 border-gray-300"
+                          }`}
+                        />
+                        {/* Countdown number or checkbox */}
+                        {countdown > 0 ? (
+                          <motion.span
+                            key={countdown}
+                            initial={{ scale: 1.1, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.25, ease: "easeOut" }}
+                            className="relative text-lg font-bold text-gray-600"
+                          >
+                            {countdown}
+                          </motion.span>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setFullServiceConfirmed(!fullServiceConfirmed)}
+                            className="absolute inset-0 rounded-lg flex items-center justify-center hover:scale-105 transition-transform"
+                          >
+                            <AnimatePresence>
+                              {fullServiceConfirmed && (
+                                <motion.span
+                                  initial={{ scale: 0, opacity: 0 }}
+                                  animate={{ scale: 1, opacity: 1 }}
+                                  exit={{ scale: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
+                                  className="material-icons text-white text-2xl"
+                                >
+                                  check
+                                </motion.span>
+                              )}
+                            </AnimatePresence>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        <strong>Wichtiger Hinweis:</strong> Almweiß bietet ausschließlich ein Full-Service-Paket an.
+                        Die Location wird <strong>nicht</strong> ohne Service vermietet. Im Paket enthalten sind: Personal
+                        und Catering (Essen & Getränke). Mit dem Anklicken dieser Checkbox bestätige ich,
+                        dass ich dies zur Kenntnis genommen habe und damit einverstanden bin.
+                      </p>
+                      {/* Fixed height container for countdown text to prevent layout shift */}
+                      <div className="h-5 mt-2">
+                        <p
+                          className={`text-xs text-gray-500 transition-opacity duration-300 ${
+                            countdown > 0 ? "opacity-100" : "opacity-0"
+                          }`}
+                        >
+                          Bitte lesen Sie den Hinweis. Bestätigung möglich in {countdown} Sekunden...
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
           </div>
 
           {/* Submit - sticky at bottom */}
           <div className="bg-white border-t border-gray-100 px-6 py-4 flex-shrink-0">
-            {/* Full Service Confirmation - slides up when fields are complete */}
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-out ${
-                areFieldsComplete ? "max-h-96 opacity-100 mb-4" : "max-h-0 opacity-0"
-              }`}
-            >
-              <div className="bg-[#F5F0EB] rounded-lg p-4">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0">
-                    {countdown > 0 ? (
-                      <div className="w-12 h-12 rounded-lg bg-gray-300 flex items-center justify-center">
-                        <span className="text-lg font-bold text-gray-600">{countdown}</span>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setFullServiceConfirmed(!fullServiceConfirmed)}
-                        className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center transition ${
-                          fullServiceConfirmed
-                            ? "bg-[#A68A75] border-[#A68A75]"
-                            : "bg-white border-gray-300 hover:border-[#A68A75]"
-                        }`}
-                      >
-                        {fullServiceConfirmed && (
-                          <span className="material-icons text-white text-2xl">check</span>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm text-gray-700 leading-relaxed">
-                      <strong>Wichtiger Hinweis:</strong> Almweiß bietet ausschließlich ein Full-Service-Paket an.
-                      Die Location wird <strong>nicht</strong> ohne Service vermietet. Im Paket enthalten sind: Personal
-                      und Catering (Essen & Getränke). Mit dem Anklicken dieser Checkbox bestätige ich,
-                      dass ich dies zur Kenntnis genommen habe und damit einverstanden bin.
-                    </p>
-                    {countdown > 0 && (
-                      <p className="text-xs text-gray-500 mt-2">
-                        Bitte lesen Sie den Hinweis. Bestätigung möglich in {countdown} Sekunden...
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <button
               type="submit"
               disabled={!isFormValid}
