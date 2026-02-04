@@ -192,9 +192,30 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   const [fullServiceConfirmed, setFullServiceConfirmed] = useState(false);
   const [countdown, setCountdown] = useState(10);
+  const [isMobile, setIsMobile] = useState(false);
   const prevIsOpenRef = useRef(false);
   const prevFieldsCompleteRef = useRef(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Body-Scroll blockieren wenn Modal offen
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   // Calculate date constraints - heute bis 31.12. in 5 Jahren
   const minDate = new Date();
@@ -360,7 +381,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] backdrop-blur-md bg-black/20 flex items-center justify-center md:p-4"
+      className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       onClick={onClose}
     >
       <div
@@ -691,13 +713,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               placeholder="Teilen Sie uns gerne weitere Details zu Ihrer Feier mit..."
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition resize-none"
             />
-            <div className="mt-1">
-              {wordsRemaining > 0 ? (
+            <div className="mt-1 h-4">
+              {wordsRemaining > 0 && (
                 <p className="text-xs text-gray-400">
                   Noch {wordsRemaining} {wordsRemaining === 1 ? "Wort" : "Wörter"} erforderlich
                 </p>
-              ) : (
-                <p className="text-xs text-green-600">✓</p>
               )}
             </div>
           </div>
@@ -807,23 +827,57 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           </div>
 
           {/* Submit - sticky at bottom */}
-          <div className="bg-white border-t border-gray-100 px-6 py-4 flex-shrink-0">
-            <button
-              type="submit"
-              disabled={!isFormValid}
-              className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition shadow-lg ${
-                isFormValid
-                  ? "bg-[#A68A75] text-white hover:bg-opacity-90 cursor-pointer"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-            >
-              Anfrage absenden
-            </button>
+          {/* Desktop: always visible */}
+          {!isMobile && (
+            <div className="bg-white border-t border-gray-100 px-6 py-4 flex-shrink-0">
+              <button
+                type="submit"
+                disabled={!isFormValid}
+                className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition shadow-lg ${
+                  isFormValid
+                    ? "bg-[#A68A75] text-white hover:bg-opacity-90 cursor-pointer"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                Anfrage absenden
+              </button>
 
-            <p className="text-xs text-gray-500 text-center mt-3">
-              Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.
-            </p>
-          </div>
+              <p className="text-xs text-gray-500 text-center mt-3">
+                Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.
+              </p>
+            </div>
+          )}
+
+          {/* Mobile: Submit button appears only after fields complete */}
+          {isMobile && (
+            <AnimatePresence>
+              {areFieldsComplete && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                  className="bg-white border-t border-gray-100 px-6 py-4 flex-shrink-0"
+                >
+                  <button
+                    type="submit"
+                    disabled={!isFormValid}
+                    className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition shadow-lg ${
+                      isFormValid
+                        ? "bg-[#A68A75] text-white hover:bg-opacity-90 cursor-pointer"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                  >
+                    Anfrage absenden
+                  </button>
+
+                  <p className="text-xs text-gray-500 text-center mt-3">
+                    Mit dem Absenden stimmen Sie unserer Datenschutzerklärung zu.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
           </form>
         </div>
       </div>

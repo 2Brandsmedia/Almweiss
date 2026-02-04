@@ -70,25 +70,9 @@ export default function Hero() {
   }, [showVideo]);
 
   return (
-    <header
-      className="relative flex items-center justify-center overflow-hidden bg-black h-screen md:h-screen"
-      style={{
-        height: 'calc(100vh + 220px)',
-        minHeight: 'calc(100vh + 220px)',
-        marginTop: '-60px',
-        paddingTop: '60px'
-      }}
-    >
+    <header className="hero-section relative flex items-center justify-center overflow-hidden bg-black">
       {/* YouTube Video Background */}
-      <div
-        className="absolute z-0 overflow-hidden bg-black"
-        style={{
-          top: '-60px',
-          left: 0,
-          right: 0,
-          bottom: 0
-        }}
-      >
+      <div className="hero-video-container absolute z-0 overflow-hidden bg-black">
         <div className="absolute inset-0 overflow-hidden grayscale">
           <iframe
             id="bg-video"

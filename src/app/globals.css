@@ -141,14 +141,28 @@ html {
   }
 }
 
+/* Hero Section */
+.hero-section {
+  height: 100vh;
+}
+
+.hero-video-container {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 /* Mobile Hero - iPhone Safari fix */
 @media (max-width: 768px) {
-  .mobile-hero {
-    height: 100vh !important;
-    height: 100dvh !important;
-    height: -webkit-fill-available !important;
-    min-height: 100vh !important;
-    min-height: 100dvh !important;
-    min-height: -webkit-fill-available !important;
+  .hero-section {
+    height: calc(100vh + 220px) !important;
+    min-height: calc(100vh + 220px) !important;
+    margin-top: -60px;
+    padding-top: 60px;
+  }
+
+  .hero-video-container {
+    top: -60px !important;
   }
 }
