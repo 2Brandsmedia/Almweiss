@@ -2,19 +2,19 @@ import Image from "next/image";
 
 const testimonials = [
   {
-    image: "/images/gesa-und-ben-Bewertung-2-scaled.jpg",
+    image: "/images/review-gesa.webp",
     name: "Gesa & Ben",
     date: "Hochzeit 2023",
     text: "Unsere Hochzeit bei Almweiß war einfach perfekt! Das Team hat sich um alles gekümmert und wir konnten unseren Tag in vollen Zügen genießen.",
   },
   {
-    image: "/images/luisa-und-bjoern-bewertung-1.jpg",
+    image: "/images/review-luisa.webp",
     name: "Luisa & Björn",
     date: "Hochzeit 2023",
     text: "Eine wunderschöne Location mit einem fantastischen Service. Die Fotobox war das Highlight und die Gäste waren begeistert!",
   },
   {
-    image: "/images/Alex-und-Diana-bewertung-3-e1695970694642.jpg",
+    image: "/images/review-alex.webp",
     name: "Alex & Diana",
     date: "Hochzeit 2023",
     text: "Von Anfang bis Ende top betreut. Die Location ist wunderschön und das Catering war erstklassig. Absolut empfehlenswert!",

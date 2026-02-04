@@ -64,8 +64,8 @@ export default function Process() {
     if (!isMobile) return;
 
     const handleScroll = () => {
-      const buttonHeight = 120; // Height reserved for the CTA button at bottom
-      const viewportBottom = window.innerHeight - buttonHeight;
+      const threshold = 450; // Pixel vom unteren Rand, ab dem Steps leuchten
+      const viewportBottom = window.innerHeight - threshold;
 
       let highestVisibleIndex = -1;
 

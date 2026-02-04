@@ -34,7 +34,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <Image
-                src="/images/logo-transparent.png"
+                src="/images/logo.webp"
                 alt="Almweiß Logo"
                 width={180}
                 height={180}

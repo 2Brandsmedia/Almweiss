@@ -95,7 +95,7 @@ export default function Hero() {
           className="mb-8 -mt-[150px] md:-mt-[50px]"
         >
           <Image
-            src="/images/logoinvert.png"
+            src="/images/logo-white.webp"
             alt="Almweiß Logo"
             width={360}
             height={154}
@@ -146,15 +146,15 @@ export default function Hero() {
         Jetzt Wunschtermin sichern
       </button>
 
-      {/* Video Button - Bottom Right */}
+      {/* Video Button - Bottom Right im Hero */}
       <button
         onClick={() => setShowVideo(!showVideo)}
-        className="absolute bottom-8 right-8 z-20 flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white px-3 py-2 rounded-full hover:bg-white/20 transition group"
+        className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
       >
-        <span className="material-icons text-lg group-hover:scale-110 transition">
+        <span className="material-icons text-xl group-hover:scale-110 transition">
           {showVideo ? 'close' : 'play_circle'}
         </span>
-        <span className="text-xs font-medium uppercase tracking-wider">
+        <span className="text-sm font-medium uppercase tracking-wider">
           {showVideo ? 'Schließen' : 'Video'}
         </span>
       </button>

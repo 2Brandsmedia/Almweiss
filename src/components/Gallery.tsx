@@ -5,18 +5,18 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 const galleryImages = [
-  { src: "/images/annechris-2061-1.jpg", alt: "Brautpaar" },
-  { src: "/images/annechris-3831-1.jpg", alt: "Trauung" },
-  { src: "/images/IMG_0558.jpg", alt: "Hochzeitsgesellschaft" },
-  { src: "/images/IMG_1242.jpg", alt: "Dekoration" },
-  { src: "/images/IMG_5166.jpg", alt: "Tischdekoration" },
-  { src: "/images/candybar.jpg", alt: "Candybar" },
-  { src: "/images/IMG_7564.jpg", alt: "Location Details" },
-  { src: "/images/IMG_1561.jpg", alt: "Ambiente" },
-  { src: "/images/Fotobox.jpg", alt: "Fotobox" },
-  { src: "/images/IMG_9345.jpg", alt: "Feier" },
-  { src: "/images/Fotogalerie.jpg", alt: "Galerie" },
-  { src: "/images/Foto-Technik-scaled.jpg", alt: "Technik" },
+  { src: "/images/wedding-1.webp", alt: "Brautpaar" },
+  { src: "/images/wedding-3.webp", alt: "Trauung" },
+  { src: "/images/venue-2.webp", alt: "Hochzeitsgesellschaft" },
+  { src: "/images/venue-3.webp", alt: "Dekoration" },
+  { src: "/images/table.webp", alt: "Tischdekoration" },
+  { src: "/images/candybar.webp", alt: "Candybar" },
+  { src: "/images/venue-5.webp", alt: "Location Details" },
+  { src: "/images/venue-4.webp", alt: "Ambiente" },
+  { src: "/images/fotobox.webp", alt: "Fotobox" },
+  { src: "/images/venue-6.webp", alt: "Feier" },
+  { src: "/images/gallery.webp", alt: "Galerie" },
+  { src: "/images/tech.webp", alt: "Technik" },
 ];
 
 export default function Gallery() {

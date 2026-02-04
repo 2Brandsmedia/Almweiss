@@ -8,28 +8,28 @@ const extras = [
     title: "Service",
     description:
       "Dank unserem freundlichen Serviceteam können Sie den wichtigen Tag unbeschwert genießen. Wir kümmern uns!",
-    image: "/images/annechris-3570-1.jpg",
+    image: "/images/wedding-2.webp",
     objectPosition: "50% center",
   },
   {
     title: "Fotobox",
     description:
       "Buchen Sie unsere hauseigene Fotobox als weiteres Highlight für Ihre Feier.",
-    image: "/images/Fotobox.jpg",
+    image: "/images/fotobox.webp",
     objectPosition: "center",
   },
   {
     title: "DJ & Technik",
     description:
       "Dank unserer erfahrenen DJs und der professionellen Ton & Lichttechnik sorgen wir für die perfekte Party.",
-    image: "/images/Foto-Technik-scaled.jpg",
+    image: "/images/tech.webp",
     objectPosition: "center",
   },
   {
     title: "Candybar",
     description:
       "Bieten Sie Ihren Gästen mit unserer Candybar eine süße Verführung.",
-    image: "/images/candybar.jpg",
+    image: "/images/candybar.webp",
     objectPosition: "center",
   },
 ];

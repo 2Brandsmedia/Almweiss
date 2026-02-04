@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import LegalModals from "./LegalModals";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
 
 export default function Footer() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
+  const [showDevModal, setShowDevModal] = useState(false);
 
   return (
     <>
@@ -168,20 +170,85 @@ export default function Footer() {
             </p>
             <p>
               Website entwickelt von{" "}
-              <a
-                href="https://2brands.de"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => setShowDevModal(true)}
                 className="text-[#A68A75] hover:text-white transition"
               >
                 2Brands Media GmbH
-              </a>
+              </button>
             </p>
           </div>
         </div>
       </footer>
 
       <LegalModals activeModal={activeModal} onClose={() => setActiveModal(null)} />
+
+      {/* Developer Modal - wie bei Streamheaven */}
+      <AnimatePresence>
+        {showDevModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowDevModal(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-[#1c1c1e] border border-gray-700 rounded-2xl shadow-2xl max-w-md w-full overflow-hidden relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setShowDevModal(false)}
+                className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition z-10"
+              >
+                <span className="material-icons text-xl">close</span>
+              </button>
+
+              {/* Content */}
+              <div className="flex flex-col items-center justify-center py-8 px-6 space-y-6">
+                {/* Titel */}
+                <h3 className="text-lg text-gray-300 font-medium">Entwickelt von</h3>
+
+                {/* Logo */}
+                <div className="w-64 h-32 flex items-center justify-center bg-white rounded-xl p-4 overflow-hidden">
+                  <Image
+                    src="/images/2brands-logo.webp"
+                    alt="2Brands Media GmbH"
+                    width={240}
+                    height={120}
+                    className="object-contain max-w-full max-h-full"
+                  />
+                </div>
+
+                {/* Slogan */}
+                <p className="text-base text-gray-400 text-center">
+                  Digitale Lösungen für die Welt
+                </p>
+
+                {/* Link zur Website */}
+                <a
+                  href="https://2brandsmedia.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-3 bg-[#A68A75] text-white rounded-lg hover:bg-[#8a7261] transition font-medium text-base"
+                >
+                  Website besuchen
+                </a>
+
+                {/* In Gedenken */}
+                <p className="text-gray-500/50 text-xs pt-2">
+                  Für T ♥ – Der Mann, die Legende
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

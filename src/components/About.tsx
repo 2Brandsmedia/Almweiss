@@ -69,7 +69,7 @@ export default function About() {
                 transition={{ duration: 0.7, ease: "easeOut" }}
               >
                 <Image
-                  src="/images/annechris-3570-1.jpg"
+                  src="/images/wedding-2.webp"
                   alt="Brautpaar bei der Hochzeit"
                   width={400}
                   height={320}
@@ -83,7 +83,7 @@ export default function About() {
                 transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
               >
                 <Image
-                  src="/images/brautpaar-rauch.jpg"
+                  src="/images/couple-smoke.webp"
                   alt="Brautpaar vor Rauch"
                   width={400}
                   height={320}

@@ -378,7 +378,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             </p>
             <div className="relative w-full h-56 rounded-lg overflow-hidden mb-6">
               <Image
-                src="/images/IMG_5166.jpg"
+                src="/images/table.webp"
                 alt="Almweiß Tischdekoration"
                 fill
                 className="object-cover"
@@ -422,7 +422,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             </p>
             <div className="relative w-full h-32 rounded-lg overflow-hidden mb-4">
               <Image
-                src="/images/IMG_5166.jpg"
+                src="/images/table.webp"
                 alt="Almweiß Tischdekoration"
                 fill
                 className="object-cover"

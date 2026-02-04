@@ -13,7 +13,7 @@ const reviews = [
     text: "Mit großer Freude möchte ich jedem diese tolle Eventlocation ans Herz legen! Wir haben uns vom ersten Termin bis zu unserer Hochzeitsfeier sehr wohl und immer gut aufgehoben gefühlt. Alle Mitarbeiter waren herzlich und empathisch. Top Empfehlung von ganzem Herzen!",
     initial: "M",
     color: "bg-purple-600",
-    images: ["/images/annechris-3570-1.jpg"],
+    images: ["/images/wedding-2.webp"],
   },
   {
     name: "Mo",
@@ -31,7 +31,7 @@ const reviews = [
     text: "Wir haben unsere Hochzeit im Almweiß gefeiert. Es war eine wunderschöne Feier und unsere Gäste waren begeistert von der Location! Hermann und das Team waren die ganze Zeit über sehr herzlich und haben uns super unterstützt. Eine herzliche Empfehlung für alle!",
     initial: "S",
     color: "bg-blue-600",
-    images: ["/images/gesa-und-ben-Bewertung-2-scaled.jpg"],
+    images: ["/images/review-gesa.webp"],
   },
   {
     name: "T.",
@@ -74,7 +74,7 @@ const reviews = [
     text: "Wir haben unsere absolute Traumhochzeit im Almweiß gefeiert. Von A - Z hat alles gestimmt! Das Personal war bezaubernd, der DJ hervorragend und das Essen war ein Traum! Die Location war einmalig und alle Gäste waren begeistert!",
     initial: "Y",
     color: "bg-yellow-600",
-    images: ["/images/luisa-und-bjoern-bewertung-1.jpg", "/images/IMG_1242.jpg"],
+    images: ["/images/review-luisa.webp", "/images/venue-3.webp"],
   },
   {
     name: "Egbert",
@@ -156,7 +156,7 @@ const reviews = [
     text: "Wir haben am 07.09. unsere Hochzeit im Almweiß gefeiert. Mit rund 65 Gästen war das Almweiß die perfekte Location für uns. Das Essen war hervorragend und der Service erstklassig. Wir können es nur weiterempfehlen!",
     initial: "M",
     color: "bg-orange-600",
-    images: ["/images/Alex-und-Diana-bewertung-3-e1695970694642.jpg", "/images/candybar.jpg", "/images/Fotobox.jpg"],
+    images: ["/images/review-alex.webp", "/images/candybar.webp", "/images/fotobox.webp"],
   },
   {
     name: "Daniel",
@@ -165,7 +165,7 @@ const reviews = [
     text: "Es war alles Perfekt! Wir haben unsere Hochzeit hier mit 40 Personen gefeiert. Das Personal, der DJ und auch der Besitzer waren unglaublich freundlich. Die Abrechnung war fair und hat unser Budget nicht überschritten!",
     initial: "D",
     color: "bg-cyan-700",
-    images: ["/images/IMG_0558-1.jpg"],
+    images: ["/images/venue-1.webp"],
   },
   // 2024
   {
@@ -175,7 +175,7 @@ const reviews = [
     text: "Wir sind sooo unendlich happy darüber dass wir unsere Hochzeit in der Almweiss gefeiert haben - es gab nichts was hätte besser sein können. Die Location ist unglaublich schön und Hermann hat es einfach drauf!",
     initial: "S",
     color: "bg-teal-600",
-    images: ["/images/Fotogalerie.jpg", "/images/annechris-2061-1.jpg"],
+    images: ["/images/gallery.webp", "/images/wedding-1.webp"],
   },
 ];
 
