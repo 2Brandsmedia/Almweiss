@@ -85,26 +85,29 @@ html {
   50% { transform: scale(1.03); box-shadow: 0 15px 35px rgba(166, 138, 117, 0.5); }
 }
 
-/* Mantine DatePicker - Container Width */
-.mantine-DatePickerInput-dropdown {
-  width: 100% !important;
-  max-width: 100% !important;
+/* Mantine DatePicker Mobile Styles */
+@media (max-width: 768px) {
+  /* Kalender-Popup: volle Breite, zentriert */
+  .mantine-Popover-dropdown:has(.mantine-DatePicker-calendar) {
+    width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: 16px !important;
+    padding: 20px !important;
+  }
+
+  /* Größere Tages-Zellen */
+  .mantine-DatePicker-day {
+    height: 44px !important;
+    min-height: 44px !important;
+  }
 }
 
-.mantine-DatePickerInput-calendar {
-  width: 100% !important;
-}
-
-.mantine-DatePickerInput-month {
-  width: 100% !important;
-}
-
-/* Wochenenden nicht rot markieren - alle Tage gleich */
-.mantine-DatePickerInput-day[data-weekend="true"] {
+/* Wochenenden nicht rot markieren */
+.mantine-DatePicker-day[data-weekend="true"] {
   color: inherit !important;
 }
 
 /* Feiertage Tooltip */
-.mantine-DatePickerInput-day[title] {
+.mantine-DatePicker-day[title] {
   cursor: help;
 }

@@ -83,6 +83,94 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
+// Custom Dropdown Komponente
+interface DropdownOption {
+  value: string;
+  label: string;
+}
+
+interface CustomDropdownProps {
+  label: string;
+  placeholder: string;
+  options: DropdownOption[];
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+}
+
+function CustomDropdown({ label, placeholder, options, value, onChange, required }: CustomDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedOption = options.find(opt => opt.value === value);
+
+  // Schließen wenn außerhalb geklickt
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <label className="block text-sm font-semibold text-gray-700 mb-2">
+        {label} {required && "*"}
+      </label>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full px-4 py-3 border rounded-lg text-left flex items-center justify-between transition text-base ${
+          isOpen
+            ? "border-[#A68A75] ring-2 ring-[#A68A75]"
+            : "border-gray-300 hover:border-gray-400"
+        } ${selectedOption ? "text-gray-900" : "text-gray-400"}`}
+      >
+        <span>{selectedOption ? selectedOption.label : placeholder}</span>
+        <span className={`material-icons text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}>
+          expand_more
+        </span>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15 }}
+            className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
+          >
+            {options.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  onChange(option.value);
+                  setIsOpen(false);
+                }}
+                className={`w-full px-4 py-3 text-left transition flex items-center justify-between ${
+                  option.value === value
+                    ? "bg-[#F5F0EB] text-[#A68A75] font-semibold"
+                    : "hover:bg-gray-50 text-gray-700"
+                }`}
+              >
+                <span>{option.label}</span>
+                {option.value === value && (
+                  <span className="material-icons text-[#A68A75] text-lg">check</span>
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [formData, setFormData] = useState({
     eventType: "",
@@ -279,14 +367,14 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left Side - Image & Text (hidden on mobile) */}
+        {/* Left Side on Desktop - Image & Text */}
         <div className="hidden md:flex md:w-2/5 bg-[#F5F0EB] flex-col relative">
           <div className="p-8 flex-1 flex flex-col justify-center">
             <h3 className="font-display text-3xl font-bold text-gray-900 mb-4">
               Stellen Sie noch heute eine Anfrage
             </h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Sind Sie bereit für Ihr Event? Kontaktieren Sie uns.
+              Lassen Sie uns gemeinsam Ihren besonderen Tag planen. Wir freuen uns darauf, Sie kennenzulernen und Ihre Wünsche in die Tat umzusetzen.
             </p>
             <div className="relative w-full h-56 rounded-lg overflow-hidden mb-6">
               <Image
@@ -323,31 +411,61 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           {/* Form - scrollable content */}
           <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           <div ref={scrollContainerRef} className="p-6 space-y-6 flex-1 overflow-y-auto scroll-smooth">
+
+          {/* Mobile: Image & Text - scrollbar */}
+          <div className="md:hidden bg-[#F5F0EB] rounded-lg p-5 -mt-2 mb-2">
+            <h3 className="font-display text-xl font-bold text-gray-900 mb-2">
+              Stellen Sie noch heute eine Anfrage
+            </h3>
+            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+              Lassen Sie uns gemeinsam Ihren besonderen Tag planen. Wir freuen uns darauf, Sie kennenzulernen und Ihre Wünsche in die Tat umzusetzen.
+            </p>
+            <div className="relative w-full h-32 rounded-lg overflow-hidden mb-4">
+              <Image
+                src="/images/IMG_5166.jpg"
+                alt="Almweiß Tischdekoration"
+                fill
+                className="object-cover"
+              />
+            </div>
+            <p className="text-gray-700 italic text-sm">
+              Ich freue mich auf Ihre Anfrage.
+            </p>
+            <p className="text-[#A68A75] font-semibold text-sm mt-1">
+              Ihr Hermann Seul
+            </p>
+          </div>
+
           {/* Art der Feier */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Bitte wählen Sie die Art Ihrer Feier aus *
-            </label>
-            <select
-              name="eventType"
-              value={formData.eventType}
-              onChange={handleChange}
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            <CustomDropdown
+              label="Art der Feier"
+              placeholder="Bitte auswählen"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
-            >
-              <option value="">Bitte auswählen...</option>
-              <option value="hochzeit">Hochzeit</option>
-              <option value="geburtstag">Geburtstag</option>
-              <option value="firmenevent">Firmenevent</option>
-              <option value="sonstiges">Sonstiges</option>
-            </select>
+              value={formData.eventType}
+              onChange={(value) => {
+                // Reset anrede to empty if switching to hochzeit while firma was selected
+                if (value === "hochzeit" && formData.anrede === "firma") {
+                  setFormData((prev) => ({ ...prev, eventType: value, anrede: "" }));
+                } else {
+                  setFormData((prev) => ({ ...prev, eventType: value }));
+                }
+              }}
+              options={[
+                { value: "hochzeit", label: "Hochzeit" },
+                { value: "geburtstag", label: "Geburtstag" },
+                { value: "firmenevent", label: "Firmenevent" },
+                { value: "sonstiges", label: "Sonstiges" },
+              ]}
+            />
+            <div></div>
           </div>
 
           {/* Termine */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div>
               <DatePickerInput
-                label="Wunschtermin *"
+                label="Wunschtermin"
                 placeholder="Datum wählen"
                 value={wunschtermin}
                 onChange={(value) => setWunschtermin(value as Date | null)}
@@ -356,7 +474,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 valueFormat="DD.MM.YYYY"
                 required
                 getDayProps={getDayProps}
-                popoverProps={{ withinPortal: false, width: "target" }}
+                popoverProps={{
+                  withinPortal: true,
+                  zIndex: 9999,
+                }}
                 styles={{
                   label: { fontWeight: 600, fontSize: "0.875rem", color: "#374151", marginBottom: "0.5rem" },
                   input: { borderRadius: "0.5rem", padding: "0.75rem 1rem", borderColor: "#D1D5DB", fontSize: "1rem" },
@@ -376,7 +497,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 maxDate={maxDate}
                 valueFormat="DD.MM.YYYY"
                 getDayProps={getDayProps}
-                popoverProps={{ withinPortal: false, width: "target" }}
+                popoverProps={{
+                  withinPortal: true,
+                  zIndex: 9999,
+                }}
                 styles={{
                   label: { fontWeight: 600, fontSize: "0.875rem", color: "#374151", marginBottom: "0.5rem" },
                   input: { borderRadius: "0.5rem", padding: "0.75rem 1rem", borderColor: "#D1D5DB", fontSize: "1rem" },
@@ -389,13 +513,14 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           </div>
 
           {/* Gästeanzahl */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Wieviele Gäste ab 14 Jahren sind geplant? *
+                Gäste ab 14 Jahren *
               </label>
               <input
                 type="number"
+                inputMode="numeric"
                 name="erwachsene"
                 value={formData.erwachsene || ""}
                 onChange={handleChange}
@@ -403,9 +528,9 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 min={40}
                 max={80}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition text-base"
               />
-              <p className="text-xs text-gray-500 mt-1">Mindestens 40, maximal 80 Gäste</p>
+              <p className="text-xs text-gray-500 mt-1">Min. 40, max. 80</p>
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -413,35 +538,33 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               </label>
               <input
                 type="number"
+                inputMode="numeric"
                 name="kinder"
                 value={formData.kinder}
                 onChange={handleChange}
                 min={0}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition text-base"
               />
+              <p className="text-xs text-gray-500 mt-1 invisible">Platzhalter</p>
             </div>
           </div>
 
           {/* Anrede */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Anrede *
-            </label>
-            <select
-              name="anrede"
-              value={formData.anrede}
-              onChange={handleChange}
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
+            <CustomDropdown
+              label="Anrede"
+              placeholder="Bitte auswählen"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
-            >
-              <option value="">Bitte auswählen...</option>
-              <option value="herr">Herr</option>
-              <option value="frau">Frau</option>
-              {formData.eventType !== "hochzeit" && (
-                <option value="firma">Firma</option>
-              )}
-              <option value="divers">Divers</option>
-            </select>
+              value={formData.anrede}
+              onChange={(value) => setFormData((prev) => ({ ...prev, anrede: value }))}
+              options={[
+                { value: "herr", label: "Herr" },
+                { value: "frau", label: "Frau" },
+                ...(formData.eventType !== "hochzeit" ? [{ value: "firma", label: "Firma" }] : []),
+                { value: "divers", label: "Divers" },
+              ]}
+            />
+            <div></div>
           </div>
 
           {/* Firmenfelder - nur wenn Firma ausgewählt */}
@@ -460,7 +583,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Ansprechpartner Vorname *
@@ -493,7 +616,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
           {/* Name - nur wenn NICHT Firma */}
           {formData.anrede !== "firma" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Vorname *
@@ -524,7 +647,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
           )}
 
           {/* Kontakt */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 E-Mail *
@@ -544,11 +667,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               </label>
               <input
                 type="tel"
+                inputMode="tel"
                 name="telefon"
                 value={formData.telefon}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition text-base"
               />
             </div>
           </div>
@@ -567,14 +691,13 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               placeholder="Teilen Sie uns gerne weitere Details zu Ihrer Feier mit..."
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition resize-none"
             />
-            <div className="flex justify-between items-center mt-1">
-              <p className={`text-xs ${wordCount >= minWords ? "text-green-600" : "text-gray-500"}`}>
-                {wordCount} / {minWords} Wörter {wordCount >= minWords && "✓"}
-              </p>
-              {wordsRemaining > 0 && (
+            <div className="mt-1">
+              {wordsRemaining > 0 ? (
                 <p className="text-xs text-gray-400">
                   Noch {wordsRemaining} {wordsRemaining === 1 ? "Wort" : "Wörter"} erforderlich
                 </p>
+              ) : (
+                <p className="text-xs text-green-600">✓</p>
               )}
             </div>
           </div>

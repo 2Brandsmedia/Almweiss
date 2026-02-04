@@ -53,17 +53,17 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
   }, [isVisible, value, duration]);
 
   return (
-    <div ref={ref} className="font-display text-5xl md:text-6xl text-[#A68A75] font-bold mb-2 flex items-baseline justify-center gap-1">
+    <div ref={ref} className="font-display text-3xl md:text-6xl text-[#A68A75] font-bold mb-1 md:mb-2 flex items-baseline justify-center gap-1">
       {value % 1 !== 0 ? (
         <>
           {Math.floor(count)}
-          <span className="text-3xl md:text-4xl">,{(count % 1).toFixed(1).split('.')[1]}</span>
+          <span className="text-xl md:text-4xl">,{(count % 1).toFixed(1).split('.')[1]}</span>
         </>
       ) : (
         count
       )}
       {suffix === "★" ? (
-        <span className="material-icons text-[#A68A75] text-4xl md:text-5xl">star</span>
+        <span className="material-icons text-[#A68A75] text-2xl md:text-5xl">star</span>
       ) : (
         suffix
       )}
@@ -73,7 +73,7 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
 
 export default function Stats() {
   return (
-    <section className="bg-[#F5F0EB] py-16 relative">
+    <section className="bg-[#F5F0EB] py-8 md:py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -86,7 +86,7 @@ export default function Stats() {
               },
             },
           }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-200"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center divide-x divide-gray-200"
         >
           {stats.map((stat) => (
             <motion.div
@@ -95,10 +95,10 @@ export default function Stats() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
               }}
-              className="p-4"
+              className="p-2 md:p-4"
             >
               <Counter value={stat.value} suffix={stat.suffix} duration={stat.duration} />
-              <p className="text-sm uppercase tracking-widest text-gray-500">
+              <p className="text-xs md:text-sm uppercase tracking-wider md:tracking-widest text-gray-500">
                 {stat.label}
               </p>
             </motion.div>

@@ -4,10 +4,14 @@ import { useState, FormEvent } from "react";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
     date: "",
-    guests: "20 - 50 Gäste",
+    altDate: "",
+    adults: "",
+    children: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -31,13 +35,15 @@ export default function Contact() {
       />
 
       <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
-        <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
-          Sichern Sie sich Ihren Traumtermin
-        </h2>
-        <p className="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
-          Die Nachfrage ist hoch und unsere Kapazitäten sind streng limitiert. Füllen Sie das
-          Formular aus, um sofort zu erfahren, ob Ihr Datum noch verfügbar ist.
-        </p>
+        {/* Mobile: Text außerhalb */}
+        <div className="md:hidden">
+          <h2 className="font-display text-3xl font-bold text-white mb-4">
+            Sichern Sie sich Ihren Traumtermin
+          </h2>
+          <p className="text-white/90 text-base mb-6">
+            Füllen Sie das Formular aus, um zu erfahren, ob Ihr Datum noch verfügbar ist.
+          </p>
+        </div>
 
         {submitted ? (
           <div className="bg-white p-8 rounded-lg shadow-2xl">
@@ -50,48 +56,22 @@ export default function Contact() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-2xl text-left">
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label
-                  className="block text-xs uppercase tracking-widest text-gray-500 mb-2 font-bold"
-                  htmlFor="name"
-                >
-                  Name des Paares
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  required
-                  placeholder="Anna & Max"
-                  className="w-full bg-gray-50 border border-gray-200 rounded p-3 text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                />
-              </div>
-              <div>
-                <label
-                  className="block text-xs uppercase tracking-widest text-gray-500 mb-2 font-bold"
-                  htmlFor="email"
-                >
-                  Email Adresse
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  required
-                  placeholder="ihre@email.com"
-                  className="w-full bg-gray-50 border border-gray-200 rounded p-3 text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
+          <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-lg shadow-2xl text-left">
+            {/* Desktop: Text innerhalb des Formulars */}
+            <div className="hidden md:block text-center mb-8">
+              <h2 className="font-display text-4xl font-bold text-gray-900 mb-4">
+                Sichern Sie sich Ihren Traumtermin
+              </h2>
+              <p className="text-gray-600 text-lg max-w-xl mx-auto">
+                Die Nachfrage ist hoch und unsere Kapazitäten sind streng limitiert. Füllen Sie das
+                Formular aus, um sofort zu erfahren, ob Ihr Datum noch verfügbar ist.
+              </p>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
+            {/* Wunschtermin & Alternativ Datum */}
+            <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
               <div>
                 <label
-                  className="block text-xs uppercase tracking-widest text-gray-500 mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
                   htmlFor="date"
                 >
                   Wunschtermin
@@ -99,29 +79,138 @@ export default function Contact() {
                 <input
                   type="date"
                   id="date"
-                  className="w-full bg-gray-50 border border-gray-200 rounded p-3 text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                 />
               </div>
               <div>
                 <label
-                  className="block text-xs uppercase tracking-widest text-gray-500 mb-2 font-bold"
-                  htmlFor="guests"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="altDate"
                 >
-                  Gästeanzahl (ca.)
+                  Alternativ Datum
                 </label>
-                <select
-                  id="guests"
-                  className="w-full bg-gray-50 border border-gray-200 rounded p-3 text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
-                  value={formData.guests}
-                  onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                <input
+                  type="date"
+                  id="altDate"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.altDate}
+                  onChange={(e) => setFormData({ ...formData, altDate: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Gäste ab 14 & Anzahl Kinder */}
+            <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="adults"
                 >
-                  <option>20 - 50 Gäste</option>
-                  <option>50 - 80 Gäste</option>
-                  <option>80 - 120 Gäste</option>
-                  <option>Über 120 Gäste</option>
-                </select>
+                  Gäste ab 14 J.
+                </label>
+                <input
+                  type="number"
+                  id="adults"
+                  min="1"
+                  placeholder="z.B. 60"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.adults}
+                  onChange={(e) => setFormData({ ...formData, adults: e.target.value })}
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="children"
+                >
+                  Anzahl Kinder
+                </label>
+                <input
+                  type="number"
+                  id="children"
+                  min="0"
+                  placeholder="z.B. 5"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.children}
+                  onChange={(e) => setFormData({ ...formData, children: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Vorname & Nachname */}
+            <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="firstName"
+                >
+                  Vorname
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  required
+                  placeholder="Anna"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="lastName"
+                >
+                  Nachname
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  required
+                  placeholder="Müller"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Email & Telefon */}
+            <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="email"
+                >
+                  E-Mail
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  placeholder="ihre@email.com"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  htmlFor="phone"
+                >
+                  Telefon
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="0123 456789"
+                  className="w-full bg-gray-50 border border-gray-200 rounded p-2 md:p-3 text-base text-gray-900 focus:ring-2 focus:ring-[#A68A75] focus:border-transparent outline-none transition"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                />
               </div>
             </div>
 

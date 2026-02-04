@@ -81,7 +81,7 @@ export default function Gallery() {
 
   return (
     <>
-      <section className="py-24 bg-white" id="galerie">
+      <section className="py-24 bg-[#F5F0EB]" id="galerie">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
@@ -94,7 +94,7 @@ export default function Gallery() {
             <span className="text-[#A68A75] font-bold uppercase tracking-widest text-xs">
               Impressionen
             </span>
-            <h2 className="font-display text-4xl font-bold mt-2 mb-4 text-gray-900">
+            <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-4 text-gray-900">
               Galerie
             </h2>
             <p className="text-gray-600">

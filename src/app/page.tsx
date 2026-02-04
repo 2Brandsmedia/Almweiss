@@ -2,6 +2,7 @@ import {
   Hero,
   Stats,
   About,
+  Extras,
   Process,
   Services,
   Gallery,
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <Stats />
       <About />
+      <Extras />
       <Process />
       <Gallery />
       <Services />

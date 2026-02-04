@@ -70,7 +70,7 @@ export default function Instagram() {
   };
 
   return (
-    <section className="py-24 bg-white overflow-hidden" id="instagram">
+    <section className="py-24 bg-[#F5F0EB] overflow-hidden" id="instagram">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -78,7 +78,7 @@ export default function Instagram() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-3xl mx-auto mb-12"
+          className="text-center max-w-3xl mx-auto mb-6"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <svg className="w-8 h-8 text-[#A68A75]" fill="currentColor" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@ export default function Instagram() {
               @_almweiss_
             </a>
           </div>
-          <h2 className="font-display text-4xl font-bold mt-2 mb-4 text-gray-900">
+          <h2 className="font-display text-4xl md:text-5xl font-bold mt-2 mb-4 text-gray-900">
             Folgen Sie uns auf Instagram
           </h2>
         </motion.div>
@@ -227,7 +227,7 @@ export default function Instagram() {
             href="https://www.instagram.com/_almweiss_/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 bg-[#A68A75] text-white px-10 py-4 font-bold uppercase tracking-[0.2em] text-sm hover:bg-gray-900 hover:shadow-xl transition-all duration-300 border-2 border-[#A68A75] hover:border-gray-900"
+            className="group inline-flex items-center gap-3 bg-[#A68A75] text-white px-10 py-4 font-bold uppercase tracking-[0.2em] text-sm hover:bg-gray-900 hover:shadow-xl transition-all duration-300 border-2 border-[#A68A75] hover:border-gray-900 rounded-full"
           >
             <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24">
               <path

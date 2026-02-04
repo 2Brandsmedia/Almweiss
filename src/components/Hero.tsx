@@ -72,11 +72,11 @@ export default function Hero() {
   return (
     <header className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* YouTube Video Background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden grayscale">
           <iframe
             id="bg-video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[300%] md:w-[177.77vh] md:h-[100vh] md:min-w-full md:min-h-[56.25vw] pointer-events-none"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] min-w-[100vw] min-h-[56.25vw] scale-[1.15] md:scale-100 pointer-events-none"
             src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -92,15 +92,14 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-8"
+          className="mb-8 -mt-[150px] md:-mt-[50px]"
         >
           <Image
-            src="/images/logo-transparent.png"
+            src="/images/logoinvert.png"
             alt="Almweiß Logo"
-            width={200}
-            height={80}
-            className="mx-auto brightness-0 invert drop-shadow-lg"
-            style={{ filter: "brightness(0) invert(1)" }}
+            width={360}
+            height={154}
+            className="mx-auto drop-shadow-lg"
           />
         </motion.div>
 
@@ -140,7 +139,7 @@ export default function Hero() {
       {/* CTA Button - fixed, fades in bottom right when scrolled */}
       <button
         onClick={openModal}
-        className={`fixed bottom-8 right-8 z-30 bg-[#A68A75] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full animate-pulse-soft transition-opacity duration-500 ${
+        className={`fixed bottom-8 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 z-30 bg-[#A68A75] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full animate-pulse-soft transition-opacity duration-500 whitespace-nowrap ${
           isScrolled ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -150,24 +149,24 @@ export default function Hero() {
       {/* Video Button - Bottom Right */}
       <button
         onClick={() => setShowVideo(!showVideo)}
-        className="absolute bottom-8 right-8 z-20 flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 text-white px-4 py-3 rounded-full hover:bg-white/20 transition group"
+        className="absolute bottom-8 right-8 z-20 flex items-center gap-1.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white px-3 py-2 rounded-full hover:bg-white/20 transition group"
       >
-        <span className="material-icons text-2xl group-hover:scale-110 transition">
+        <span className="material-icons text-lg group-hover:scale-110 transition">
           {showVideo ? 'close' : 'play_circle'}
         </span>
-        <span className="text-sm font-semibold uppercase tracking-wider">
-          {showVideo ? 'Video schließen' : 'Video ansehen'}
+        <span className="text-xs font-medium uppercase tracking-wider">
+          {showVideo ? 'Schließen' : 'Video'}
         </span>
       </button>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 scroll-indicator">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
         <span className="material-icons text-white text-4xl opacity-70">keyboard_arrow_down</span>
       </div>
 
       {/* Video Modal - Small Player */}
       {showVideo && (
-        <div className="fixed bottom-24 right-8 z-50 w-[600px] aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4">
+        <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4">
           <button
             onClick={() => setShowVideo(false)}
             className="absolute top-2 right-2 z-10 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition"

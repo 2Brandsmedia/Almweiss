@@ -190,10 +190,9 @@ interface ModalState {
   images: string[];
   currentImageIndex: number;
   reviewName: string;
-  reviewText: string;
   reviewDate: string;
-  reviewRating: number;
 }
+
 
 export default function Services() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -203,9 +202,7 @@ export default function Services() {
     images: [],
     currentImageIndex: 0,
     reviewName: "",
-    reviewText: "",
     reviewDate: "",
-    reviewRating: 5,
   });
 
   useEffect(() => {
@@ -235,9 +232,7 @@ export default function Services() {
       images: review.images,
       currentImageIndex: imageIndex,
       reviewName: review.name,
-      reviewText: review.text,
       reviewDate: review.date,
-      reviewRating: review.rating,
     });
   };
 
@@ -264,7 +259,7 @@ export default function Services() {
 
   return (
     <>
-      <section className="py-24 bg-[#F5F0EB]">
+      <section className="py-24 bg-white" id="bewertungen">
         <div className="max-w-4xl mx-auto px-4">
           {/* Header */}
           <motion.div
@@ -322,42 +317,21 @@ export default function Services() {
               <span className="material-icons text-2xl">chevron_right</span>
             </button>
 
-            {/* Card - Feste Höhe für einheitliches Layout */}
-            <div className="bg-[#FAF9F6] rounded-3xl p-8 md:p-12 shadow-sm border border-gray-100 min-h-[520px] flex flex-col">
-              {/* Quote Icon */}
-              <div className="text-[#A68A75]/20 mb-4">
-                <span className="material-icons text-5xl">format_quote</span>
-              </div>
-
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-6 justify-center">
-                {[...Array(5)].map((_, i) => (
-                  <span
-                    key={i}
-                    className={`material-icons text-2xl ${
-                      i < currentReview.rating
-                        ? "text-yellow-400"
-                        : "text-gray-300"
-                    }`}
-                  >
-                    star
-                  </span>
-                ))}
-              </div>
-
-              {/* Review Text - Feste Höhe mit Scroll bei Bedarf */}
-              <blockquote className="text-gray-700 text-lg md:text-xl text-center leading-relaxed mb-8 max-w-3xl mx-auto min-h-[120px] line-clamp-5">
-                &ldquo;{currentReview.text}&rdquo;
+            {/* Card - Kompaktes Layout */}
+            <div className="bg-[#FAF9F6] rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 h-[320px] flex flex-col">
+              {/* Review Text */}
+              <blockquote className="text-gray-700 text-base md:text-lg text-center leading-relaxed flex-1 flex items-center justify-center px-4">
+                <span className="line-clamp-4">&ldquo;{currentReview.text}&rdquo;</span>
               </blockquote>
 
-              {/* Images Thumbnails - Fester Platzhalter für einheitliche Höhe */}
-              <div className="flex justify-center gap-3 mb-8 flex-wrap min-h-[96px] items-center">
-                {currentReview.images && currentReview.images.length > 0 &&
-                  currentReview.images.map((img, idx) => (
+              {/* Images - Klein und kompakt */}
+              {currentReview.images && currentReview.images.length > 0 && (
+                <div className="flex justify-center gap-2 mb-4">
+                  {currentReview.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => openModal(currentReview, idx)}
-                      className="relative w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#A68A75] group"
+                      className="relative w-14 h-14 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all hover:scale-105 group"
                     >
                       <Image
                         src={img}
@@ -366,44 +340,42 @@ export default function Services() {
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                        <span className="material-icons text-white opacity-0 group-hover:opacity-100 transition-opacity text-2xl drop-shadow-lg">
-                          zoom_in
-                        </span>
+                        <span className="material-icons text-white opacity-0 group-hover:opacity-100 text-lg">zoom_in</span>
                       </div>
                     </button>
-                  ))
-                }
-              </div>
+                  ))}
+                </div>
+              )}
 
-              {/* Author - Am unteren Rand fixiert */}
-              <div className="flex items-center justify-center gap-4 mt-auto">
+              {/* Author + Stars */}
+              <div className="flex items-center justify-center gap-3 pt-3 border-t border-gray-200">
                 <div
-                  className={`w-14 h-14 rounded-full ${currentReview.color} flex items-center justify-center text-white text-xl font-bold shadow-md`}
+                  className={`w-10 h-10 rounded-full ${currentReview.color} flex items-center justify-center text-white text-sm font-bold shadow-sm`}
                 >
                   {currentReview.initial}
                 </div>
                 <div className="text-left">
-                  <p className="font-bold text-gray-900 text-lg">
-                    {currentReview.name}
-                  </p>
-                  <p className="text-sm text-gray-500 flex items-center gap-1.5">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24">
-                      <path
-                        fill="#4285F4"
-                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                      />
-                      <path
-                        fill="#34A853"
-                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                      />
-                      <path
-                        fill="#EA4335"
-                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                      />
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-gray-900">{currentReview.name}</p>
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`material-icons text-sm ${
+                            i < currentReview.rating ? "text-yellow-400" : "text-gray-300"
+                          }`}
+                        >
+                          star
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 flex items-center gap-1">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
                     {currentReview.date}
                   </p>
@@ -411,7 +383,7 @@ export default function Services() {
               </div>
 
               {/* Dots */}
-              <div className="flex justify-center gap-1.5 mt-10 flex-wrap max-w-md mx-auto">
+              <div className="flex justify-center gap-1 mt-4 flex-wrap">
                 {reviews.map((_, i) => (
                   <button
                     key={i}
@@ -419,10 +391,10 @@ export default function Services() {
                       setIsAutoPlaying(false);
                       setCurrentIndex(i);
                     }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
                       i === currentIndex
-                        ? "bg-[#A68A75] w-6"
-                        : "bg-gray-300 w-2 hover:bg-gray-400"
+                        ? "bg-[#A68A75] w-4"
+                        : "bg-gray-300 w-1.5 hover:bg-gray-400"
                     }`}
                     aria-label={`Bewertung ${i + 1}`}
                   />
@@ -437,123 +409,59 @@ export default function Services() {
               href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#A68A75] font-semibold hover:text-gray-900 transition group"
+              className="inline-block bg-[#A68A75] text-white px-6 py-3 md:px-8 md:py-4 text-[11px] md:text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full transition whitespace-nowrap"
             >
               Alle Bewertungen auf Google ansehen
-              <span className="material-icons text-sm group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
             </a>
           </div>
         </div>
       </section>
 
-      {/* Image Gallery Modal */}
-      {modal.isOpen && (
+      {/* Einfaches Bild-Modal */}
+      {modal.isOpen && modal.images.length > 0 && (
         <div
-          className="fixed inset-0 z-[100] backdrop-blur-md bg-black/20 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4"
           onClick={closeModal}
         >
-          <div
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+          {/* Close Button */}
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
           >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <span
-                      key={i}
-                      className={`material-icons text-lg ${
-                        i < modal.reviewRating
-                          ? "text-yellow-400"
-                          : "text-gray-300"
-                      }`}
-                    >
-                      star
-                    </span>
-                  ))}
-                </div>
-                <span className="text-gray-600 font-medium">
-                  {modal.reviewName}
-                </span>
-                <span className="text-gray-400 text-sm">{modal.reviewDate}</span>
-              </div>
-              <button
-                onClick={closeModal}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
-              >
-                <span className="material-icons text-gray-500">close</span>
-              </button>
-            </div>
+            <span className="material-icons text-white">close</span>
+          </button>
 
-            {/* Image Area */}
-            <div className="relative bg-gray-100">
-              <div className="relative aspect-[4/3] w-full">
-                <Image
-                  src={modal.images[modal.currentImageIndex]}
-                  alt={`Foto ${modal.currentImageIndex + 1}`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
+          {/* Bild */}
+          <div className="relative max-w-4xl max-h-[80vh] w-full" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={modal.images[modal.currentImageIndex]}
+              alt="Bewertungsfoto"
+              width={1200}
+              height={800}
+              className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
+            />
 
-              {/* Image Navigation */}
-              {modal.images.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
-                  >
-                    <span className="material-icons">chevron_left</span>
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
-                  >
-                    <span className="material-icons">chevron_right</span>
-                  </button>
-
-                  {/* Image Counter */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
-                    {modal.currentImageIndex + 1} / {modal.images.length}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Thumbnails */}
+            {/* Bild-Navigation */}
             {modal.images.length > 1 && (
-              <div className="flex gap-2 p-4 border-t bg-gray-50 overflow-x-auto">
-                {modal.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() =>
-                      setModal((prev) => ({ ...prev, currentImageIndex: idx }))
-                    }
-                    className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 transition-all ${
-                      idx === modal.currentImageIndex
-                        ? "ring-2 ring-[#A68A75] ring-offset-2"
-                        : "opacity-60 hover:opacity-100"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`Thumbnail ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
+                >
+                  <span className="material-icons">chevron_left</span>
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
+                >
+                  <span className="material-icons">chevron_right</span>
+                </button>
+              </>
             )}
 
-            {/* Review Text */}
-            <div className="p-4 border-t">
-              <p className="text-gray-700 text-sm leading-relaxed">
-                &ldquo;{modal.reviewText}&rdquo;
-              </p>
+            {/* Text unten */}
+            <div className="mt-4 text-center text-white">
+              <p className="text-sm opacity-80">{modal.reviewName} · {modal.reviewDate}</p>
             </div>
           </div>
         </div>

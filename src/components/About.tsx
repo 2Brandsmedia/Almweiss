@@ -24,6 +24,12 @@ export default function About() {
               <span className="italic text-[#A68A75]">schönsten Tag.</span>
             </h2>
             <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+              Zentral gelegen zwischen Köln und Düsseldorf erstrahlt das Almweiß als bezaubernde
+              Eventlocation, die sich insbesondere für Hochzeiten und festliche Anlässe eignet.
+              Unsere einladende Blockhütte bietet Platz für bis zu 80 Gäste und vereint rustikale
+              Gemütlichkeit mit festlicher Eleganz – die perfekte Kulisse für unvergessliche Momente.
+            </p>
+            <p className="text-gray-600 mb-6 text-lg leading-relaxed">
               Bei Almweiß beginnt Ihre Hochzeitsreise lange vor dem großen Tag. Wir begleiten Sie
               von der ersten Idee bis zum letzten Tanz – persönlich, liebevoll und mit einem
               Auge für jedes Detail, das Ihren Tag einzigartig macht.
@@ -51,24 +57,6 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* CTA Link */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="mt-10"
-            >
-              <a
-                href="#kontakt"
-                className="inline-flex items-center text-[#A68A75] font-bold uppercase tracking-widest hover:text-gray-900 transition group"
-              >
-                Ihre Reise beginnt hier
-                <span className="material-icons ml-2 transform group-hover:translate-x-1 transition">
-                  arrow_forward
-                </span>
-              </a>
-            </motion.div>
           </motion.div>
 
           {/* Images */}
@@ -85,7 +73,7 @@ export default function About() {
                   alt="Brautpaar bei der Hochzeit"
                   width={400}
                   height={320}
-                  className="rounded-lg shadow-xl w-full h-80 object-cover transform translate-y-8"
+                  className="rounded-lg shadow-xl w-full h-80 object-cover transform translate-y-8 object-[calc(50%-80px)_center] md:object-center"
                 />
               </motion.div>
               <motion.div

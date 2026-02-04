@@ -37,8 +37,8 @@ export default function RootLayout({
   return (
     <html lang="de">
       <head>
-        <link rel="icon" href="/images/cropped-websiteLogo-32x32.png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/images/cropped-websiteLogo-180x180.png" />
+        <link rel="icon" href="/images/logoinvert.png" />
+        <link rel="apple-touch-icon" href="/images/logoinvert.png" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
       <body className={`${cormorant.variable} ${lato.variable} antialiased`}>

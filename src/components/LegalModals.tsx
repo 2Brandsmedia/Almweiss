@@ -4,6 +4,111 @@ import { useState } from "react";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
 
+// FAQ Accordion Component
+const faqCategories = [
+  {
+    category: "Location & Kapazität",
+    icon: "location_on",
+    questions: [
+      {
+        q: "Wie viele Gäste können bei Almweiß feiern?",
+        a: "Unsere Location bietet Platz für 40 bis 80 Gäste. Die Mindestanzahl von 40 Gästen ermöglicht eine optimale Nutzung unserer Räumlichkeiten."
+      },
+      {
+        q: "Welche Veranstaltungen können bei Almweiß gefeiert werden?",
+        a: "Wir richten Hochzeiten, Geburtstage, Firmenevents und weitere besondere Anlässe aus. Jede Feier wird individuell auf Ihre Wünsche abgestimmt."
+      },
+      {
+        q: "Kann ich die Location vorher besichtigen?",
+        a: "Selbstverständlich! Wir bieten nach Terminvereinbarung Besichtigungen an, damit Sie sich persönlich von unserer Location überzeugen können."
+      },
+      {
+        q: "Gibt es Parkmöglichkeiten?",
+        a: "Ja, ausreichend Parkplätze stehen in unmittelbarer Nähe zur Verfügung. Details teilen wir Ihnen gerne bei der Buchung mit."
+      },
+    ]
+  },
+  {
+    category: "Buchung & Preise",
+    icon: "calendar_today",
+    questions: [
+      {
+        q: "Wie weit im Voraus sollte ich buchen?",
+        a: "Wir empfehlen, Ihren Wunschtermin so früh wie möglich anzufragen. Besonders für Hochzeiten in der Hauptsaison (Mai bis September) raten wir zu einer Buchung mindestens 6-12 Monate im Voraus."
+      },
+      {
+        q: "Wie sind die Stornierungsbedingungen?",
+        a: "Unsere Stornierungsbedingungen finden Sie in unseren AGB. Je nach Zeitpunkt der Stornierung fallen unterschiedliche Gebühren an."
+      },
+    ]
+  },
+  {
+    category: "Service & Ausstattung",
+    icon: "room_service",
+    questions: [
+      {
+        q: "Ist Catering inbegriffen?",
+        a: "Wir bieten verschiedene Catering-Optionen an. Details besprechen wir gerne bei einem persönlichen Beratungsgespräch, um das perfekte Angebot für Ihre Feier zu erstellen."
+      },
+    ]
+  },
+  {
+    category: "Kontakt",
+    icon: "contact_support",
+    questions: [
+      {
+        q: "Haben Sie noch weitere Fragen?",
+        a: "Kontaktieren Sie uns gerne telefonisch unter 0173 2814620 oder per E-Mail an info@almweiss.de. Wir helfen Ihnen gerne weiter!"
+      },
+    ]
+  },
+];
+
+function FAQAccordion() {
+  const [openItems, setOpenItems] = useState<string[]>([]);
+
+  const toggleItem = (id: string) => {
+    setOpenItems(prev =>
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {faqCategories.map((cat, catIndex) => (
+        <div key={catIndex}>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="material-icons text-[#A68A75]">{cat.icon}</span>
+            <h3 className="font-semibold text-lg text-gray-900">{cat.category}</h3>
+          </div>
+          <div className="space-y-2">
+            {cat.questions.map((item, qIndex) => {
+              const itemId = `${catIndex}-${qIndex}`;
+              const isOpen = openItems.includes(itemId);
+              return (
+                <div key={qIndex} className="border border-gray-200 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleItem(itemId)}
+                    className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 transition"
+                  >
+                    <span className="font-medium text-gray-800 pr-4">{item.q}</span>
+                    <span className={`material-icons text-[#A68A75] transition-transform ${isOpen ? "rotate-180" : ""}`}>
+                      expand_more
+                    </span>
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96" : "max-h-0"}`}>
+                    <p className="px-4 pb-4 text-gray-600">{item.a}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function useLegalModals() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   return { activeModal, setActiveModal };
@@ -226,7 +331,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           </p>
 
           <p className="mt-6 text-sm text-gray-500">
-            Stand: Februar 2025
+            Stand: Februar 2026
           </p>
         </>
       ),
@@ -268,64 +373,14 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           </p>
 
           <p className="mt-6 text-sm text-gray-500">
-            Diese Erklärung wurde am 1. Februar 2025 erstellt.
+            Diese Erklärung wurde am 1. Februar 2026 erstellt.
           </p>
         </>
       ),
     },
     faq: {
       title: "Häufig gestellte Fragen (FAQ)",
-      content: (
-        <>
-          <h3 className="font-semibold text-lg mb-2">Wie viele Gäste können bei Almweiß feiern?</h3>
-          <p className="mb-4">
-            Unsere Location bietet Platz für 40 bis 80 Gäste. Die Mindestanzahl von 40 Gästen ermöglicht
-            eine optimale Nutzung unserer Räumlichkeiten.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Welche Veranstaltungen können bei Almweiß gefeiert werden?</h3>
-          <p className="mb-4">
-            Wir richten Hochzeiten, Geburtstage, Firmenevents und weitere besondere Anlässe aus. Jede
-            Feier wird individuell auf Ihre Wünsche abgestimmt.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Ist Catering inbegriffen?</h3>
-          <p className="mb-4">
-            Wir bieten verschiedene Catering-Optionen an. Details besprechen wir gerne bei einem
-            persönlichen Beratungsgespräch, um das perfekte Angebot für Ihre Feier zu erstellen.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Wie weit im Voraus sollte ich buchen?</h3>
-          <p className="mb-4">
-            Wir empfehlen, Ihren Wunschtermin so früh wie möglich anzufragen. Besonders für Hochzeiten
-            in der Hauptsaison (Mai bis September) raten wir zu einer Buchung mindestens 6-12 Monate im Voraus.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Gibt es Parkmöglichkeiten?</h3>
-          <p className="mb-4">
-            Ja, ausreichend Parkplätze stehen in unmittelbarer Nähe zur Verfügung. Details teilen wir
-            Ihnen gerne bei der Buchung mit.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Kann ich die Location vorher besichtigen?</h3>
-          <p className="mb-4">
-            Selbstverständlich! Wir bieten nach Terminvereinbarung Besichtigungen an, damit Sie sich
-            persönlich von unserer Location überzeugen können. Kontaktieren Sie uns für einen Termin.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Wie sind die Stornierungsbedingungen?</h3>
-          <p className="mb-4">
-            Unsere Stornierungsbedingungen finden Sie in unseren AGB. Je nach Zeitpunkt der Stornierung
-            fallen unterschiedliche Gebühren an.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Haben Sie noch weitere Fragen?</h3>
-          <p className="mb-4">
-            Kontaktieren Sie uns gerne telefonisch unter 0173 2814620 oder per E-Mail an info@almweiss.de.
-            Wir helfen Ihnen gerne weiter!
-          </p>
-        </>
-      ),
+      content: "faq-accordion",
     },
     cookies: {
       title: "Cookie-Richtlinie",
@@ -385,7 +440,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           </p>
 
           <p className="mt-6 text-sm text-gray-500">
-            Stand: Februar 2025
+            Stand: Februar 2026
           </p>
         </>
       ),
@@ -418,7 +473,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
 
         {/* Content */}
         <div className="p-6 text-gray-700 leading-relaxed">
-          {current.content}
+          {current.content === "faq-accordion" ? <FAQAccordion /> : current.content}
         </div>
       </div>
     </div>
