@@ -70,13 +70,29 @@ export default function Hero() {
   }, [showVideo]);
 
   return (
-    <header className="relative h-[100dvh] flex items-center justify-center overflow-hidden bg-black">
+    <header
+      className="relative flex items-center justify-center overflow-hidden bg-black h-screen md:h-screen"
+      style={{
+        height: 'calc(100vh + 220px)',
+        minHeight: 'calc(100vh + 220px)',
+        marginTop: '-60px',
+        paddingTop: '60px'
+      }}
+    >
       {/* YouTube Video Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+      <div
+        className="absolute z-0 overflow-hidden bg-black"
+        style={{
+          top: '-60px',
+          left: 0,
+          right: 0,
+          bottom: 0
+        }}
+      >
         <div className="absolute inset-0 overflow-hidden grayscale">
           <iframe
             id="bg-video"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[48%] w-[177.78dvh] h-[105dvh] min-w-[100vw] min-h-[60vw] scale-[1.35] md:scale-100 md:-translate-y-1/2 md:h-[100dvh] md:min-h-[56.25vw] pointer-events-none"
+            className="hero-video-bg pointer-events-none"
             src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -166,7 +182,7 @@ export default function Hero() {
 
       {/* Video Modal - Small Player */}
       {showVideo && (
-        <div className="fixed bottom-24 left-4 right-4 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4">
+        <div className="absolute bottom-20 left-4 right-4 md:bottom-24 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4">
           <button
             onClick={() => setShowVideo(false)}
             className="absolute top-2 right-2 z-10 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition"

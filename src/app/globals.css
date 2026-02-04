@@ -27,10 +27,14 @@
 }
 
 /* KEIN automatischer Dark Mode - immer helles Design */
-body {
-  background: #FAF9F6;
+html, body {
+  background: #000;
   color: #1f2937;
   font-family: var(--font-lato), 'Lato', sans-serif;
+}
+
+body > div {
+  background: #FAF9F6;
 }
 
 /* Hero Slideshow Animation */
@@ -110,4 +114,41 @@ html {
 /* Feiertage Tooltip */
 .mantine-DatePicker-day[title] {
   cursor: help;
+}
+
+/* Hero Video Background */
+.hero-video-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 177.78vh;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+}
+
+@media (max-width: 768px) {
+  .hero-video-bg {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -52%) !important;
+    width: 200vh !important;
+    height: 112vh !important;
+    min-width: 100vw !important;
+    min-height: 100% !important;
+  }
+}
+
+/* Mobile Hero - iPhone Safari fix */
+@media (max-width: 768px) {
+  .mobile-hero {
+    height: 100vh !important;
+    height: 100dvh !important;
+    height: -webkit-fill-available !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    min-height: -webkit-fill-available !important;
+  }
 }
