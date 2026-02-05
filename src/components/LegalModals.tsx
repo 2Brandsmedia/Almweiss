@@ -385,7 +385,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           <p className="mb-4">
             Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten
             passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
-            persönlich identifiziert werden können.
+            persönlich identifiziert werden können. Die gesamte Datenverarbeitung erfolgt DSGVO-konform.
           </p>
 
           <h4 className="font-semibold mb-2">Datenerfassung auf dieser Website</h4>
@@ -398,27 +398,21 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           <p className="mb-4">
             <strong>Wie erfassen wir Ihre Daten?</strong><br />
             Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B.
-            um Daten handeln, die Sie in ein Kontaktformular eingeben. Andere Daten werden automatisch oder nach
-            Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst.
+            um Daten handeln, die Sie in ein Kontaktformular eingeben.
           </p>
 
           <p className="mb-4">
             <strong>Wofür nutzen wir Ihre Daten?</strong><br />
-            Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten.
-            Andere Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden.
+            Die über das Kontaktformular eingegebenen Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage
+            verwendet und per E-Mail an uns übermittelt. Eine darüber hinausgehende Speicherung oder Weitergabe
+            an Dritte findet nicht statt.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">2. Hosting</h3>
-          <p className="mb-4">
-            Wir hosten die Inhalte unserer Website bei Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
-            Weitere Informationen zum Datenschutz bei Vercel finden Sie unter: https://vercel.com/legal/privacy-policy
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">3. Allgemeine Hinweise und Pflichtinformationen</h3>
+          <h3 className="font-semibold text-lg mb-2">2. Allgemeine Hinweise und Pflichtinformationen</h3>
           <h4 className="font-semibold mb-2">Datenschutz</h4>
           <p className="mb-4">
             Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre
-            personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie
+            personenbezogenen Daten vertraulich und entsprechend der Datenschutz-Grundverordnung (DSGVO) sowie
             dieser Datenschutzerklärung.
           </p>
 
@@ -432,19 +426,33 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
             E-Mail: info@almweiss.de
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">4. Datenerfassung auf dieser Website</h3>
+          <h3 className="font-semibold text-lg mb-2">3. Datenerfassung auf dieser Website</h3>
           <h4 className="font-semibold mb-2">Kontaktformular</h4>
           <p className="mb-4">
             Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular
-            inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall
-            von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.
+            inklusive der von Ihnen dort angegebenen Kontaktdaten per E-Mail an uns übermittelt. Die Daten werden
+            ausschließlich zur Bearbeitung Ihrer Anfrage verwendet. Eine Weitergabe an Dritte erfolgt nicht.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">5. Ihre Rechte</h3>
+          <h4 className="font-semibold mb-2">E-Mail-Versand</h4>
+          <p className="mb-4">
+            Der Versand von E-Mails über das Kontaktformular erfolgt DSGVO-konform. Ihre Daten werden
+            verschlüsselt übertragen und nicht an unbefugte Dritte weitergegeben.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">4. Ihre Rechte</h3>
           <p className="mb-4">
             Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer
             gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung
-            oder Löschung dieser Daten zu verlangen.
+            oder Löschung dieser Daten zu verlangen. Hierzu sowie zu weiteren Fragen zum Thema Datenschutz
+            können Sie sich jederzeit an uns wenden.
+          </p>
+
+          <h3 className="font-semibold text-lg mb-2">5. Widerspruchsrecht</h3>
+          <p className="mb-4">
+            Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen
+            die Verarbeitung Sie betreffender personenbezogener Daten Widerspruch einzulegen. Wenden Sie sich
+            hierzu bitte an die im Impressum genannte Kontaktadresse.
           </p>
         </>
       ),
@@ -562,11 +570,11 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
             Die Informationen werden anonymisiert gesammelt und dienen der Verbesserung unserer Website.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">Google Maps</h3>
+          <h3 className="font-semibold text-lg mb-2">Eingebettete Karten</h3>
           <p className="mb-4">
-            Unsere Website nutzt Google Maps zur Darstellung unseres Standorts. Bei der Nutzung
-            von Google Maps werden Informationen über Ihre Nutzung dieser Website (einschließlich
-            Ihrer IP-Adresse) an einen Server von Google in den USA übertragen und dort gespeichert.
+            Unsere Website nutzt eingebettete Karten zur Darstellung unseres Standorts. Bei der Nutzung
+            dieser Funktion können Informationen über Ihre Nutzung der Website erfasst werden.
+            Sie können die Kartenfunktion in Ihren Browsereinstellungen einschränken.
           </p>
 
           <h3 className="font-semibold text-lg mb-2">Ihre Wahlmöglichkeiten</h3>
