@@ -163,7 +163,7 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator" aria-hidden="true">
-        <span className="material-icons text-white text-4xl opacity-70">keyboard_arrow_down</span>
+        <span className="material-icons text-white text-4xl opacity-70" aria-hidden="true">keyboard_arrow_down</span>
       </div>
 
       {/* Video Modal - Small Player */}

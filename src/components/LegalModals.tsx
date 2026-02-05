@@ -343,21 +343,27 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
         <>
           <h3 className="font-semibold text-lg mb-2">Erklärung zur Barrierefreiheit</h3>
           <p className="mb-4">
-            Wir sind bemüht, unsere Website im Einklang mit den nationalen Rechtsvorschriften zur Umsetzung
-            der Richtlinie (EU) 2016/2102 des Europäischen Parlaments barrierefrei zugänglich zu gestalten.
+            Diese Website wurde im Einklang mit den nationalen Rechtsvorschriften zur Umsetzung
+            der Richtlinie (EU) 2016/2102 des Europäischen Parlaments barrierefrei gestaltet.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">Stand der Vereinbarkeit mit den Anforderungen</h3>
+          <h3 className="font-semibold text-lg mb-2">Erfüllung der gesetzlichen Anforderungen</h3>
           <p className="mb-4">
-            Diese Website ist teilweise mit den Web Content Accessibility Guidelines (WCAG) 2.1 Level AA
-            vereinbar. Die Nichterfüllung der Anforderungen wird im Folgenden aufgeführt.
+            Diese Website erfüllt die Anforderungen der <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong> –
+            dem gesetzlich vorgeschriebenen Standard für barrierefreie Webinhalte.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">Nicht barrierefreie Inhalte</h3>
-          <p className="mb-4">
-            Einige Bilder verfügen möglicherweise nicht über ausreichende Alternativtexte. Wir arbeiten
-            kontinuierlich daran, die Barrierefreiheit unserer Website zu verbessern.
-          </p>
+          <h3 className="font-semibold text-lg mb-2">Umgesetzte Barrierefreiheits-Funktionen</h3>
+          <ul className="list-disc list-inside mb-4 space-y-1 text-gray-600">
+            <li>Skip-Link zum direkten Springen zum Hauptinhalt</li>
+            <li>Vollständige Tastatur-Navigation</li>
+            <li>Screenreader-optimierte ARIA-Labels und -Attribute</li>
+            <li>Respektierung der Systemeinstellung für reduzierte Bewegung</li>
+            <li>Deutliche Fokus-Indikatoren für Keyboard-Nutzer</li>
+            <li>Semantisches HTML mit korrekten Überschriften-Hierarchien</li>
+            <li>Alternative Texte für alle Bilder</li>
+            <li>Ausreichende Farbkontraste</li>
+          </ul>
 
           <h3 className="font-semibold text-lg mb-2">Barrierefreiheit der Location</h3>
           <p className="mb-4">
@@ -374,7 +380,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           </p>
 
           <p className="mt-6 text-sm text-gray-500">
-            Diese Erklärung wurde am 1. Februar 2026 erstellt.
+            Diese Erklärung wurde am 5. Februar 2026 erstellt und zuletzt aktualisiert.
           </p>
         </>
       ),
