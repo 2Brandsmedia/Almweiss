@@ -6,7 +6,6 @@ import { DatesProvider } from "@mantine/dates";
 import { BookingProvider, useBooking } from "@/context/BookingContext";
 import BookingModal from "./BookingModal";
 import CookieConsent from "./CookieConsent";
-import AccessibilityWidget from "./AccessibilityWidget";
 import "dayjs/locale/de";
 
 function ModalRenderer() {
@@ -22,7 +21,6 @@ export default function ClientWrapper({ children }: { children: ReactNode }) {
           {children}
           <ModalRenderer />
           <CookieConsent />
-          <AccessibilityWidget />
         </BookingProvider>
       </DatesProvider>
     </MantineProvider>

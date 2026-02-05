@@ -58,7 +58,6 @@ export default function Footer() {
                 </h4>
                 <ul className="space-y-3 text-xs md:text-sm text-gray-400">
                   <li>
-                    Hermann Seul<br />
                     Robert-Blum-Straße 62<br />
                     51373 Leverkusen
                   </li>

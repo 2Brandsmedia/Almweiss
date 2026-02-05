@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
 
@@ -67,6 +67,182 @@ const faqCategories = [
     ]
   },
 ];
+
+type A11ySettings = {
+  fontSize: "normal" | "large" | "xlarge";
+  contrast: "normal" | "high";
+  invert: boolean;
+  grayscale: boolean;
+};
+
+const defaultA11ySettings: A11ySettings = {
+  fontSize: "normal",
+  contrast: "normal",
+  invert: false,
+  grayscale: false,
+};
+
+function AccessibilitySettings() {
+  const [settings, setSettings] = useState<A11ySettings>(defaultA11ySettings);
+  const [mounted, setMounted] = useState(false);
+
+  // Load settings from localStorage on mount
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem("a11y-settings");
+    if (saved) {
+      try {
+        setSettings(JSON.parse(saved));
+      } catch {
+        // Invalid JSON, use defaults
+      }
+    }
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  // Apply settings to document
+  useEffect(() => {
+    if (!mounted) return;
+
+    const root = document.documentElement;
+
+    root.classList.remove("a11y-font-large", "a11y-font-xlarge");
+    if (settings.fontSize === "large") {
+      root.classList.add("a11y-font-large");
+    } else if (settings.fontSize === "xlarge") {
+      root.classList.add("a11y-font-xlarge");
+    }
+
+    root.classList.toggle("a11y-high-contrast", settings.contrast === "high");
+    root.classList.toggle("a11y-invert", settings.invert);
+    root.classList.toggle("a11y-grayscale", settings.grayscale);
+
+    localStorage.setItem("a11y-settings", JSON.stringify(settings));
+  }, [settings, mounted]);
+
+  const resetSettings = () => {
+    setSettings(defaultA11ySettings);
+  };
+
+  const hasChanges = JSON.stringify(settings) !== JSON.stringify(defaultA11ySettings);
+
+  if (!mounted) return <div className="h-48" />;
+
+  return (
+    <div className="space-y-4">
+      {/* Font Size */}
+      <div>
+        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">
+          Schriftgröße
+        </label>
+        <div className="flex gap-2">
+          {[
+            { value: "normal", label: "A", title: "Normal" },
+            { value: "large", label: "A", title: "Groß", className: "text-lg" },
+            { value: "xlarge", label: "A", title: "Sehr groß", className: "text-xl" },
+          ].map((option) => (
+            <button
+              key={option.value}
+              onClick={() => setSettings({ ...settings, fontSize: option.value as A11ySettings["fontSize"] })}
+              className={`flex-1 py-2 rounded-lg border-2 transition font-bold ${option.className || ""} ${
+                settings.fontSize === option.value
+                  ? "border-[#A68A75] bg-[#F5F0EB] text-[#A68A75]"
+                  : "border-gray-200 hover:border-gray-300 text-gray-600"
+              }`}
+              title={option.title}
+              aria-pressed={settings.fontSize === option.value}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Contrast */}
+      <div>
+        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">
+          Kontrast
+        </label>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setSettings({ ...settings, contrast: "normal" })}
+            className={`flex-1 py-2 rounded-lg border-2 transition text-sm font-medium ${
+              settings.contrast === "normal"
+                ? "border-[#A68A75] bg-[#F5F0EB] text-[#A68A75]"
+                : "border-gray-200 hover:border-gray-300 text-gray-600"
+            }`}
+            aria-pressed={settings.contrast === "normal"}
+          >
+            Normal
+          </button>
+          <button
+            onClick={() => setSettings({ ...settings, contrast: "high" })}
+            className={`flex-1 py-2 rounded-lg border-2 transition text-sm font-medium ${
+              settings.contrast === "high"
+                ? "border-[#A68A75] bg-[#F5F0EB] text-[#A68A75]"
+                : "border-gray-200 hover:border-gray-300 text-gray-600"
+            }`}
+            aria-pressed={settings.contrast === "high"}
+          >
+            Hoch
+          </button>
+        </div>
+      </div>
+
+      {/* Toggle Options */}
+      <div className="space-y-2">
+        <button
+          onClick={() => setSettings({ ...settings, invert: !settings.invert })}
+          className={`w-full py-2 px-3 rounded-lg border-2 transition text-sm font-medium flex items-center justify-between ${
+            settings.invert
+              ? "border-[#A68A75] bg-[#F5F0EB] text-[#A68A75]"
+              : "border-gray-200 hover:border-gray-300 text-gray-600"
+          }`}
+          aria-pressed={settings.invert}
+        >
+          <span>Farben invertieren</span>
+          <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+            settings.invert ? "bg-[#A68A75] border-[#A68A75]" : "border-gray-300"
+          }`}>
+            {settings.invert && <span className="material-icons text-white text-xs" aria-hidden="true">check</span>}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setSettings({ ...settings, grayscale: !settings.grayscale })}
+          className={`w-full py-2 px-3 rounded-lg border-2 transition text-sm font-medium flex items-center justify-between ${
+            settings.grayscale
+              ? "border-[#A68A75] bg-[#F5F0EB] text-[#A68A75]"
+              : "border-gray-200 hover:border-gray-300 text-gray-600"
+          }`}
+          aria-pressed={settings.grayscale}
+        >
+          <span>Graustufen (Farbenblindheit)</span>
+          <span className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
+            settings.grayscale ? "bg-[#A68A75] border-[#A68A75]" : "border-gray-300"
+          }`}>
+            {settings.grayscale && <span className="material-icons text-white text-xs" aria-hidden="true">check</span>}
+          </span>
+        </button>
+      </div>
+
+      {/* Reset Button - immer sichtbar für konstante Höhe */}
+      <button
+        onClick={resetSettings}
+        disabled={!hasChanges}
+        className={`w-full py-2 text-sm transition flex items-center justify-center gap-1 ${
+          hasChanges
+            ? "text-gray-500 hover:text-gray-700"
+            : "text-transparent pointer-events-none"
+        }`}
+      >
+        <span className="material-icons text-sm" aria-hidden="true">refresh</span>
+        Zurücksetzen
+      </button>
+    </div>
+  );
+}
 
 function FAQAccordion() {
   const [openItems, setOpenItems] = useState<string[]>([]);
@@ -345,14 +521,13 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       title: "Barrierefreiheit",
       content: (
         <>
-          <p className="mb-4 text-lg">
+          <p className="mb-6 text-gray-600">
             Diese Website ist <strong>vollständig barrierefrei</strong> und erfüllt die Anforderungen
             der Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.
           </p>
 
-          <p className="text-gray-600">
-            Alle Inhalte sind für Menschen mit Behinderungen uneingeschränkt zugänglich.
-          </p>
+          <h3 className="font-semibold text-lg mb-4">Ansicht anpassen</h3>
+          <AccessibilitySettings />
         </>
       ),
     },
