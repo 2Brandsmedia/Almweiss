@@ -32,12 +32,12 @@ export default function CookieConsent() {
 
   return (
     <>
-      {/* Cookie Banner - unten links, nicht blockierend */}
+      {/* Cookie Banner - mittig unten, pulsierend für Aufmerksamkeit */}
       {!hasConsent && (
         <aside
           role="region"
           aria-label="Cookie-Hinweis"
-          className="fixed bottom-4 left-4 z-[200] max-w-sm w-[calc(100%-2rem)] md:w-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-5 animate-in slide-in-from-bottom-4 duration-500"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] max-w-md w-[calc(100%-2rem)] bg-white rounded-2xl border-2 border-[#A68A75] p-6 animate-in slide-in-from-bottom-4 duration-500 animate-cookie-glow"
         >
           <div className="flex items-start gap-3 mb-3">
             <span className="material-icons text-[#A68A75] text-2xl flex-shrink-0" aria-hidden="true">cookie</span>
