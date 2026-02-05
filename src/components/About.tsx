@@ -1,11 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 export default function About() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax for images
+  const y1 = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const y1Spring = useSpring(y1, springConfig);
+  const y2Spring = useSpring(y2, springConfig);
+
   return (
-    <section className="py-24 bg-white overflow-hidden" id="location">
+    <section ref={sectionRef} className="py-24 bg-white overflow-hidden" id="location">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
@@ -63,24 +78,26 @@ export default function About() {
           <div className="order-1 lg:order-2 relative">
             <div className="grid grid-cols-2 gap-4">
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
+                style={{ y: y1Spring }}
               >
                 <Image
                   src="/images/wedding-2.webp"
                   alt="Brautpaar bei der Hochzeit"
                   width={400}
                   height={320}
-                  className="rounded-lg shadow-xl w-full h-80 object-cover transform translate-y-8 object-[calc(50%-80px)_center] md:object-center"
+                  className="rounded-lg shadow-xl w-full h-80 object-cover object-[calc(50%-80px)_center] md:object-center"
                 />
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: -40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+                style={{ y: y2Spring }}
               >
                 <Image
                   src="/images/couple-smoke.webp"

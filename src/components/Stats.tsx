@@ -10,8 +10,12 @@ const stats = [
   { value: 100, suffix: "%", label: "Alles aus eigener Hand", duration: 2500 },
 ];
 
+// Easing function for smooth animation
+const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
+
 function Counter({ value, suffix, duration }: { value: number; suffix: string; duration: number }) {
-  const [count, setCount] = useState(0);
+  const startPercent = 0.90; // Start at 90% of the value
+  const [count, setCount] = useState(Math.floor(value * startPercent));
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -37,15 +41,22 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
 
     let startTime: number;
     const isDecimal = value % 1 !== 0;
+    const startValue = value * startPercent;
+    const remainingValue = value - startValue;
 
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const currentValue = progress * value;
+      const linearProgress = Math.min((timestamp - startTime) / duration, 1);
+      // Apply easing for smoother animation
+      const easedProgress = easeOutCubic(linearProgress);
+      const currentValue = startValue + (easedProgress * remainingValue);
       setCount(isDecimal ? Math.round(currentValue * 10) / 10 : Math.floor(currentValue));
 
-      if (progress < 1) {
+      if (linearProgress < 1) {
         requestAnimationFrame(step);
+      } else {
+        // Ensure we end exactly on the target value
+        setCount(value);
       }
     };
 
