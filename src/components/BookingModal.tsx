@@ -756,16 +756,29 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                       delay: 0.05
                     }
                   }}
-                  className="bg-[#F5F0EB] rounded-lg p-4 mt-6"
+                  className="bg-[#F5F0EB] rounded-lg p-4"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 mt-0.5">
                       <div className="w-12 h-12 rounded-lg flex items-center justify-center relative">
                         {/* Countdown background */}
-                        <div
+                        <motion.div
                           className={`absolute inset-0 rounded-lg transition-colors duration-500 ${
-                            countdown > 0 ? "bg-gray-300" : fullServiceConfirmed ? "bg-[#A68A75]" : "bg-white border-2 border-gray-300"
+                            countdown > 0 ? "bg-gray-300" : fullServiceConfirmed ? "bg-[#A68A75]" : "bg-white border-2 border-[#A68A75]"
                           }`}
+                          animate={countdown === 0 && !fullServiceConfirmed ? {
+                            scale: [1, 1.08, 1],
+                            boxShadow: [
+                              "0 0 0 0 rgba(166, 138, 117, 0)",
+                              "0 0 0 8px rgba(166, 138, 117, 0.3)",
+                              "0 0 0 0 rgba(166, 138, 117, 0)"
+                            ]
+                          } : {}}
+                          transition={countdown === 0 && !fullServiceConfirmed ? {
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          } : {}}
                         />
                         {/* Countdown number or checkbox */}
                         {countdown > 0 ? (
