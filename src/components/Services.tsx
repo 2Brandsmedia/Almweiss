@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 const reviews = [
   // Neueste Bewertungen (2026)
@@ -204,6 +205,9 @@ export default function Services() {
     reviewName: "",
     reviewDate: "",
   });
+
+  // Focus Trap für Bild-Modal (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(modal.isOpen);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -422,6 +426,7 @@ export default function Services() {
       {/* Einfaches Bild-Modal */}
       {modal.isOpen && modal.images.length > 0 && (
         <div
+          ref={focusTrapRef}
           className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4"
           onClick={closeModal}
           role="dialog"

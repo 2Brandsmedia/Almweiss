@@ -4,12 +4,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import LegalModals from "./LegalModals";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
 
 export default function Footer() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [showDevModal, setShowDevModal] = useState(false);
+
+  // Focus Trap für Developer-Modal (WCAG 2.1)
+  const devModalFocusTrapRef = useFocusTrap(showDevModal);
 
   return (
     <>
@@ -197,6 +201,7 @@ export default function Footer() {
             aria-labelledby="dev-modal-title"
           >
             <motion.div
+              ref={devModalFocusTrapRef}
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}

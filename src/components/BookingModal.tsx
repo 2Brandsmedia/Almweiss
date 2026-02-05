@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { DatePickerInput } from "@mantine/dates";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 // Berechnet Ostersonntag für ein gegebenes Jahr (Gaußsche Osterformel)
 function getEasterSunday(year: number): Date {
@@ -172,6 +173,9 @@ function CustomDropdown({ label, placeholder, options, value, onChange, required
 }
 
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
+  // Focus Trap für Barrierefreiheit (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(isOpen);
+
   const [formData, setFormData] = useState({
     eventType: "",
     erwachsene: 40,
@@ -569,6 +573,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       aria-labelledby="booking-modal-title"
     >
       <div
+        ref={focusTrapRef}
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
         onClick={(e) => e.stopPropagation()}
       >

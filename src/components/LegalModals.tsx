@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq" | "cookies" | null;
 
@@ -301,6 +302,9 @@ interface LegalModalsProps {
 }
 
 export default function LegalModals({ activeModal, onClose }: LegalModalsProps) {
+  // Focus Trap für Barrierefreiheit (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(activeModal !== null);
+
   if (!activeModal) return null;
 
   const content = {
@@ -609,6 +613,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       aria-labelledby="legal-modal-title"
     >
       <div
+        ref={focusTrapRef}
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-3xl md:rounded-2xl overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >

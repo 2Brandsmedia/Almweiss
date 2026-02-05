@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 const galleryImages = [
   { src: "/images/wedding-1.webp", alt: "Brautpaar" },
@@ -22,6 +23,9 @@ const galleryImages = [
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Focus Trap für Lightbox-Modal (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(selectedIndex !== null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -141,6 +145,7 @@ export default function Gallery() {
       {/* Lightbox Modal */}
       {selectedIndex !== null && (
         <div
+          ref={focusTrapRef}
           className="fixed inset-0 z-[100] backdrop-blur-md bg-black/70 flex items-center justify-center"
           onClick={closeModal}
           role="dialog"

@@ -1,11 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export default function CookieConsent() {
   const [mounted, setMounted] = useState(false);
   const [consent, setConsent] = useState<string | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+
+  // Focus Trap für Cookie-Details-Modal (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(showDetails);
 
   useEffect(() => {
     setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect
@@ -65,6 +69,7 @@ export default function CookieConsent() {
           aria-labelledby="cookie-dialog-title"
         >
           <div
+            ref={focusTrapRef}
             className="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
