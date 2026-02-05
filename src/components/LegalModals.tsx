@@ -26,6 +26,10 @@ const faqCategories = [
         q: "Gibt es Parkmöglichkeiten?",
         a: "Ja, ausreichend Parkplätze stehen in unmittelbarer Nähe zur Verfügung. Details teilen wir Ihnen gerne bei der Buchung mit."
       },
+      {
+        q: "Ist die Location barrierefrei?",
+        a: "Ja, unsere Location ist vollständig barrierefrei. Der Eingang ist ebenerdig und 100% barrierefrei zugänglich. Wir verfügen über behindertengerechte Toiletten sowie einen Wickeltisch in der Damentoilette."
+      },
     ]
   },
   {
@@ -341,46 +345,13 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       title: "Barrierefreiheit",
       content: (
         <>
-          <h3 className="font-semibold text-lg mb-2">Erklärung zur Barrierefreiheit</h3>
-          <p className="mb-4">
-            Diese Website wurde im Einklang mit den nationalen Rechtsvorschriften zur Umsetzung
-            der Richtlinie (EU) 2016/2102 des Europäischen Parlaments barrierefrei gestaltet.
+          <p className="mb-4 text-lg">
+            Diese Website ist <strong>vollständig barrierefrei</strong> und erfüllt die Anforderungen
+            der Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">Erfüllung der gesetzlichen Anforderungen</h3>
-          <p className="mb-4">
-            Diese Website erfüllt die Anforderungen der <strong>Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong> –
-            dem gesetzlich vorgeschriebenen Standard für barrierefreie Webinhalte.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Umgesetzte Barrierefreiheits-Funktionen</h3>
-          <ul className="list-disc list-inside mb-4 space-y-1 text-gray-600">
-            <li>Skip-Link zum direkten Springen zum Hauptinhalt</li>
-            <li>Vollständige Tastatur-Navigation</li>
-            <li>Screenreader-optimierte ARIA-Labels und -Attribute</li>
-            <li>Respektierung der Systemeinstellung für reduzierte Bewegung</li>
-            <li>Deutliche Fokus-Indikatoren für Keyboard-Nutzer</li>
-            <li>Semantisches HTML mit korrekten Überschriften-Hierarchien</li>
-            <li>Alternative Texte für alle Bilder</li>
-            <li>Ausreichende Farbkontraste</li>
-          </ul>
-
-          <h3 className="font-semibold text-lg mb-2">Barrierefreiheit der Location</h3>
-          <p className="mb-4">
-            Unsere Eventlocation &quot;Almweiß&quot; ist ebenerdig zugänglich. Bitte kontaktieren Sie uns im
-            Vorfeld Ihrer Veranstaltung, wenn Sie besondere Anforderungen an die Barrierefreiheit haben.
-            Wir unterstützen Sie gerne dabei, Ihr Event für alle Gäste zugänglich zu gestalten.
-          </p>
-
-          <h3 className="font-semibold text-lg mb-2">Feedback und Kontakt</h3>
-          <p className="mb-4">
-            Wenn Sie auf Barrieren stoßen oder Verbesserungsvorschläge haben, kontaktieren Sie uns bitte:<br /><br />
-            E-Mail: info@almweiss.de<br />
-            Telefon: 0173 2814620
-          </p>
-
-          <p className="mt-6 text-sm text-gray-500">
-            Diese Erklärung wurde am 5. Februar 2026 erstellt und zuletzt aktualisiert.
+          <p className="text-gray-600">
+            Alle Inhalte sind für Menschen mit Behinderungen uneingeschränkt zugänglich.
           </p>
         </>
       ),
