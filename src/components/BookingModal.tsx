@@ -193,6 +193,8 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [fullServiceConfirmed, setFullServiceConfirmed] = useState(false);
   const [countdown, setCountdown] = useState(10);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const prevIsOpenRef = useRef(false);
   const prevFieldsCompleteRef = useRef(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -369,21 +371,195 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setFormData((prev) => ({ ...prev, erwachsene: clamped }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isFormValid) return;
+    if (!isFormValid || isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    // Simulate API call - replace with actual email sending
+    await new Promise(resolve => setTimeout(resolve, 800));
+
     console.log("Form submitted:", formData);
-    // TODO: Send to backend
+    // TODO: Send to backend/email service
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
+  // Get display name based on anrede (nur Nachname)
+  const getDisplayName = () => {
+    if (formData.anrede === "firma") {
+      return formData.ansprechpartnerNachname;
+    }
+    return formData.nachname;
+  };
+
+  // Event-Typ für Anzeige
+  const getEventTypeLabel = () => {
+    switch (formData.eventType) {
+      case "hochzeit": return "Hochzeit";
+      case "geburtstag": return "Geburtstag";
+      case "firmenevent": return "Firmenevent";
+      case "sonstiges": return "Sonstiges";
+      default: return formData.eventType;
+    }
+  };
+
+  const getAnredeText = () => {
+    switch (formData.anrede) {
+      case "herr": return "Herr";
+      case "frau": return "Frau";
+      case "firma": return "";
+      default: return "";
+    }
+  };
+
+  const handleClose = () => {
+    // Reset all states when closing
+    if (isSubmitted) {
+      setIsSubmitted(false);
+      setFormData({
+        eventType: "",
+        erwachsene: 40,
+        kinder: 0,
+        anrede: "",
+        firmenname: "",
+        ansprechpartnerVorname: "",
+        ansprechpartnerNachname: "",
+        vorname: "",
+        nachname: "",
+        email: "",
+        telefon: "",
+        nachricht: "",
+      });
+      setWunschtermin(null);
+      setAlternativDatum(null);
+      setFullServiceConfirmed(false);
+      setCountdown(10);
+    }
     onClose();
   };
 
   if (!isOpen) return null;
 
+  // Success/Thank You Screen
+  if (isSubmitted) {
+    return (
+      <div
+        className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
+        style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
+        onClick={handleClose}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+          className="bg-white w-full h-full md:h-auto md:max-w-lg md:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 text-center">
+            {/* Success Icon */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="w-20 h-20 bg-[#A68A75] rounded-full flex items-center justify-center mb-6"
+            >
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="material-icons text-white text-4xl"
+              >
+                check
+              </motion.span>
+            </motion.div>
+
+            {/* Thank You Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Vielen Dank{getAnredeText() ? `, ${getAnredeText()}` : ""} {getDisplayName()}!
+              </h2>
+              <p className="text-gray-600 mb-6 leading-relaxed max-w-md">
+                Ihre Anfrage ist bei uns eingegangen. Wir melden uns schnellstmöglich bei Ihnen, um alle Details zu besprechen.
+              </p>
+
+              {/* Booking Summary */}
+              <div className="bg-[#F5F0EB] rounded-lg p-4 mb-6 text-left w-full max-w-sm">
+                {wunschtermin && (
+                  <p className="text-sm text-gray-600 mb-1">
+                    <span className="font-semibold text-[#A68A75]">Wunschtermin:</span>{" "}
+                    {new Date(wunschtermin).toLocaleDateString("de-DE", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric"
+                    })}
+                  </p>
+                )}
+                {alternativDatum && (
+                  <p className="text-sm text-gray-600 mb-1">
+                    <span className="font-semibold text-[#A68A75]">Alternativtermin:</span>{" "}
+                    {new Date(alternativDatum).toLocaleDateString("de-DE", {
+                      weekday: "long",
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric"
+                    })}
+                  </p>
+                )}
+                <p className="text-sm text-gray-600 mb-1">
+                  <span className="font-semibold text-[#A68A75]">Veranstaltung:</span>{" "}
+                  {getEventTypeLabel()}
+                </p>
+                <p className="text-sm text-gray-600">
+                  <span className="font-semibold text-[#A68A75]">Gäste:</span>{" "}
+                  {formData.erwachsene} Erwachsene{formData.kinder > 0 && `, ${formData.kinder} Kinder`}
+                </p>
+              </div>
+
+              <p className="text-gray-500 text-sm mb-8">
+                Eine Bestätigung wurde an <span className="font-semibold">{formData.email}</span> gesendet.
+              </p>
+            </motion.div>
+
+            {/* Close Button */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              onClick={handleClose}
+              className="bg-[#A68A75] text-white px-8 py-3 rounded-full font-semibold uppercase tracking-wider hover:bg-[#8B7362] transition-colors"
+            >
+              Schließen
+            </motion.button>
+
+            {/* Signature */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="mt-8 pt-6 border-t border-gray-200"
+            >
+              <p className="text-gray-600 italic text-sm">Wir freuen uns auf Sie!</p>
+              <p className="text-[#A68A75] font-semibold text-sm mt-1">Ihr Hermann Seul</p>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
@@ -423,7 +599,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               Wunschtermin sichern
             </h2>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
             >
               <span className="material-icons text-gray-500">close</span>
@@ -432,7 +608,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
           {/* Form - scrollable content */}
           <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-          <div ref={scrollContainerRef} className="p-6 space-y-6 flex-1 overflow-y-auto scroll-smooth">
+          <div ref={scrollContainerRef} className="p-6 space-y-2 flex-1 overflow-y-auto scroll-smooth">
 
           {/* Mobile: Image & Text - scrollbar */}
           <div className="md:hidden bg-[#F5F0EB] rounded-lg p-5 -mt-2 mb-2">
@@ -743,7 +919,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     opacity: { duration: 0.2 }
                   }
                 }}
-                className="overflow-hidden"
+                className="overflow-hidden -mt-2"
               >
                 <motion.div
                   initial={{ y: 10, opacity: 0 }}
@@ -767,15 +943,10 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                             countdown > 0 ? "bg-gray-300" : fullServiceConfirmed ? "bg-[#A68A75]" : "bg-white border-2 border-[#A68A75]"
                           }`}
                           animate={countdown === 0 && !fullServiceConfirmed ? {
-                            scale: [1, 1.08, 1],
-                            boxShadow: [
-                              "0 0 0 0 rgba(166, 138, 117, 0)",
-                              "0 0 0 8px rgba(166, 138, 117, 0.3)",
-                              "0 0 0 0 rgba(166, 138, 117, 0)"
-                            ]
+                            scale: [1, 1.05, 1],
                           } : {}}
                           transition={countdown === 0 && !fullServiceConfirmed ? {
-                            duration: 1.5,
+                            duration: 1.2,
                             repeat: Infinity,
                             ease: "easeInOut"
                           } : {}}
@@ -795,7 +966,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                           <button
                             type="button"
                             onClick={() => setFullServiceConfirmed(!fullServiceConfirmed)}
-                            className="absolute inset-0 rounded-lg flex items-center justify-center hover:scale-105 transition-transform"
+                            className="absolute inset-0 rounded-lg flex items-center justify-center hover:scale-105 transition-transform outline-none focus:outline-none"
                           >
                             <AnimatePresence>
                               {fullServiceConfirmed && (
@@ -817,20 +988,15 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     <div className="flex-1">
                       <p className="text-sm text-gray-700 leading-relaxed">
                         <strong>Wichtiger Hinweis:</strong> Almweiß bietet ausschließlich ein Full-Service-Paket an.
-                        Die Location wird <strong>nicht</strong> ohne Service vermietet. Im Paket enthalten sind: Personal
-                        und Catering (Essen & Getränke). Mit dem Anklicken dieser Checkbox bestätige ich,
-                        dass ich dies zur Kenntnis genommen habe und damit einverstanden bin.
+                        Im Paket enthalten sind immer mindestens: Personal und Catering (Essen & Getränke).
+                        Eine reine Vermietung des Raums ohne diese Services ist nicht möglich.
+                        Mit dem Anklicken dieser Checkbox bestätige ich, dass ich dies zur Kenntnis genommen habe und damit einverstanden bin.
                       </p>
-                      {/* Fixed height container for countdown text to prevent layout shift */}
-                      <div className="h-5 mt-2">
-                        <p
-                          className={`text-xs text-gray-500 transition-opacity duration-300 ${
-                            countdown > 0 ? "opacity-100" : "opacity-0"
-                          }`}
-                        >
+                      {countdown > 0 && (
+                        <p className="text-xs text-gray-500 mt-2">
                           Bitte lesen Sie den Hinweis. Bestätigung möglich in {countdown} Sekunden...
                         </p>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>
@@ -845,14 +1011,26 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             <div className="bg-white border-t border-gray-100 px-6 py-4 flex-shrink-0">
               <button
                 type="submit"
-                disabled={!isFormValid}
-                className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition shadow-lg ${
-                  isFormValid
-                    ? "bg-[#A68A75] text-white hover:bg-opacity-90 cursor-pointer"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                disabled={!isFormValid || isSubmitting}
+                className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition-all duration-500 flex items-center justify-center gap-2 ${
+                  isFormValid && !isSubmitting
+                    ? "bg-[#A68A75] text-white cursor-pointer shadow-lg shadow-[#A68A75]/40"
+                    : isSubmitting
+                    ? "bg-[#A68A75] text-white cursor-wait shadow-lg shadow-[#A68A75]/40"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none"
                 }`}
               >
-                Anfrage absenden
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Wird gesendet...
+                  </>
+                ) : (
+                  "Anfrage absenden"
+                )}
               </button>
 
               <p className="text-xs text-gray-500 text-center mt-3">
@@ -874,14 +1052,26 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 >
                   <button
                     type="submit"
-                    disabled={!isFormValid}
-                    className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition shadow-lg ${
-                      isFormValid
-                        ? "bg-[#A68A75] text-white hover:bg-opacity-90 cursor-pointer"
-                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    disabled={!isFormValid || isSubmitting}
+                    className={`w-full py-4 rounded-full font-semibold uppercase tracking-wider transition-all duration-500 flex items-center justify-center gap-2 ${
+                      isFormValid && !isSubmitting
+                        ? "bg-[#A68A75] text-white cursor-pointer shadow-lg shadow-[#A68A75]/40"
+                        : isSubmitting
+                        ? "bg-[#A68A75] text-white cursor-wait shadow-lg shadow-[#A68A75]/40"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none"
                     }`}
                   >
-                    Anfrage absenden
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Wird gesendet...
+                      </>
+                    ) : (
+                      "Anfrage absenden"
+                    )}
                   </button>
 
                   <p className="text-xs text-gray-500 text-center mt-3">
