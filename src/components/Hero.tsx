@@ -1,36 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { YouTubeEmbed } from "@next/third-parties/google";
 import { useBooking } from "@/context/BookingContext";
 import { useCookieConsent } from "@/context/CookieContext";
-
-declare global {
-  interface Window {
-    YT: {
-      Player: new (
-        elementId: string,
-        config: {
-          events: {
-            onReady: (event: { target: YouTubePlayer }) => void;
-          };
-        }
-      ) => YouTubePlayer;
-    };
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
-
-interface YouTubePlayer {
-  playVideo: () => void;
-  pauseVideo: () => void;
-}
 
 export default function Hero() {
   const [showVideo, setShowVideo] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const playerRef = useRef<YouTubePlayer | null>(null);
   const { openModal } = useBooking();
   const { hasFullConsent, openConsentModal } = useCookieConsent();
 
@@ -43,51 +22,20 @@ export default function Hero() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Load YouTube API only with consent
-  useEffect(() => {
-    if (!hasFullConsent) return;
-
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-
-    window.onYouTubeIframeAPIReady = () => {
-      playerRef.current = new window.YT.Player('bg-video', {
-        events: {
-          onReady: (event) => {
-            event.target.playVideo();
-          },
-        },
-      });
-    };
-  }, [hasFullConsent]);
-
-  useEffect(() => {
-    if (playerRef.current) {
-      if (showVideo) {
-        playerRef.current.pauseVideo();
-      } else {
-        playerRef.current.playVideo();
-      }
-    }
-  }, [showVideo]);
-
   return (
     <header className="hero-section relative flex items-center justify-center overflow-hidden bg-black">
       {/* Background - YouTube wenn Consent, sonst statisches Bild */}
       <div className="hero-video-container absolute z-0 overflow-hidden bg-black">
         {hasFullConsent ? (
-          // YouTube Video Background (nur mit Consent)
+          // YouTube Video Background mit @next/third-parties (optimiert)
           <div className="absolute inset-0 overflow-hidden grayscale">
-            <iframe
-              id="bg-video"
-              className="hero-video-bg pointer-events-none"
-              src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
-              allow="autoplay; encrypted-media"
-              tabIndex={-1}
-              aria-hidden="true"
-            />
+            <div className="hero-video-bg pointer-events-none">
+              <YouTubeEmbed
+                videoid="dLiXD3dJNLg"
+                params="autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                style="width: 100%; height: 100%;"
+              />
+            </div>
           </div>
         ) : (
           // Statisches Hintergrundbild (ohne Consent)
@@ -214,12 +162,10 @@ export default function Hero() {
           >
             <span className="material-icons text-lg" aria-hidden="true">close</span>
           </button>
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&rel=0&modestbranding=1"
-            allow="autoplay; encrypted-media; fullscreen"
-            allowFullScreen
-            title="YouTube Video: Almweiß Hochzeitslocation Präsentation"
+          <YouTubeEmbed
+            videoid="dLiXD3dJNLg"
+            params="autoplay=1&rel=0&modestbranding=1"
+            style="width: 100%; height: 100%;"
           />
         </div>
       )}

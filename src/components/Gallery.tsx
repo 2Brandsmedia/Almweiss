@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
@@ -56,19 +56,23 @@ export default function Gallery() {
     setSelectedIndex(globalIndex);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedIndex(null);
-  };
+  }, []);
 
-  const goToPrevious = () => {
-    if (selectedIndex === null) return;
-    setSelectedIndex(selectedIndex === 0 ? galleryImages.length - 1 : selectedIndex - 1);
-  };
+  const goToPrevious = useCallback(() => {
+    setSelectedIndex(prev => {
+      if (prev === null) return null;
+      return prev === 0 ? galleryImages.length - 1 : prev - 1;
+    });
+  }, []);
 
-  const goToNext = () => {
-    if (selectedIndex === null) return;
-    setSelectedIndex(selectedIndex === galleryImages.length - 1 ? 0 : selectedIndex + 1);
-  };
+  const goToNext = useCallback(() => {
+    setSelectedIndex(prev => {
+      if (prev === null) return null;
+      return prev === galleryImages.length - 1 ? 0 : prev + 1;
+    });
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -81,7 +85,7 @@ export default function Gallery() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedIndex]);
+  }, [selectedIndex, goToPrevious, goToNext, closeModal]);
 
   return (
     <>

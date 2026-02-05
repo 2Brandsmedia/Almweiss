@@ -6,190 +6,17 @@ import { DatePickerInput } from "@mantine/dates";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
-// Berechnet Ostersonntag für ein gegebenes Jahr (Gaußsche Osterformel)
-function getEasterSunday(year: number): Date {
-  const a = year % 19;
-  const b = Math.floor(year / 100);
-  const c = year % 100;
-  const d = Math.floor(b / 4);
-  const e = b % 4;
-  const f = Math.floor((b + 8) / 25);
-  const g = Math.floor((b - f + 1) / 3);
-  const h = (19 * a + b - d - g + 15) % 30;
-  const i = Math.floor(c / 4);
-  const k = c % 4;
-  const l = (32 + 2 * e + 2 * i - h - k) % 7;
-  const m = Math.floor((a + 11 * h + 22 * l) / 451);
-  const month = Math.floor((h + l - 7 * m + 114) / 31);
-  const day = ((h + l - 7 * m + 114) % 31) + 1;
-  return new Date(year, month - 1, day);
-}
-
-// Hilfsfunktion: Datum + Tage
-function addDays(date: Date, days: number): Date {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
-}
-
-// Feiertage für NRW (Nordrhein-Westfalen) + Karneval
-function getHolidaysNRW(year: number): { date: Date; name: string }[] {
-  const easter = getEasterSunday(year);
-  const holidays: { date: Date; name: string }[] = [];
-
-  // Feste Feiertage
-  holidays.push({ date: new Date(year, 0, 1), name: "Neujahr" });
-  holidays.push({ date: new Date(year, 4, 1), name: "Tag der Arbeit" });
-  holidays.push({ date: new Date(year, 9, 3), name: "Tag der Deutschen Einheit" });
-  holidays.push({ date: new Date(year, 10, 1), name: "Allerheiligen" }); // NRW
-  holidays.push({ date: new Date(year, 11, 25), name: "1. Weihnachtstag" });
-  holidays.push({ date: new Date(year, 11, 26), name: "2. Weihnachtstag" });
-
-  // Karneval (basierend auf Ostern)
-  // Rosenmontag = Ostersonntag - 48 Tage
-  // Weiberfastnacht = Rosenmontag - 4 Tage (Donnerstag)
-  // Karnevalssamstag = Rosenmontag - 2 Tage
-  holidays.push({ date: addDays(easter, -52), name: "Weiberfastnacht" });
-  holidays.push({ date: addDays(easter, -50), name: "Karnevalssamstag" });
-  holidays.push({ date: addDays(easter, -48), name: "Rosenmontag" });
-
-  // Gesetzliche Feiertage (basierend auf Ostern)
-  holidays.push({ date: addDays(easter, -2), name: "Karfreitag" });
-  holidays.push({ date: addDays(easter, 1), name: "Ostermontag" });
-  holidays.push({ date: addDays(easter, 39), name: "Christi Himmelfahrt" });
-  holidays.push({ date: addDays(easter, 50), name: "Pfingstmontag" });
-  holidays.push({ date: addDays(easter, 60), name: "Fronleichnam" }); // NRW
-
-  return holidays;
-}
-
-// Alle Feiertage für die nächsten 5 Jahre
-function getAllHolidays(): Map<string, string> {
-  const holidayMap = new Map<string, string>();
-  const currentYear = new Date().getFullYear();
-
-  for (let year = currentYear; year <= currentYear + 5; year++) {
-    const holidays = getHolidaysNRW(year);
-    for (const holiday of holidays) {
-      const key = `${holiday.date.getFullYear()}-${holiday.date.getMonth()}-${holiday.date.getDate()}`;
-      holidayMap.set(key, holiday.name);
-    }
-  }
-
-  return holidayMap;
-}
-
-interface BookingModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-// Custom Dropdown Komponente
-interface DropdownOption {
-  value: string;
-  label: string;
-}
-
-interface CustomDropdownProps {
-  label: string;
-  placeholder: string;
-  options: DropdownOption[];
-  value: string;
-  onChange: (value: string) => void;
-  required?: boolean;
-}
-
-function CustomDropdown({ label, placeholder, options, value, onChange, required }: CustomDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const selectedOption = options.find(opt => opt.value === value);
-
-  // Schließen wenn außerhalb geklickt
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  return (
-    <div ref={dropdownRef} className="relative">
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
-        {label} {required && "*"}
-      </label>
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-3 border rounded-lg text-left flex items-center justify-between transition text-base ${
-          isOpen
-            ? "border-[#A68A75] ring-2 ring-[#A68A75]"
-            : "border-gray-300 hover:border-gray-400"
-        } ${selectedOption ? "text-gray-900" : "text-gray-400"}`}
-      >
-        <span>{selectedOption ? selectedOption.label : placeholder}</span>
-        <span className={`material-icons text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden="true">
-          expand_more
-        </span>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15 }}
-            className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
-          >
-            {options.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => {
-                  onChange(option.value);
-                  setIsOpen(false);
-                }}
-                className={`w-full px-4 py-3 text-left transition flex items-center justify-between ${
-                  option.value === value
-                    ? "bg-[#F5F0EB] text-[#A68A75] font-semibold"
-                    : "hover:bg-gray-50 text-gray-700"
-                }`}
-              >
-                <span>{option.label}</span>
-                {option.value === value && (
-                  <span className="material-icons text-[#A68A75] text-lg" aria-hidden="true">check</span>
-                )}
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+// Ausgelagerte Komponenten und Utils
+import CustomDropdown from "./booking/components/CustomDropdown";
+import BookingSuccess from "./booking/components/BookingSuccess";
+import { getAllHolidays, getHolidayName, getDayPropsForHolidays } from "./booking/utils/holidays";
+import { type BookingFormData, type BookingModalProps, initialFormData } from "./booking/types";
 
 export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   // Focus Trap für Barrierefreiheit (WCAG 2.1)
   const focusTrapRef = useFocusTrap(isOpen);
 
-  const [formData, setFormData] = useState({
-    eventType: "",
-    erwachsene: 40,
-    kinder: 0,
-    anrede: "",
-    firmenname: "",
-    ansprechpartnerVorname: "",
-    ansprechpartnerNachname: "",
-    vorname: "",
-    nachname: "",
-    email: "",
-    telefon: "",
-    nachricht: "",
-  });
+  const [formData, setFormData] = useState<BookingFormData>(initialFormData);
 
   const [wunschtermin, setWunschtermin] = useState<Date | null>(null);
   const [alternativDatum, setAlternativDatum] = useState<Date | null>(null);
@@ -233,34 +60,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   // getDayProps für Feiertage-Markierung (dezente blaue Schraffur)
   const getDayProps = useCallback((dateStr: string) => {
-    const date = new Date(dateStr);
-    const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-    const holidayName = holidays.get(key);
-
-    if (holidayName) {
-      return {
-        style: {
-          background: "repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(59, 130, 246, 0.1) 4px, rgba(59, 130, 246, 0.1) 6px)",
-          borderRadius: "4px",
-        },
-        title: holidayName,
-      };
-    }
-    return {};
+    return getDayPropsForHolidays(dateStr, holidays);
   }, [holidays]);
 
-  // Prüfen ob ausgewähltes Datum ein Feiertag ist
-  const getHolidayName = useCallback((date: Date | null) => {
-    if (!date) return null;
-    // Sicherstellen, dass wir ein Date-Objekt haben
-    const dateObj = date instanceof Date ? date : new Date(date);
-    if (isNaN(dateObj.getTime())) return null;
-    const key = `${dateObj.getFullYear()}-${dateObj.getMonth()}-${dateObj.getDate()}`;
-    return holidays.get(key) || null;
-  }, [holidays]);
-
-  const wunschterminHoliday = wunschtermin ? getHolidayName(wunschtermin) : null;
-  const alternativHoliday = alternativDatum ? getHolidayName(alternativDatum) : null;
+  const wunschterminHoliday = getHolidayName(wunschtermin, holidays);
+  const alternativHoliday = getHolidayName(alternativDatum, holidays);
 
   // Wörter zählen in der Nachricht
   const wordCount = useMemo(() => {
@@ -391,34 +195,6 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setIsSubmitted(true);
   };
 
-  // Get display name based on anrede (nur Nachname)
-  const getDisplayName = () => {
-    if (formData.anrede === "firma") {
-      return formData.ansprechpartnerNachname;
-    }
-    return formData.nachname;
-  };
-
-  // Event-Typ für Anzeige
-  const getEventTypeLabel = () => {
-    switch (formData.eventType) {
-      case "hochzeit": return "Hochzeit";
-      case "geburtstag": return "Geburtstag";
-      case "firmenevent": return "Firmenevent";
-      case "sonstiges": return "Sonstiges";
-      default: return formData.eventType;
-    }
-  };
-
-  const getAnredeText = () => {
-    switch (formData.anrede) {
-      case "herr": return "Herr";
-      case "frau": return "Frau";
-      case "firma": return "";
-      default: return "";
-    }
-  };
-
   const handleClose = () => {
     // Reset all states when closing
     if (isSubmitted) {
@@ -447,119 +223,15 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   if (!isOpen) return null;
 
-  // Success/Thank You Screen
+  // Success/Thank You Screen - ausgelagerte Komponente
   if (isSubmitted) {
     return (
-      <div
-        className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
-        onClick={handleClose}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="success-title"
-      >
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
-          className="bg-white w-full h-full md:h-auto md:max-w-lg md:rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 text-center">
-            {/* Success Icon */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="w-20 h-20 bg-[#A68A75] rounded-full flex items-center justify-center mb-6"
-            >
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="material-icons text-white text-4xl"
-                aria-hidden="true"
-              >
-                check
-              </motion.span>
-            </motion.div>
-
-            {/* Thank You Text */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              <h2 id="success-title" className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Vielen Dank{getAnredeText() ? `, ${getAnredeText()}` : ""} {getDisplayName()}!
-              </h2>
-              <p className="text-gray-600 mb-6 leading-relaxed max-w-md">
-                Ihre Anfrage ist bei uns eingegangen. Wir melden uns schnellstmöglich bei Ihnen, um alle Details zu besprechen.
-              </p>
-
-              {/* Booking Summary */}
-              <div className="bg-[#F5F0EB] rounded-lg p-4 mb-6 text-left w-full max-w-sm">
-                {wunschtermin && (
-                  <p className="text-sm text-gray-600 mb-1">
-                    <span className="font-semibold text-[#A68A75]">Wunschtermin:</span>{" "}
-                    {new Date(wunschtermin).toLocaleDateString("de-DE", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric"
-                    })}
-                  </p>
-                )}
-                {alternativDatum && (
-                  <p className="text-sm text-gray-600 mb-1">
-                    <span className="font-semibold text-[#A68A75]">Alternativtermin:</span>{" "}
-                    {new Date(alternativDatum).toLocaleDateString("de-DE", {
-                      weekday: "long",
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric"
-                    })}
-                  </p>
-                )}
-                <p className="text-sm text-gray-600 mb-1">
-                  <span className="font-semibold text-[#A68A75]">Veranstaltung:</span>{" "}
-                  {getEventTypeLabel()}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-semibold text-[#A68A75]">Gäste:</span>{" "}
-                  {formData.erwachsene} Erwachsene{formData.kinder > 0 && `, ${formData.kinder} Kinder`}
-                </p>
-              </div>
-
-              <p className="text-gray-500 text-sm mb-8">
-                Eine Bestätigung wurde an <span className="font-semibold">{formData.email}</span> gesendet.
-              </p>
-            </motion.div>
-
-            {/* Close Button */}
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              onClick={handleClose}
-              className="bg-[#A68A75] text-white px-8 py-3 rounded-full font-semibold uppercase tracking-wider hover:bg-[#8B7362] transition-colors"
-            >
-              Schließen
-            </motion.button>
-
-            {/* Signature */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="mt-8 pt-6 border-t border-gray-200"
-            >
-              <p className="text-gray-600 italic text-sm">Wir freuen uns auf Sie!</p>
-              <p className="text-[#A68A75] font-semibold text-sm mt-1">Ihr Hermann Seul</p>
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
+      <BookingSuccess
+        formData={formData}
+        wunschtermin={wunschtermin}
+        alternativDatum={alternativDatum}
+        onClose={handleClose}
+      />
     );
   }
 

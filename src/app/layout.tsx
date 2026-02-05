@@ -17,15 +17,29 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://almweiss.de'),
   title: "Almweiß - Exklusive Hochzeits- & Eventlocation in Leverkusen",
   description: "Einzigartige Hochzeits- & Eventlocation in Leverkusen. Wo Eleganz auf Herzlichkeit trifft. Feiern Sie Ihren besonderen Tag bei Almweiß.",
   keywords: ["Hochzeitslocation", "Eventlocation", "Leverkusen", "Hochzeit", "Feier", "Almweiß"],
   authors: [{ name: "2Brands Media GmbH" }],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: "Almweiß - Exklusive Hochzeits- & Eventlocation",
     description: "Einzigartige Hochzeits- & Eventlocation in Leverkusen",
     type: "website",
     locale: "de_DE",
+    url: 'https://almweiss.de',
+    siteName: 'Almweiß',
+    images: [
+      {
+        url: '/images/hero-fallback.webp',
+        width: 1920,
+        height: 1080,
+        alt: 'Almweiß - Exklusive Eventlocation',
+      },
+    ],
   },
 };
 
@@ -44,6 +58,49 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* Material Icons werden lokal gehostet - siehe globals.css */}
+
+        {/* JSON-LD Structured Data für SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": ["LocalBusiness", "EventVenue"],
+              "name": "Almweiß",
+              "description": "Exklusive Hochzeits- & Eventlocation in Leverkusen. Wo Eleganz auf Herzlichkeit trifft.",
+              "url": "https://almweiss.de",
+              "telephone": "+49 173 2814620",
+              "email": "info@almweiss.de",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Robert-Blum-Straße 62",
+                "addressLocality": "Leverkusen",
+                "postalCode": "51373",
+                "addressCountry": "DE"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 51.052236,
+                "longitude": 7.004653
+              },
+              "priceRange": "€€€",
+              "image": "https://almweiss.de/images/hero-fallback.webp",
+              "sameAs": [],
+              "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                "opens": "09:00",
+                "closes": "22:00"
+              },
+              "amenityFeature": [
+                { "@type": "LocationFeatureSpecification", "name": "Parkplatz", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Barrierefreiheit", "value": true },
+                { "@type": "LocationFeatureSpecification", "name": "Catering", "value": true }
+              ],
+              "maximumAttendeeCapacity": 200
+            })
+          }}
+        />
       </head>
       <body className={`${cormorant.variable} ${lato.variable} antialiased`}>
         {/* Skip-Link für Keyboard-Navigation */}
