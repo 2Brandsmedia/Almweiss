@@ -38,7 +38,7 @@ export default function Footer() {
               <span className="font-display text-2xl font-bold tracking-widest uppercase mb-4 block">
                 Almweiß
               </span>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-300 text-sm leading-relaxed">
                 Exklusive Hochzeits- & Eventlocation in Leverkusen. Wo Träume wahr werden und Erinnerungen für die
                 Ewigkeit geschaffen werden.
               </p>
@@ -53,10 +53,10 @@ export default function Footer() {
                   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
                 }}
               >
-                <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
+                <h3 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                   Kontakt
-                </h4>
-                <ul className="space-y-3 text-xs md:text-sm text-gray-400">
+                </h3>
+                <ul className="space-y-3 text-xs md:text-sm text-gray-300">
                   <li>
                     Robert-Blum-Straße 62<br />
                     51373 Leverkusen
@@ -81,10 +81,10 @@ export default function Footer() {
                   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
                 }}
               >
-                <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
+                <h3 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                   Rechtliches
-                </h4>
-                <ul className="space-y-2 text-xs md:text-sm text-gray-400">
+                </h3>
+                <ul className="space-y-2 text-xs md:text-sm text-gray-300">
                   <li>
                     <button
                       onClick={() => setActiveModal("impressum")}
@@ -144,9 +144,9 @@ export default function Footer() {
                 visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
               }}
             >
-              <h4 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
+              <h3 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                 Anfahrt
-              </h4>
+              </h3>
               <div className="rounded-lg overflow-hidden h-[180px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.8574073648677!2d7.004653!3d51.052236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf2ea7404f50b5%3A0xc783cbb69125dad8!2sAlmwei%C3%9F!5e0!3m2!1sde!2sde!4v1706990000000!5m2!1sde!2sde"
@@ -156,7 +156,8 @@ export default function Footer() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Almweiß Location"
+                  title="Google Maps Karte: Almweiß Location, Robert-Blum-Straße 62, Leverkusen"
+                  aria-label="Google Maps Karte: Almweiß Location, Robert-Blum-Straße 62, Leverkusen"
                 />
               </div>
             </motion.div>
@@ -206,7 +207,7 @@ export default function Footer() {
               {/* Close Button */}
               <button
                 onClick={() => setShowDevModal(false)}
-                className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition z-10"
+                className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-300 hover:text-white transition z-10"
                 aria-label="Dialog schließen"
               >
                 <span className="material-icons text-xl" aria-hidden="true">close</span>
@@ -229,7 +230,7 @@ export default function Footer() {
                 </div>
 
                 {/* Slogan */}
-                <p className="text-base text-gray-400 text-center">
+                <p className="text-base text-gray-300 text-center">
                   Digitale Lösungen für die Welt
                 </p>
 

@@ -12,6 +12,7 @@ const RingsIcon = ({ className }: { className?: string }) => (
     strokeWidth="2"
     className={className}
     style={{ width: "1.5rem", height: "1.5rem" }}
+    aria-hidden="true"
   >
     <circle cx="9" cy="12" r="5" />
     <circle cx="15" cy="12" r="5" />

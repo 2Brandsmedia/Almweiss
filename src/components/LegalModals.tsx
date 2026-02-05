@@ -517,8 +517,9 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       content: (
         <>
           <p className="mb-6 text-gray-600">
-            Diese Website ist <strong>vollständig barrierefrei</strong> und erfüllt die Anforderungen
-            der Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.
+            Wir arbeiten kontinuierlich daran, diese Website barrierefrei zu gestalten und orientieren
+            uns an den Web Content Accessibility Guidelines (WCAG) 2.1. Sollten Sie auf Barrieren stoßen,
+            kontaktieren Sie uns gerne unter <a href="mailto:info@almweiss.de" className="text-[#A68A75] hover:underline">info@almweiss.de</a>.
           </p>
 
           <h3 className="font-semibold text-lg mb-4">Ansicht anpassen</h3>

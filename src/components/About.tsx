@@ -65,7 +65,7 @@ export default function About() {
             >
               <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">verified</span>
               <div>
-                <h4 className="font-bold text-gray-900">All Inclusive Service</h4>
+                <h3 className="font-bold text-gray-900">All Inclusive Service</h3>
                 <p className="text-sm text-gray-500">
                   Von Essen bis DJ erhalten Sie alles aus einer Hand.
                 </p>

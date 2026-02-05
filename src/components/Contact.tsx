@@ -231,7 +231,7 @@ export default function Contact() {
                 </>
               )}
             </button>
-            <p className="text-center mt-4 text-xs text-gray-400">
+            <p className="text-center mt-4 text-xs text-gray-500">
               Unverbindliche Anfrage. Wir melden uns innerhalb von 24h.
             </p>
           </form>

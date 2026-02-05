@@ -31,7 +31,11 @@ export default function CookieConsent() {
   return (
     <>
       {/* Cookie Banner */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 z-[200] max-w-xs w-[calc(100%-2rem)] md:w-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-5 animate-in slide-in-from-bottom-4 duration-500">
+      <aside
+        role="region"
+        aria-label="Cookie-Hinweis"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 z-[200] max-w-xs w-[calc(100%-2rem)] md:w-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-5 animate-in slide-in-from-bottom-4 duration-500"
+      >
         <p className="text-sm text-gray-700 leading-relaxed mb-4">
           Wir nutzen Cookies für ein optimales Erlebnis auf unserer Seite. <button onClick={() => setShowDetails(true)} className="text-[#A68A75] hover:underline">Mehr erfahren</button>
         </p>
@@ -49,7 +53,7 @@ export default function CookieConsent() {
             Akzeptieren
           </button>
         </div>
-      </div>
+      </aside>
 
       {/* Cookie Details Modal */}
       {showDetails && (
@@ -124,7 +128,7 @@ export default function CookieConsent() {
                 </p>
               </div>
 
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-500">
                 Stand: Februar 2026
               </p>
             </div>

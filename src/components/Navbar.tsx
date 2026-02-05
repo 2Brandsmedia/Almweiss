@@ -89,13 +89,12 @@ export default function Navbar() {
       />
 
       {/* Mobile Menu Slide-Out */}
-      <div
+      <nav
         id="mobile-menu"
-        role="menu"
-        aria-hidden={!isMenuOpen}
+        aria-label="Mobile Navigation"
         className={`lg:hidden fixed top-20 right-0 h-[calc(100vh-80px)] w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        } ${!isMenuOpen ? "invisible" : "visible"}`}
       >
         <div className="flex flex-col p-6">
           {navLinks.map((link) => (
@@ -118,7 +117,7 @@ export default function Navbar() {
             Termin anfragen
           </button>
         </div>
-      </div>
+      </nav>
     </nav>
   );
 }
