@@ -35,7 +35,8 @@ export default function CookieConsent() {
       {/* Dunkler Overlay - Website sichtbar aber abgedunkelt */}
       {!hasConsent && (
         <div
-          className="fixed inset-0 z-[199] bg-black/60 pointer-events-none"
+          className="fixed inset-0 z-[50]"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.65)' }}
           aria-hidden="true"
         />
       )}
