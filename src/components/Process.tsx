@@ -281,6 +281,7 @@ export default function Process() {
                   ) : (
                     <span
                       className={`material-icons text-2xl transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-400"}`}
+                      aria-hidden="true"
                     >
                       {step.icon}
                     </span>

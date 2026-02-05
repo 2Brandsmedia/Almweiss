@@ -12,7 +12,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#FAF9F6]">
+    <main id="main-content" className="min-h-screen bg-[#FAF9F6]">
       <Hero />
       <Stats />
       <About />

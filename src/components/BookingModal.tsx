@@ -450,6 +450,9 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         onClick={handleClose}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="success-title"
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -471,6 +474,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
                 className="material-icons text-white text-4xl"
+                aria-hidden="true"
               >
                 check
               </motion.span>
@@ -482,7 +486,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 id="success-title" className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Vielen Dank{getAnredeText() ? `, ${getAnredeText()}` : ""} {getDisplayName()}!
               </h2>
               <p className="text-gray-600 mb-6 leading-relaxed max-w-md">
@@ -560,6 +564,9 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       className="fixed inset-0 z-[100] backdrop-blur-md flex items-center justify-center md:p-4"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       onClick={handleClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="booking-modal-title"
     >
       <div
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-5xl md:rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
@@ -595,14 +602,15 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header */}
           <div className="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between flex-shrink-0">
-            <h2 className="font-display text-2xl font-bold text-gray-900">
+            <h2 id="booking-modal-title" className="font-display text-2xl font-bold text-gray-900">
               Wunschtermin sichern
             </h2>
             <button
               onClick={handleClose}
               className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
+              aria-label="Dialog schließen"
             >
-              <span className="material-icons text-gray-500">close</span>
+              <span className="material-icons text-gray-500" aria-hidden="true">close</span>
             </button>
           </div>
 

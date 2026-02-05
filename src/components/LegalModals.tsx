@@ -78,7 +78,7 @@ function FAQAccordion() {
       {faqCategories.map((cat, catIndex) => (
         <div key={catIndex}>
           <div className="flex items-center gap-2 mb-3">
-            <span className="material-icons text-[#A68A75]">{cat.icon}</span>
+            <span className="material-icons text-[#A68A75]" aria-hidden="true">{cat.icon}</span>
             <h3 className="font-semibold text-lg text-gray-900">{cat.category}</h3>
           </div>
           <div className="space-y-2">
@@ -90,9 +90,10 @@ function FAQAccordion() {
                   <button
                     onClick={() => toggleItem(itemId)}
                     className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 transition"
+                    aria-expanded={isOpen}
                   >
                     <span className="font-medium text-gray-800 pr-4">{item.q}</span>
-                    <span className={`material-icons text-[#A68A75] transition-transform ${isOpen ? "rotate-180" : ""}`}>
+                    <span className={`material-icons text-[#A68A75] transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden="true">
                       expand_more
                     </span>
                   </button>
@@ -453,6 +454,9 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
     <div
       className="fixed inset-0 z-[100] backdrop-blur-md bg-black/20 flex items-center justify-center md:p-4"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="legal-modal-title"
     >
       <div
         className="bg-white w-full h-full md:h-auto md:max-h-[90vh] md:max-w-3xl md:rounded-2xl overflow-y-auto shadow-2xl"
@@ -460,14 +464,15 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       >
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between md:rounded-t-2xl">
-          <h2 className="font-display text-2xl font-bold text-gray-900">
+          <h2 id="legal-modal-title" className="font-display text-2xl font-bold text-gray-900">
             {current.title}
           </h2>
           <button
             onClick={onClose}
             className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
+            aria-label="Dialog schließen"
           >
-            <span className="material-icons text-gray-500">close</span>
+            <span className="material-icons text-gray-500" aria-hidden="true">close</span>
           </button>
         </div>
 

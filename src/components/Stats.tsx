@@ -74,7 +74,7 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
         count
       )}
       {suffix === "★" ? (
-        <span className="material-icons text-[#A68A75] text-2xl md:text-5xl">star</span>
+        <span className="material-icons text-[#A68A75] text-2xl md:text-5xl" aria-hidden="true">star</span>
       ) : (
         suffix
       )}

@@ -68,9 +68,11 @@ export default function Navbar() {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden p-2 text-gray-700 hover:text-[#A68A75] transition-colors"
-            aria-label="Menü öffnen"
+            aria-label={isMenuOpen ? "Menü schließen" : "Menü öffnen"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
-            <span className="material-icons text-3xl">
+            <span className="material-icons text-3xl" aria-hidden="true">
               {isMenuOpen ? "close" : "menu"}
             </span>
           </button>
@@ -88,6 +90,9 @@ export default function Navbar() {
 
       {/* Mobile Menu Slide-Out */}
       <div
+        id="mobile-menu"
+        role="menu"
+        aria-hidden={!isMenuOpen}
         className={`lg:hidden fixed top-20 right-0 h-[calc(100vh-80px)] w-72 bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}

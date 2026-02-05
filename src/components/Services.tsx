@@ -276,7 +276,7 @@ export default function Services() {
               Bewertungen
             </h2>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="flex">
+              <div className="flex" aria-label={`${averageRating} von 5 Sternen`}>
                 {[...Array(5)].map((_, i) => (
                   <span
                     key={i}
@@ -285,6 +285,7 @@ export default function Services() {
                         ? "text-yellow-400"
                         : "text-gray-300"
                     }`}
+                    aria-hidden="true"
                   >
                     star
                   </span>
@@ -307,14 +308,14 @@ export default function Services() {
               className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
               aria-label="Vorherige Bewertung"
             >
-              <span className="material-icons text-2xl">chevron_left</span>
+              <span className="material-icons text-2xl" aria-hidden="true">chevron_left</span>
             </button>
             <button
               onClick={nextReview}
               className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
               aria-label="Nächste Bewertung"
             >
-              <span className="material-icons text-2xl">chevron_right</span>
+              <span className="material-icons text-2xl" aria-hidden="true">chevron_right</span>
             </button>
 
             {/* Card - Kompaktes Layout */}
@@ -340,7 +341,7 @@ export default function Services() {
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
-                        <span className="material-icons text-white opacity-0 group-hover:opacity-100 text-lg">zoom_in</span>
+                        <span className="material-icons text-white opacity-0 group-hover:opacity-100 text-lg" aria-hidden="true">zoom_in</span>
                       </div>
                     </button>
                   ))}
@@ -357,13 +358,14 @@ export default function Services() {
                 <div className="text-left">
                   <div className="flex items-center gap-2">
                     <p className="font-bold text-gray-900">{currentReview.name}</p>
-                    <div className="flex">
+                    <div className="flex" aria-label={`${currentReview.rating} von 5 Sternen`}>
                       {[...Array(5)].map((_, i) => (
                         <span
                           key={i}
                           className={`material-icons text-sm ${
                             i < currentReview.rating ? "text-yellow-400" : "text-gray-300"
                           }`}
+                          aria-hidden="true"
                         >
                           star
                         </span>
@@ -422,13 +424,17 @@ export default function Services() {
         <div
           className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4"
           onClick={closeModal}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Foto von ${modal.reviewName}`}
         >
           {/* Close Button */}
           <button
             onClick={closeModal}
             className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition"
+            aria-label="Bildansicht schließen"
           >
-            <span className="material-icons text-white">close</span>
+            <span className="material-icons text-white" aria-hidden="true">close</span>
           </button>
 
           {/* Bild */}
@@ -447,14 +453,16 @@ export default function Services() {
                 <button
                   onClick={prevImage}
                   className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
+                  aria-label="Vorheriges Bild"
                 >
-                  <span className="material-icons">chevron_left</span>
+                  <span className="material-icons" aria-hidden="true">chevron_left</span>
                 </button>
                 <button
                   onClick={nextImage}
                   className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:bg-white transition"
+                  aria-label="Nächstes Bild"
                 >
-                  <span className="material-icons">chevron_right</span>
+                  <span className="material-icons" aria-hidden="true">chevron_right</span>
                 </button>
               </>
             )}

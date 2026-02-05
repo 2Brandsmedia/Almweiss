@@ -150,8 +150,10 @@ export default function Hero() {
       <button
         onClick={() => setShowVideo(!showVideo)}
         className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
+        aria-label={showVideo ? 'Video schließen' : 'Video öffnen'}
+        aria-expanded={showVideo}
       >
-        <span className="material-icons text-xl group-hover:scale-110 transition">
+        <span className="material-icons text-xl group-hover:scale-110 transition" aria-hidden="true">
           {showVideo ? 'close' : 'play_circle'}
         </span>
         <span className="text-sm font-medium uppercase tracking-wider">
@@ -166,12 +168,17 @@ export default function Hero() {
 
       {/* Video Modal - Small Player */}
       {showVideo && (
-        <div className="absolute bottom-20 left-4 right-4 md:bottom-24 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4">
+        <div
+          className="absolute bottom-20 left-4 right-4 md:bottom-24 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4"
+          role="dialog"
+          aria-label="Video Player"
+        >
           <button
             onClick={() => setShowVideo(false)}
             className="absolute top-2 right-2 z-10 w-8 h-8 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition"
+            aria-label="Video schließen"
           >
-            <span className="material-icons text-lg">close</span>
+            <span className="material-icons text-lg" aria-hidden="true">close</span>
           </button>
           <iframe
             className="w-full h-full"

@@ -125,7 +125,7 @@ export default function Gallery() {
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
-                        <span className="material-icons text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="material-icons text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
                           zoom_in
                         </span>
                       </div>
@@ -143,14 +143,17 @@ export default function Gallery() {
         <div
           className="fixed inset-0 z-[100] backdrop-blur-md bg-black/70 flex items-center justify-center"
           onClick={closeModal}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Bild ${selectedIndex + 1} von ${galleryImages.length}: ${galleryImages[selectedIndex].alt}`}
         >
           {/* Close Button */}
           <button
             className="absolute top-4 right-4 text-white hover:text-[#A68A75] transition z-10"
             onClick={closeModal}
-            aria-label="Schließen"
+            aria-label="Galerie schließen"
           >
-            <span className="material-icons text-4xl">close</span>
+            <span className="material-icons text-4xl" aria-hidden="true">close</span>
           </button>
 
           {/* Previous Button */}
@@ -162,7 +165,7 @@ export default function Gallery() {
             }}
             aria-label="Vorheriges Bild"
           >
-            <span className="material-icons">chevron_left</span>
+            <span className="material-icons" aria-hidden="true">chevron_left</span>
           </button>
 
           {/* Image */}
@@ -191,7 +194,7 @@ export default function Gallery() {
             }}
             aria-label="Nächstes Bild"
           >
-            <span className="material-icons">chevron_right</span>
+            <span className="material-icons" aria-hidden="true">chevron_right</span>
           </button>
 
           {/* Image Counter */}

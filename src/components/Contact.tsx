@@ -46,8 +46,8 @@ export default function Contact() {
         </div>
 
         {submitted ? (
-          <div className="bg-white p-8 rounded-lg shadow-2xl">
-            <span className="material-icons text-green-500 text-6xl mb-4">check_circle</span>
+          <div className="bg-white p-8 rounded-lg shadow-2xl" role="status" aria-live="polite">
+            <span className="material-icons text-green-500 text-6xl mb-4" aria-hidden="true">check_circle</span>
             <h3 className="font-display text-2xl font-bold text-gray-900 mb-2">
               Vielen Dank!
             </h3>
@@ -221,13 +221,13 @@ export default function Contact() {
             >
               {isSubmitting ? (
                 <>
-                  <span className="material-icons animate-spin">refresh</span>
+                  <span className="material-icons animate-spin" aria-hidden="true">refresh</span>
                   Wird gesendet...
                 </>
               ) : (
                 <>
                   Jetzt Verfügbarkeit anfragen
-                  <span className="material-icons text-sm">send</span>
+                  <span className="material-icons text-sm" aria-hidden="true">send</span>
                 </>
               )}
             </button>

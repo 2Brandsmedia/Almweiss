@@ -192,6 +192,9 @@ export default function Footer() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
             onClick={() => setShowDevModal(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="dev-modal-title"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -205,14 +208,15 @@ export default function Footer() {
               <button
                 onClick={() => setShowDevModal(false)}
                 className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition z-10"
+                aria-label="Dialog schließen"
               >
-                <span className="material-icons text-xl">close</span>
+                <span className="material-icons text-xl" aria-hidden="true">close</span>
               </button>
 
               {/* Content */}
               <div className="flex flex-col items-center justify-center py-8 px-6 space-y-6">
                 {/* Titel */}
-                <h3 className="text-lg text-gray-300 font-medium">Entwickelt von</h3>
+                <h3 id="dev-modal-title" className="text-lg text-gray-300 font-medium">Entwickelt von</h3>
 
                 {/* Logo */}
                 <div className="w-64 h-32 flex items-center justify-center bg-white rounded-xl p-4 overflow-hidden">

@@ -63,7 +63,7 @@ export default function About() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]"
             >
-              <span className="material-icons text-[#A68A75] text-3xl">verified</span>
+              <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">verified</span>
               <div>
                 <h4 className="font-bold text-gray-900">All Inclusive Service</h4>
                 <p className="text-sm text-gray-500">
