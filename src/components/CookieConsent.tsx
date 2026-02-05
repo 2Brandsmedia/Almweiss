@@ -1,81 +1,122 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
+import { useCookieConsent } from "@/context/CookieContext";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export default function CookieConsent() {
-  const [mounted, setMounted] = useState(false);
-  const [consent, setConsent] = useState<string | null>(null);
+  const { hasConsent, acceptAll, acceptEssential } = useCookieConsent();
   const [showDetails, setShowDetails] = useState(false);
 
-  // Focus Trap für Cookie-Details-Modal (WCAG 2.1)
-  const focusTrapRef = useFocusTrap(showDetails);
-
-  useEffect(() => {
-    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect
-    setConsent(localStorage.getItem("cookie-consent"));
-  }, []);
-
-  const acceptAll = useCallback(() => {
-    localStorage.setItem("cookie-consent", "all");
-    setConsent("all");
-  }, []);
-
-  const acceptEssential = useCallback(() => {
-    localStorage.setItem("cookie-consent", "essential");
-    setConsent("essential");
-  }, []);
-
-  // Nicht rendern bis Client gemounted ist
-  if (!mounted) return null;
+  // Focus Trap für Cookie-Modal (WCAG 2.1)
+  const focusTrapRef = useFocusTrap(!hasConsent || showDetails);
 
   // Nicht rendern wenn bereits Consent gegeben
-  if (consent) return null;
+  if (hasConsent) return null;
 
   return (
     <>
-      {/* Cookie Banner */}
-      <aside
-        role="region"
-        aria-label="Cookie-Hinweis"
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 md:left-4 md:translate-x-0 z-[200] max-w-xs w-[calc(100%-2rem)] md:w-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-5 animate-in slide-in-from-bottom-4 duration-500"
+      {/* Fullscreen Overlay - blockiert Interaktion */}
+      <div
+        className="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm"
+        aria-hidden="true"
+      />
+
+      {/* Cookie Consent Modal - Zentral und auffällig */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cookie-title"
+        aria-describedby="cookie-desc"
+        className="fixed inset-0 z-[300] flex items-center justify-center p-4"
       >
-        <p className="text-sm text-gray-700 leading-relaxed mb-4">
-          Wir nutzen Cookies für ein optimales Erlebnis auf unserer Seite. <button onClick={() => setShowDetails(true)} className="text-[#A68A75] hover:underline">Mehr erfahren</button>
-        </p>
-        <div className="flex gap-2">
-          <button
-            onClick={acceptEssential}
-            className="flex-1 px-4 py-2.5 text-xs font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
-          >
-            Ablehnen
-          </button>
-          <button
-            onClick={acceptAll}
-            className="flex-1 px-4 py-2.5 text-xs font-medium text-white bg-[#A68A75] hover:bg-[#8B7362] rounded-full transition-all shadow-sm"
-          >
-            Akzeptieren
-          </button>
+        <div
+          ref={focusTrapRef}
+          className="bg-white rounded-2xl max-w-lg w-full shadow-2xl animate-in zoom-in-95 duration-300"
+        >
+          {/* Header mit Icon */}
+          <div className="p-6 pb-4 text-center border-b border-gray-100">
+            <div className="w-16 h-16 bg-[#F5F0EB] rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">cookie</span>
+            </div>
+            <h2 id="cookie-title" className="text-2xl font-bold text-gray-900 mb-2">
+              Datenschutz ist uns wichtig
+            </h2>
+            <p id="cookie-desc" className="text-gray-600 text-sm leading-relaxed">
+              Wir verwenden Cookies und externe Dienste, um Ihnen das beste Erlebnis auf unserer Website zu bieten.
+            </p>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 space-y-4">
+            {/* Notwendige Cookies */}
+            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+              <span className="material-icons text-green-600 text-xl mt-0.5" aria-hidden="true">check_circle</span>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">Notwendige Cookies</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  Erforderlich für grundlegende Funktionen wie Navigation und Sicherheit.
+                </p>
+              </div>
+            </div>
+
+            {/* Optionale Dienste */}
+            <div className="flex items-start gap-3 p-3 bg-[#FEF3E7] rounded-lg">
+              <span className="material-icons text-[#A68A75] text-xl mt-0.5" aria-hidden="true">videocam</span>
+              <div>
+                <h3 className="font-semibold text-gray-900 text-sm">Externe Medien & Karten</h3>
+                <p className="text-xs text-gray-500 mt-1">
+                  YouTube-Videos, Google Maps und Instagram-Einbindungen für ein reichhaltiges Erlebnis.
+                </p>
+              </div>
+            </div>
+
+            {/* Mehr erfahren Link */}
+            <button
+              onClick={() => setShowDetails(true)}
+              className="text-[#A68A75] hover:text-[#8B7362] text-sm font-medium flex items-center gap-1 mx-auto"
+            >
+              <span className="material-icons text-base" aria-hidden="true">info</span>
+              Mehr erfahren
+            </button>
+          </div>
+
+          {/* Buttons */}
+          <div className="p-6 pt-2 flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={acceptEssential}
+              className="flex-1 px-6 py-3 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
+            >
+              Nur notwendige
+            </button>
+            <button
+              onClick={acceptAll}
+              className="flex-1 px-6 py-3 text-sm font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-lg"
+            >
+              Alle akzeptieren
+            </button>
+          </div>
+
+          {/* Hinweis */}
+          <p className="text-xs text-gray-400 text-center pb-4 px-6">
+            Sie können Ihre Einstellungen jederzeit in den Cookie-Einstellungen ändern.
+          </p>
         </div>
-      </aside>
+      </div>
 
       {/* Cookie Details Modal */}
       {showDetails && (
         <div
-          className="fixed inset-0 z-[300] bg-black/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[400] bg-black/50 flex items-center justify-center p-4"
           onClick={() => setShowDetails(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="cookie-dialog-title"
         >
           <div
-            ref={focusTrapRef}
             className="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white">
-              <h3 id="cookie-dialog-title" className="font-bold text-gray-900">Cookie-Richtlinie</h3>
+            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white rounded-t-2xl">
+              <h3 className="font-bold text-gray-900">Cookie-Details</h3>
               <button
                 onClick={() => setShowDetails(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
@@ -88,37 +129,22 @@ export default function CookieConsent() {
             {/* Content */}
             <div className="p-4 space-y-4 text-sm text-gray-600">
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">Was sind Cookies?</h4>
-                <p>
-                  Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden,
-                  wenn Sie unsere Website besuchen. Sie helfen uns, die Website funktionsfähig
-                  zu halten und Ihre Erfahrung zu verbessern.
-                </p>
-              </div>
-
-              <div>
                 <h4 className="font-bold text-gray-900 mb-2">Notwendige Cookies</h4>
                 <p>
                   Diese Cookies sind für den Betrieb der Website unerlässlich. Sie ermöglichen
-                  grundlegende Funktionen wie Seitennavigation und Zugriff auf sichere Bereiche.
-                  Die Website kann ohne diese Cookies nicht ordnungsgemäß funktionieren.
+                  grundlegende Funktionen wie Seitennavigation und speichern Ihre Cookie-Präferenzen.
                 </p>
-                <ul className="list-disc list-inside mt-2 text-xs text-gray-500">
-                  <li>Session-Cookies für die Navigation</li>
-                  <li>Cookie-Einstellungen speichern</li>
-                </ul>
               </div>
 
               <div>
-                <h4 className="font-bold text-gray-900 mb-2">Optionale Cookies</h4>
-                <p>
-                  Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website
-                  interagieren, indem sie Informationen anonym sammeln und melden.
+                <h4 className="font-bold text-gray-900 mb-2">Externe Medien</h4>
+                <p className="mb-2">
+                  Wenn Sie &quot;Alle akzeptieren&quot; wählen, werden folgende externe Dienste geladen:
                 </p>
-                <ul className="list-disc list-inside mt-2 text-xs text-gray-500">
-                  <li>Google Analytics (Besucherstatistiken)</li>
-                  <li>YouTube (eingebettete Videos)</li>
-                  <li>Google Maps (Kartenansicht)</li>
+                <ul className="list-disc list-inside text-xs text-gray-500 space-y-1">
+                  <li><strong>YouTube</strong> - Eingebettete Videos zur Präsentation unserer Location</li>
+                  <li><strong>Google Maps</strong> - Interaktive Karte für die Anfahrt</li>
+                  <li><strong>Instagram</strong> - Aktuelle Beiträge aus unserem Instagram-Feed</li>
                 </ul>
               </div>
 
@@ -133,13 +159,13 @@ export default function CookieConsent() {
                 </p>
               </div>
 
-              <p className="text-xs text-gray-500">
-                Stand: Februar 2026
+              <p className="text-xs text-gray-400 pt-2">
+                Alle Datenverarbeitungen erfolgen DSGVO-konform.
               </p>
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t flex gap-2 sticky bottom-0 bg-white">
+            <div className="p-4 border-t flex gap-2 sticky bottom-0 bg-white rounded-b-2xl">
               <button
                 onClick={() => {
                   acceptEssential();
@@ -154,7 +180,7 @@ export default function CookieConsent() {
                   acceptAll();
                   setShowDetails(false);
                 }}
-                className="flex-1 px-4 py-2 text-sm text-white bg-[#A68A75] hover:bg-opacity-90 rounded-lg transition"
+                className="flex-1 px-4 py-2 text-sm text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-lg transition"
               >
                 Alle akzeptieren
               </button>

@@ -30,7 +30,7 @@ export default function Contact() {
       <div
         className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: "url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')",
+          backgroundImage: "url('/images/diamond-upholstery.png')",
         }}
       />
 

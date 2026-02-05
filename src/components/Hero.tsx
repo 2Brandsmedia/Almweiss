@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useBooking } from "@/context/BookingContext";
+import { useCookieConsent } from "@/context/CookieContext";
 
 declare global {
   interface Window {
@@ -31,6 +32,7 @@ export default function Hero() {
   const [isScrolled, setIsScrolled] = useState(false);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const { openModal } = useBooking();
+  const { hasFullConsent } = useCookieConsent();
 
   // Track scroll position for sticky CTA button - triggers when hero section ends
   useEffect(() => {
@@ -41,8 +43,10 @@ export default function Hero() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Load YouTube API only with consent
   useEffect(() => {
-    // Load YouTube API
+    if (!hasFullConsent) return;
+
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -57,7 +61,7 @@ export default function Hero() {
         },
       });
     };
-  }, []);
+  }, [hasFullConsent]);
 
   useEffect(() => {
     if (playerRef.current) {
@@ -71,18 +75,33 @@ export default function Hero() {
 
   return (
     <header className="hero-section relative flex items-center justify-center overflow-hidden bg-black">
-      {/* YouTube Video Background */}
+      {/* Background - YouTube wenn Consent, sonst statisches Bild */}
       <div className="hero-video-container absolute z-0 overflow-hidden bg-black">
-        <div className="absolute inset-0 overflow-hidden grayscale">
-          <iframe
-            id="bg-video"
-            className="hero-video-bg pointer-events-none"
-            src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
-            allow="autoplay; encrypted-media"
-            tabIndex={-1}
-            aria-hidden="true"
-          />
-        </div>
+        {hasFullConsent ? (
+          // YouTube Video Background (nur mit Consent)
+          <div className="absolute inset-0 overflow-hidden grayscale">
+            <iframe
+              id="bg-video"
+              className="hero-video-bg pointer-events-none"
+              src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
+              allow="autoplay; encrypted-media"
+              tabIndex={-1}
+              aria-hidden="true"
+            />
+          </div>
+        ) : (
+          // Statisches Hintergrundbild (ohne Consent)
+          <div className="absolute inset-0 grayscale">
+            <Image
+              src="/images/hero-fallback.webp"
+              alt=""
+              fill
+              priority
+              className="object-cover"
+              aria-hidden="true"
+            />
+          </div>
+        )}
         <div className="absolute inset-0 bg-black/65" />
       </div>
 
@@ -146,28 +165,30 @@ export default function Hero() {
         Jetzt Wunschtermin sichern
       </button>
 
-      {/* Video Button - Bottom Right im Hero */}
-      <button
-        onClick={() => setShowVideo(!showVideo)}
-        className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
-        aria-label={showVideo ? 'Video schließen' : 'Video öffnen'}
-        aria-expanded={showVideo}
-      >
-        <span className="material-icons text-xl group-hover:scale-110 transition" aria-hidden="true">
-          {showVideo ? 'close' : 'play_circle'}
-        </span>
-        <span className="text-sm font-medium uppercase tracking-wider">
-          {showVideo ? 'Schließen' : 'Video'}
-        </span>
-      </button>
+      {/* Video Button - nur anzeigen wenn Consent */}
+      {hasFullConsent && (
+        <button
+          onClick={() => setShowVideo(!showVideo)}
+          className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
+          aria-label={showVideo ? 'Video schließen' : 'Video öffnen'}
+          aria-expanded={showVideo}
+        >
+          <span className="material-icons text-xl group-hover:scale-110 transition" aria-hidden="true">
+            {showVideo ? 'close' : 'play_circle'}
+          </span>
+          <span className="text-sm font-medium uppercase tracking-wider">
+            {showVideo ? 'Schließen' : 'Video'}
+          </span>
+        </button>
+      )}
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator" aria-hidden="true">
         <span className="material-icons text-white text-4xl opacity-70" aria-hidden="true">keyboard_arrow_down</span>
       </div>
 
-      {/* Video Modal - Small Player */}
-      {showVideo && (
+      {/* Video Modal - Small Player (nur mit Consent) */}
+      {showVideo && hasFullConsent && (
         <div
           className="absolute bottom-20 left-4 right-4 md:bottom-24 md:left-auto md:right-8 md:w-[600px] z-50 aspect-video rounded-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4"
           role="dialog"
@@ -186,7 +207,6 @@ export default function Hero() {
             allow="autoplay; encrypted-media; fullscreen"
             allowFullScreen
             title="YouTube Video: Almweiß Hochzeitslocation Präsentation"
-            aria-label="YouTube Video: Almweiß Hochzeitslocation Präsentation"
           />
         </div>
       )}
