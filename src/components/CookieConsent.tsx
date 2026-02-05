@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useCookieConsent } from "@/context/CookieContext";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
@@ -15,6 +16,19 @@ export default function CookieConsent() {
 
   // Focus Trap für Cookie-Modal (WCAG 2.1)
   const focusTrapRef = useFocusTrap(showConsentModal);
+
+  // Scroll-Sperre bis Cookie-Entscheidung getroffen wurde
+  useEffect(() => {
+    if (!hasConsent) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [hasConsent]);
 
   return (
     <>
