@@ -130,7 +130,7 @@ function CustomDropdown({ label, placeholder, options, value, onChange, required
         } ${selectedOption ? "text-gray-900" : "text-gray-400"}`}
       >
         <span>{selectedOption ? selectedOption.label : placeholder}</span>
-        <span className={`material-icons text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}>
+        <span className={`material-icons text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden="true">
           expand_more
         </span>
       </button>
@@ -160,7 +160,7 @@ function CustomDropdown({ label, placeholder, options, value, onChange, required
               >
                 <span>{option.label}</span>
                 {option.value === value && (
-                  <span className="material-icons text-[#A68A75] text-lg">check</span>
+                  <span className="material-icons text-[#A68A75] text-lg" aria-hidden="true">check</span>
                 )}
               </button>
             ))}
@@ -984,6 +984,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                                   exit={{ scale: 0, opacity: 0 }}
                                   transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
                                   className="material-icons text-white text-2xl"
+                                  aria-hidden="true"
                                 >
                                   check
                                 </motion.span>

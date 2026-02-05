@@ -43,9 +43,9 @@ export default function Testimonials() {
               className="bg-[#F5F0EB] p-8 rounded-lg"
             >
               {/* Stars */}
-              <div className="flex gap-1 mb-4">
+              <div className="flex gap-1 mb-4" aria-label="5 von 5 Sternen">
                 {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-icons text-[#A68A75]">
+                  <span key={i} className="material-icons text-[#A68A75]" aria-hidden="true">
                     star
                   </span>
                 ))}

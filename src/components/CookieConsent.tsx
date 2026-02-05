@@ -56,6 +56,9 @@ export default function CookieConsent() {
         <div
           className="fixed inset-0 z-[300] bg-black/50 flex items-center justify-center p-4"
           onClick={() => setShowDetails(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cookie-dialog-title"
         >
           <div
             className="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl"
@@ -63,12 +66,13 @@ export default function CookieConsent() {
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white">
-              <h3 className="font-bold text-gray-900">Cookie-Richtlinie</h3>
+              <h3 id="cookie-dialog-title" className="font-bold text-gray-900">Cookie-Richtlinie</h3>
               <button
                 onClick={() => setShowDetails(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                aria-label="Dialog schließen"
               >
-                <span className="material-icons text-gray-500">close</span>
+                <span className="material-icons text-gray-500" aria-hidden="true">close</span>
               </button>
             </div>
 

@@ -162,7 +162,7 @@ export default function Hero() {
       </button>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator" aria-hidden="true">
         <span className="material-icons text-white text-4xl opacity-70">keyboard_arrow_down</span>
       </div>
 

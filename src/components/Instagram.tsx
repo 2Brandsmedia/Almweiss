@@ -118,7 +118,7 @@ export default function Instagram() {
             className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur rounded-full shadow-lg flex items-center justify-center hover:bg-[#A68A75] hover:text-white transition"
             aria-label="Vorheriger Beitrag"
           >
-            <span className="material-icons">chevron_left</span>
+            <span className="material-icons" aria-hidden="true">chevron_left</span>
           </button>
 
           <button
@@ -129,7 +129,7 @@ export default function Instagram() {
             className="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur rounded-full shadow-lg flex items-center justify-center hover:bg-[#A68A75] hover:text-white transition"
             aria-label="Nächster Beitrag"
           >
-            <span className="material-icons">chevron_right</span>
+            <span className="material-icons" aria-hidden="true">chevron_right</span>
           </button>
 
           {/* Cards Container - Alle Embeds werden vorgerendert */}
