@@ -32,33 +32,46 @@ export default function CookieConsent() {
 
   return (
     <>
+      {/* Dunkler Overlay - blockiert Interaktion bis Cookie-Entscheidung */}
+      {!hasConsent && (
+        <div
+          className="fixed inset-0 z-[199] bg-black/70 backdrop-blur-sm"
+          aria-hidden="true"
+        />
+      )}
+
       {/* Cookie Banner - mittig unten, pulsierend für Aufmerksamkeit */}
       {!hasConsent && (
         <aside
-          role="region"
-          aria-label="Cookie-Hinweis"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Cookie-Einstellungen erforderlich"
           className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] max-w-md w-[calc(100%-2rem)] bg-white rounded-2xl border-2 border-[#A68A75] p-6 animate-in slide-in-from-bottom-4 duration-500 animate-cookie-glow"
         >
-          <div className="flex items-start gap-3 mb-3">
-            <span className="material-icons text-[#A68A75] text-2xl flex-shrink-0" aria-hidden="true">cookie</span>
+          <div className="flex items-start gap-3 mb-4">
+            <span className="material-icons text-[#A68A75] text-3xl flex-shrink-0" aria-hidden="true">cookie</span>
             <div>
-              <h3 className="font-bold text-gray-900 text-sm mb-1">Cookie-Einstellungen</h3>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Für die volle Funktionalität (Videos, Karten, Instagram) benötigen wir Ihre Zustimmung zu externen Diensten.
+              <h3 className="font-bold text-gray-900 text-base mb-2">Bitte wählen Sie Ihre Cookie-Einstellungen</h3>
+              <p className="text-sm text-gray-700 leading-relaxed mb-2">
+                <strong>Ohne Ihre Zustimmung</strong> können wir Videos, Karten und Instagram-Beiträge nicht anzeigen.
+                Die Website ist dann nur <strong>eingeschränkt nutzbar</strong>.
+              </p>
+              <p className="text-xs text-gray-500">
+                Sie können Ihre Einstellungen jederzeit im Footer unter &bdquo;Cookie-Einstellungen&ldquo; ändern.
               </p>
             </div>
           </div>
 
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-3">
             <button
               onClick={acceptEssential}
-              className="flex-1 px-4 py-2.5 text-xs font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
+              className="flex-1 px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
             >
               Nur notwendige
             </button>
             <button
               onClick={acceptAll}
-              className="flex-1 px-4 py-2.5 text-xs font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-sm"
+              className="flex-1 px-4 py-3 text-sm font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-sm"
             >
               Alle akzeptieren
             </button>
@@ -66,9 +79,9 @@ export default function CookieConsent() {
 
           <button
             onClick={openConsentModal}
-            className="w-full text-xs text-[#A68A75] hover:text-[#6B5A4D] font-medium"
+            className="w-full text-xs text-[#A68A75] hover:text-[#6B5A4D] font-medium py-1"
           >
-            Mehr erfahren & anpassen
+            Mehr erfahren & Details anpassen
           </button>
         </aside>
       )}
