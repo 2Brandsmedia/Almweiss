@@ -415,7 +415,7 @@ export default function Services() {
               href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#8B7261] text-white px-6 py-3 md:px-8 md:py-4 text-[11px] md:text-sm uppercase tracking-wider font-semibold hover:bg-[#7A6354] shadow-lg rounded-full transition whitespace-nowrap"
+              className="inline-block bg-[#7D6B5D] text-white px-6 py-3 md:px-8 md:py-4 text-[11px] md:text-sm uppercase tracking-wider font-semibold hover:bg-[#6B5A4D] shadow-lg rounded-full transition whitespace-nowrap"
             >
               Alle Bewertungen auf Google ansehen
             </a>

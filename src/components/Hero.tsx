@@ -130,7 +130,7 @@ export default function Hero() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
           onClick={openModal}
-          className="inline-block bg-[#8B7261] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full"
+          className="inline-block bg-[#7D6B5D] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-[#6B5A4D] shadow-lg rounded-full"
         >
           Jetzt Wunschtermin sichern
         </motion.button>
@@ -139,7 +139,7 @@ export default function Hero() {
       {/* CTA Button - fixed, fades in bottom right when scrolled */}
       <button
         onClick={openModal}
-        className={`fixed bottom-8 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 z-30 bg-[#8B7261] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full animate-pulse-soft transition-opacity duration-500 whitespace-nowrap ${
+        className={`fixed bottom-8 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 z-30 bg-[#7D6B5D] text-white px-8 py-4 text-sm uppercase tracking-wider font-semibold hover:bg-[#6B5A4D] shadow-lg rounded-full animate-pulse-soft transition-opacity duration-500 whitespace-nowrap ${
           isScrolled ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >

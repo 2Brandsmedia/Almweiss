@@ -227,7 +227,7 @@ export default function Instagram() {
             href="https://www.instagram.com/_almweiss_/"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 bg-[#8B7261] text-white px-10 py-4 font-bold uppercase tracking-[0.2em] text-sm hover:bg-gray-900 hover:shadow-xl transition-all duration-300 border-2 border-[#8B7261] hover:border-gray-900 rounded-full"
+            className="group inline-flex items-center gap-3 bg-[#7D6B5D] text-white px-10 py-4 font-bold uppercase tracking-[0.2em] text-sm hover:bg-gray-900 hover:shadow-xl transition-all duration-300 border-2 border-[#7D6B5D] hover:border-gray-900 rounded-full"
           >
             <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path
