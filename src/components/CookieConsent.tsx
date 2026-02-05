@@ -32,10 +32,10 @@ export default function CookieConsent() {
 
   return (
     <>
-      {/* Dunkler Overlay - blockiert Interaktion bis Cookie-Entscheidung */}
+      {/* Dunkler Overlay - Website sichtbar aber abgedunkelt */}
       {!hasConsent && (
         <div
-          className="fixed inset-0 z-[199] bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-[199] bg-black/60 pointer-events-none"
           aria-hidden="true"
         />
       )}
