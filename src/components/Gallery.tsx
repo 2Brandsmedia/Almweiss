@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const galleryImages = [
   { src: "/images/wedding-1.webp", alt: "Brautpaar" },
@@ -21,28 +21,35 @@ const galleryImages = [
 
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll animation
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer || isPaused) return;
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-    const scroll = () => {
-      if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-        scrollContainer.scrollLeft = 0;
-      } else {
-        scrollContainer.scrollLeft += 1;
-      }
-    };
+  // Different speeds for each column (reduced values to prevent overlap)
+  const y1 = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const y4 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
-    const interval = setInterval(scroll, 30);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const y1Spring = useSpring(y1, springConfig);
+  const y2Spring = useSpring(y2, springConfig);
+  const y3Spring = useSpring(y3, springConfig);
+  const y4Spring = useSpring(y4, springConfig);
 
-  const openModal = (index: number) => {
-    setSelectedIndex(index);
+  // Split images into 4 columns
+  const columns = [
+    { images: galleryImages.slice(0, 3), y: y1Spring },
+    { images: galleryImages.slice(3, 6), y: y2Spring },
+    { images: galleryImages.slice(6, 9), y: y3Spring },
+    { images: galleryImages.slice(9, 12), y: y4Spring },
+  ];
+
+  const openModal = (globalIndex: number) => {
+    setSelectedIndex(globalIndex);
   };
 
   const closeModal = () => {
@@ -63,25 +70,18 @@ export default function Gallery() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedIndex === null) return;
-      if (e.key === "ArrowLeft") {
-        setSelectedIndex(selectedIndex === 0 ? galleryImages.length - 1 : selectedIndex - 1);
-      }
-      if (e.key === "ArrowRight") {
-        setSelectedIndex(selectedIndex === galleryImages.length - 1 ? 0 : selectedIndex + 1);
-      }
-      if (e.key === "Escape") setSelectedIndex(null);
+      if (e.key === "ArrowLeft") goToPrevious();
+      if (e.key === "ArrowRight") goToNext();
+      if (e.key === "Escape") closeModal();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedIndex]);
 
-  // Double the images for seamless loop
-  const doubledImages = [...galleryImages, ...galleryImages];
-
   return (
     <>
-      <section className="py-24 bg-[#F5F0EB]" id="galerie">
+      <section className="py-24 bg-[#F5F0EB] overflow-hidden" id="galerie">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <motion.div
@@ -101,41 +101,47 @@ export default function Gallery() {
               Eindrücke von unvergesslichen Momenten bei Almweiß.
             </p>
           </motion.div>
-        </div>
 
-        {/* Scrolling Gallery */}
-        <div
-          ref={scrollRef}
-          className="overflow-hidden"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <div className="flex gap-4 w-max">
-            {doubledImages.map((image, index) => (
-              <div
-                key={`${image.src}-${index}`}
-                className="relative group overflow-hidden rounded-lg w-[280px] h-[280px] flex-shrink-0 cursor-pointer"
-                onClick={() => openModal(index % galleryImages.length)}
+          {/* Parallax Grid */}
+          <div ref={containerRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 py-16">
+            {columns.map((column, colIndex) => (
+              <motion.div
+                key={colIndex}
+                style={{ y: column.y }}
+                className="flex flex-col gap-6"
               >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="material-icons text-white text-3xl">zoom_in</span>
-                </div>
-              </div>
+                {column.images.map((image, imgIndex) => {
+                  const globalIndex = colIndex * 3 + imgIndex;
+                  return (
+                    <div
+                      key={imgIndex}
+                      className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg cursor-pointer group"
+                      onClick={() => openModal(globalIndex)}
+                    >
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                        <span className="material-icons text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          zoom_in
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Lightbox Modal with Navigation */}
+      {/* Lightbox Modal */}
       {selectedIndex !== null && (
         <div
-          className="fixed inset-0 z-[100] backdrop-blur-md bg-black/20 flex items-center justify-center"
+          className="fixed inset-0 z-[100] backdrop-blur-md bg-black/70 flex items-center justify-center"
           onClick={closeModal}
         >
           {/* Close Button */}
@@ -160,7 +166,11 @@ export default function Gallery() {
           </button>
 
           {/* Image */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
             className="relative w-[85vw] max-w-4xl h-[80vh]"
             onClick={(e) => e.stopPropagation()}
           >
@@ -170,7 +180,7 @@ export default function Gallery() {
               fill
               className="object-contain"
             />
-          </div>
+          </motion.div>
 
           {/* Next Button */}
           <button
