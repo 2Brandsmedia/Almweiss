@@ -321,12 +321,6 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
             E-Mail: info@almweiss.de
           </p>
 
-          <h3 className="font-semibold text-lg mb-2">Umsatzsteuer-ID</h3>
-          <p className="mb-4">
-            Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-            [USt-IdNr. hier einfügen]
-          </p>
-
           <h3 className="font-semibold text-lg mb-2">Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
           <p className="mb-4">
             Hermann Seul<br />
@@ -412,7 +406,8 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
 
           <h3 className="font-semibold text-lg mb-2">2. Hosting</h3>
           <p className="mb-4">
-            Wir hosten die Inhalte unserer Website bei folgendem Anbieter: [Hosting-Anbieter einfügen]
+            Wir hosten die Inhalte unserer Website bei Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.
+            Weitere Informationen zum Datenschutz bei Vercel finden Sie unter: https://vercel.com/legal/privacy-policy
           </p>
 
           <h3 className="font-semibold text-lg mb-2">3. Allgemeine Hinweise und Pflichtinformationen</h3>
