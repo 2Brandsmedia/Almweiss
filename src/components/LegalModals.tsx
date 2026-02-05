@@ -516,10 +516,12 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
       title: "Barrierefreiheit",
       content: (
         <>
+          <p className="mb-4 text-gray-600">
+            Diese Website wurde nach den Richtlinien der <strong>Web Content Accessibility Guidelines (WCAG) 2.1</strong> entwickelt.
+            Wir setzen auf semantisches HTML, ausreichende Farbkontraste, Tastaturnavigation und Screenreader-Kompatibilität.
+          </p>
           <p className="mb-6 text-gray-600">
-            Wir arbeiten kontinuierlich daran, diese Website barrierefrei zu gestalten und orientieren
-            uns an den Web Content Accessibility Guidelines (WCAG) 2.1. Sollten Sie auf Barrieren stoßen,
-            kontaktieren Sie uns gerne unter <a href="mailto:info@almweiss.de" className="text-[#A68A75] hover:underline">info@almweiss.de</a>.
+            Zusätzlich können Sie unten die Darstellung der Website an Ihre Bedürfnisse anpassen.
           </p>
 
           <h3 className="font-semibold text-lg mb-4">Ansicht anpassen</h3>

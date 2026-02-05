@@ -38,7 +38,7 @@ export default function Footer() {
               <span className="font-display text-2xl font-bold tracking-widest uppercase mb-4 block">
                 Almweiß
               </span>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <p className="text-white/90 text-sm leading-relaxed">
                 Exklusive Hochzeits- & Eventlocation in Leverkusen. Wo Träume wahr werden und Erinnerungen für die
                 Ewigkeit geschaffen werden.
               </p>
@@ -56,7 +56,7 @@ export default function Footer() {
                 <h3 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                   Kontakt
                 </h3>
-                <ul className="space-y-3 text-xs md:text-sm text-gray-300">
+                <ul className="space-y-3 text-xs md:text-sm text-white/90">
                   <li>
                     Robert-Blum-Straße 62<br />
                     51373 Leverkusen
@@ -84,7 +84,7 @@ export default function Footer() {
                 <h3 className="font-bold uppercase tracking-widest text-sm mb-6 text-[#A68A75]">
                   Rechtliches
                 </h3>
-                <ul className="space-y-2 text-xs md:text-sm text-gray-300">
+                <ul className="space-y-2 text-xs md:text-sm text-white/90">
                   <li>
                     <button
                       onClick={() => setActiveModal("impressum")}
@@ -207,7 +207,7 @@ export default function Footer() {
               {/* Close Button */}
               <button
                 onClick={() => setShowDevModal(false)}
-                className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-gray-300 hover:text-white transition z-10"
+                className="absolute top-4 right-4 w-8 h-8 hover:bg-white/10 rounded-full flex items-center justify-center text-white/90 hover:text-white transition z-10"
                 aria-label="Dialog schließen"
               >
                 <span className="material-icons text-xl" aria-hidden="true">close</span>
@@ -216,7 +216,7 @@ export default function Footer() {
               {/* Content */}
               <div className="flex flex-col items-center justify-center py-8 px-6 space-y-6">
                 {/* Titel */}
-                <h3 id="dev-modal-title" className="text-lg text-gray-300 font-medium">Entwickelt von</h3>
+                <h3 id="dev-modal-title" className="text-lg text-white/90 font-medium">Entwickelt von</h3>
 
                 {/* Logo */}
                 <div className="w-64 h-32 flex items-center justify-center bg-white rounded-xl p-4 overflow-hidden">
@@ -230,7 +230,7 @@ export default function Footer() {
                 </div>
 
                 {/* Slogan */}
-                <p className="text-base text-gray-300 text-center">
+                <p className="text-base text-white/90 text-center">
                   Digitale Lösungen für die Welt
                 </p>
 

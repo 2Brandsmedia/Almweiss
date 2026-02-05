@@ -198,7 +198,7 @@ export default function Gallery() {
           </button>
 
           {/* Image Counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full text-sm">
             {selectedIndex + 1} / {galleryImages.length}
           </div>
         </div>
