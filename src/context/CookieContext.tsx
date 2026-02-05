@@ -8,8 +8,11 @@ interface CookieContextType {
   consent: ConsentType;
   hasConsent: boolean;
   hasFullConsent: boolean;
+  showConsentModal: boolean;
   acceptAll: () => void;
   acceptEssential: () => void;
+  openConsentModal: () => void;
+  closeConsentModal: () => void;
 }
 
 const CookieContext = createContext<CookieContextType | undefined>(undefined);
@@ -17,6 +20,7 @@ const CookieContext = createContext<CookieContextType | undefined>(undefined);
 export function CookieProvider({ children }: { children: ReactNode }) {
   const [consent, setConsent] = useState<ConsentType>(null);
   const [mounted, setMounted] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
 
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
@@ -28,29 +32,24 @@ export function CookieProvider({ children }: { children: ReactNode }) {
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  // Scroll blockieren wenn kein Consent
-  useEffect(() => {
-    if (!mounted) return;
-
-    if (!consent) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [consent, mounted]);
-
   const acceptAll = useCallback(() => {
     localStorage.setItem("cookie-consent", "all");
     setConsent("all");
+    setShowConsentModal(false);
   }, []);
 
   const acceptEssential = useCallback(() => {
     localStorage.setItem("cookie-consent", "essential");
     setConsent("essential");
+    setShowConsentModal(false);
+  }, []);
+
+  const openConsentModal = useCallback(() => {
+    setShowConsentModal(true);
+  }, []);
+
+  const closeConsentModal = useCallback(() => {
+    setShowConsentModal(false);
   }, []);
 
   // Während SSR/Hydration: Kein Consent annehmen
@@ -63,8 +62,11 @@ export function CookieProvider({ children }: { children: ReactNode }) {
         consent,
         hasConsent,
         hasFullConsent,
+        showConsentModal,
         acceptAll,
         acceptEssential,
+        openConsentModal,
+        closeConsentModal,
       }}
     >
       {children}

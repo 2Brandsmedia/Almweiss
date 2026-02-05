@@ -1,125 +1,89 @@
 "use client";
 
-import { useState } from "react";
 import { useCookieConsent } from "@/context/CookieContext";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export default function CookieConsent() {
-  const { hasConsent, acceptAll, acceptEssential } = useCookieConsent();
-  const [showDetails, setShowDetails] = useState(false);
+  const {
+    hasConsent,
+    showConsentModal,
+    acceptAll,
+    acceptEssential,
+    openConsentModal,
+    closeConsentModal
+  } = useCookieConsent();
 
   // Focus Trap für Cookie-Modal (WCAG 2.1)
-  const focusTrapRef = useFocusTrap(!hasConsent || showDetails);
-
-  // Nicht rendern wenn bereits Consent gegeben
-  if (hasConsent) return null;
+  const focusTrapRef = useFocusTrap(showConsentModal);
 
   return (
     <>
-      {/* Fullscreen Overlay - blockiert Interaktion */}
-      <div
-        className="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm"
-        aria-hidden="true"
-      />
-
-      {/* Cookie Consent Modal - Zentral und auffällig */}
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="cookie-title"
-        aria-describedby="cookie-desc"
-        className="fixed inset-0 z-[300] flex items-center justify-center p-4"
-      >
-        <div
-          ref={focusTrapRef}
-          className="bg-white rounded-2xl max-w-lg w-full shadow-2xl animate-in zoom-in-95 duration-300"
+      {/* Cookie Banner - unten links, nicht blockierend */}
+      {!hasConsent && (
+        <aside
+          role="region"
+          aria-label="Cookie-Hinweis"
+          className="fixed bottom-4 left-4 z-[200] max-w-sm w-[calc(100%-2rem)] md:w-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 p-5 animate-in slide-in-from-bottom-4 duration-500"
         >
-          {/* Header mit Icon */}
-          <div className="p-6 pb-4 text-center border-b border-gray-100">
-            <div className="w-16 h-16 bg-[#F5F0EB] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">cookie</span>
+          <div className="flex items-start gap-3 mb-3">
+            <span className="material-icons text-[#A68A75] text-2xl flex-shrink-0" aria-hidden="true">cookie</span>
+            <div>
+              <h3 className="font-bold text-gray-900 text-sm mb-1">Cookie-Einstellungen</h3>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Für die volle Funktionalität (Videos, Karten, Instagram) benötigen wir Ihre Zustimmung zu externen Diensten.
+              </p>
             </div>
-            <h2 id="cookie-title" className="text-2xl font-bold text-gray-900 mb-2">
-              Datenschutz ist uns wichtig
-            </h2>
-            <p id="cookie-desc" className="text-gray-600 text-sm leading-relaxed">
-              Wir verwenden Cookies und externe Dienste, um Ihnen das beste Erlebnis auf unserer Website zu bieten.
-            </p>
           </div>
 
-          {/* Content */}
-          <div className="p-6 space-y-4">
-            {/* Notwendige Cookies */}
-            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-              <span className="material-icons text-green-600 text-xl mt-0.5" aria-hidden="true">check_circle</span>
-              <div>
-                <h3 className="font-semibold text-gray-900 text-sm">Notwendige Cookies</h3>
-                <p className="text-xs text-gray-500 mt-1">
-                  Erforderlich für grundlegende Funktionen wie Navigation und Sicherheit.
-                </p>
-              </div>
-            </div>
-
-            {/* Optionale Dienste */}
-            <div className="flex items-start gap-3 p-3 bg-[#FEF3E7] rounded-lg">
-              <span className="material-icons text-[#A68A75] text-xl mt-0.5" aria-hidden="true">videocam</span>
-              <div>
-                <h3 className="font-semibold text-gray-900 text-sm">Externe Medien & Karten</h3>
-                <p className="text-xs text-gray-500 mt-1">
-                  YouTube-Videos, Google Maps und Instagram-Einbindungen für ein reichhaltiges Erlebnis.
-                </p>
-              </div>
-            </div>
-
-            {/* Mehr erfahren Link */}
-            <button
-              onClick={() => setShowDetails(true)}
-              className="text-[#A68A75] hover:text-[#8B7362] text-sm font-medium flex items-center gap-1 mx-auto"
-            >
-              <span className="material-icons text-base" aria-hidden="true">info</span>
-              Mehr erfahren
-            </button>
-          </div>
-
-          {/* Buttons */}
-          <div className="p-6 pt-2 flex flex-col sm:flex-row gap-3">
+          <div className="flex gap-2 mb-2">
             <button
               onClick={acceptEssential}
-              className="flex-1 px-6 py-3 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
+              className="flex-1 px-4 py-2.5 text-xs font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
             >
               Nur notwendige
             </button>
             <button
               onClick={acceptAll}
-              className="flex-1 px-6 py-3 text-sm font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-lg"
+              className="flex-1 px-4 py-2.5 text-xs font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-sm"
             >
               Alle akzeptieren
             </button>
           </div>
 
-          {/* Hinweis */}
-          <p className="text-xs text-gray-400 text-center pb-4 px-6">
-            Sie können Ihre Einstellungen jederzeit in den Cookie-Einstellungen ändern.
-          </p>
-        </div>
-      </div>
+          <button
+            onClick={openConsentModal}
+            className="w-full text-xs text-[#A68A75] hover:text-[#6B5A4D] font-medium"
+          >
+            Mehr erfahren & anpassen
+          </button>
+        </aside>
+      )}
 
-      {/* Cookie Details Modal */}
-      {showDetails && (
+      {/* Cookie Details Modal - öffnet sich bei Klick auf "Mehr erfahren" oder "Cookies aktivieren" */}
+      {showConsentModal && (
         <div
-          className="fixed inset-0 z-[400] bg-black/50 flex items-center justify-center p-4"
-          onClick={() => setShowDetails(false)}
+          className="fixed inset-0 z-[400] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={closeConsentModal}
         >
           <div
-            className="bg-white rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl"
+            ref={focusTrapRef}
+            className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cookie-modal-title"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white rounded-t-2xl">
-              <h3 className="font-bold text-gray-900">Cookie-Details</h3>
+            <div className="flex items-center justify-between p-5 border-b sticky top-0 bg-white rounded-t-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#F5F0EB] rounded-full flex items-center justify-center">
+                  <span className="material-icons text-[#A68A75]" aria-hidden="true">cookie</span>
+                </div>
+                <h2 id="cookie-modal-title" className="font-bold text-gray-900 text-lg">Cookie-Einstellungen</h2>
+              </div>
               <button
-                onClick={() => setShowDetails(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                onClick={closeConsentModal}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
                 aria-label="Dialog schließen"
               >
                 <span className="material-icons text-gray-500" aria-hidden="true">close</span>
@@ -127,60 +91,78 @@ export default function CookieConsent() {
             </div>
 
             {/* Content */}
-            <div className="p-4 space-y-4 text-sm text-gray-600">
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2">Notwendige Cookies</h4>
-                <p>
-                  Diese Cookies sind für den Betrieb der Website unerlässlich. Sie ermöglichen
-                  grundlegende Funktionen wie Seitennavigation und speichern Ihre Cookie-Präferenzen.
+            <div className="p-5 space-y-5">
+              {/* Wichtiger Hinweis */}
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <span className="material-icons text-amber-600 text-xl" aria-hidden="true">info</span>
+                  <div>
+                    <h3 className="font-semibold text-amber-800 text-sm mb-1">Wichtiger Hinweis</h3>
+                    <p className="text-xs text-amber-700">
+                      Ohne Zustimmung zu externen Diensten können YouTube-Videos, Google Maps und Instagram-Beiträge
+                      nicht angezeigt werden. Die Website funktioniert nur mit eingeschränkter Funktionalität.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Notwendige Cookies */}
+              <div className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="material-icons text-green-600 text-lg" aria-hidden="true">check_circle</span>
+                    <h3 className="font-semibold text-gray-900 text-sm">Notwendige Cookies</h3>
+                  </div>
+                  <span className="text-xs text-green-600 font-medium bg-green-50 px-2 py-1 rounded">Immer aktiv</span>
+                </div>
+                <p className="text-xs text-gray-600">
+                  Erforderlich für grundlegende Funktionen wie Navigation und Speicherung Ihrer Cookie-Präferenzen.
                 </p>
               </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2">Externe Medien</h4>
-                <p className="mb-2">
-                  Wenn Sie &quot;Alle akzeptieren&quot; wählen, werden folgende externe Dienste geladen:
+              {/* Externe Medien */}
+              <div className="border border-gray-200 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-icons text-[#A68A75] text-lg" aria-hidden="true">videocam</span>
+                  <h3 className="font-semibold text-gray-900 text-sm">Externe Medien & Dienste</h3>
+                </div>
+                <p className="text-xs text-gray-600 mb-3">
+                  Für ein vollständiges Erlebnis laden wir Inhalte von externen Anbietern:
                 </p>
-                <ul className="list-disc list-inside text-xs text-gray-500 space-y-1">
-                  <li><strong>YouTube</strong> - Eingebettete Videos zur Präsentation unserer Location</li>
-                  <li><strong>Google Maps</strong> - Interaktive Karte für die Anfahrt</li>
-                  <li><strong>Instagram</strong> - Aktuelle Beiträge aus unserem Instagram-Feed</li>
+                <ul className="space-y-2 text-xs text-gray-600">
+                  <li className="flex items-center gap-2">
+                    <span className="material-icons text-red-500 text-sm" aria-hidden="true">play_circle</span>
+                    <span><strong>YouTube</strong> – Video-Präsentation unserer Location</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="material-icons text-blue-500 text-sm" aria-hidden="true">map</span>
+                    <span><strong>Google Maps</strong> – Interaktive Anfahrtskarte</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="material-icons text-pink-500 text-sm" aria-hidden="true">camera_alt</span>
+                    <span><strong>Instagram</strong> – Aktuelle Beiträge aus unserem Feed</span>
+                  </li>
                 </ul>
               </div>
 
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2">Ihre Rechte</h4>
-                <p>
-                  Sie können Ihre Cookie-Einstellungen jederzeit ändern, indem Sie die
-                  Cookies in Ihrem Browser löschen. Bei Fragen wenden Sie sich an:
-                  <a href="mailto:info@almweiss.de" className="text-[#A68A75] hover:underline ml-1">
-                    info@almweiss.de
-                  </a>
-                </p>
-              </div>
-
-              <p className="text-xs text-gray-400 pt-2">
-                Alle Datenverarbeitungen erfolgen DSGVO-konform.
+              {/* Datenschutz Hinweis */}
+              <p className="text-xs text-gray-500">
+                Alle Datenverarbeitungen erfolgen DSGVO-konform. Sie können Ihre Einstellungen jederzeit ändern.
+                Bei Fragen: <a href="mailto:info@almweiss.de" className="text-[#A68A75] hover:underline">info@almweiss.de</a>
               </p>
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t flex gap-2 sticky bottom-0 bg-white rounded-b-2xl">
+            <div className="p-5 border-t flex flex-col sm:flex-row gap-3 sticky bottom-0 bg-white rounded-b-2xl">
               <button
-                onClick={() => {
-                  acceptEssential();
-                  setShowDetails(false);
-                }}
-                className="flex-1 px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                onClick={acceptEssential}
+                className="flex-1 px-6 py-3 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-all"
               >
                 Nur notwendige
               </button>
               <button
-                onClick={() => {
-                  acceptAll();
-                  setShowDetails(false);
-                }}
-                className="flex-1 px-4 py-2 text-sm text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-lg transition"
+                onClick={acceptAll}
+                className="flex-1 px-6 py-3 text-sm font-medium text-white bg-[#7D6B5D] hover:bg-[#6B5A4D] rounded-full transition-all shadow-lg"
               >
                 Alle akzeptieren
               </button>

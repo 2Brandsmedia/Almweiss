@@ -12,7 +12,7 @@ type ModalType = "impressum" | "datenschutz" | "agb" | "barrierefreiheit" | "faq
 export default function Footer() {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
   const [showDevModal, setShowDevModal] = useState(false);
-  const { hasFullConsent } = useCookieConsent();
+  const { hasFullConsent, openConsentModal } = useCookieConsent();
 
   // Focus Trap für Developer-Modal (WCAG 2.1)
   const devModalFocusTrapRef = useFocusTrap(showDevModal);
@@ -133,10 +133,10 @@ export default function Footer() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setActiveModal("cookies")}
+                      onClick={openConsentModal}
                       className="hover:text-white transition"
                     >
-                      Cookies
+                      Cookie-Einstellungen
                     </button>
                   </li>
                 </ul>

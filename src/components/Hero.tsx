@@ -32,7 +32,7 @@ export default function Hero() {
   const [isScrolled, setIsScrolled] = useState(false);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const { openModal } = useBooking();
-  const { hasFullConsent } = useCookieConsent();
+  const { hasFullConsent, openConsentModal } = useCookieConsent();
 
   // Track scroll position for sticky CTA button - triggers when hero section ends
   useEffect(() => {
@@ -166,7 +166,7 @@ export default function Hero() {
       </button>
 
       {/* Video Button - nur anzeigen wenn Consent */}
-      {hasFullConsent && (
+      {hasFullConsent ? (
         <button
           onClick={() => setShowVideo(!showVideo)}
           className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
@@ -178,6 +178,19 @@ export default function Hero() {
           </span>
           <span className="text-sm font-medium uppercase tracking-wider">
             {showVideo ? 'Schließen' : 'Video'}
+          </span>
+        </button>
+      ) : (
+        <button
+          onClick={openConsentModal}
+          className="absolute bottom-6 right-4 md:bottom-8 md:right-8 z-20 flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-full hover:bg-black/60 transition group shadow-lg"
+          aria-label="Cookies aktivieren für Video-Wiedergabe"
+        >
+          <span className="material-icons text-xl group-hover:scale-110 transition" aria-hidden="true">
+            videocam_off
+          </span>
+          <span className="text-sm font-medium uppercase tracking-wider">
+            Video aktivieren
           </span>
         </button>
       )}
