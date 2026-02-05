@@ -64,7 +64,7 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
   }, [isVisible, value, duration]);
 
   return (
-    <div ref={ref} className="font-display text-3xl md:text-6xl text-[#A68A75] font-bold mb-1 md:mb-2 flex items-baseline justify-center gap-1">
+    <div ref={ref} className="font-display text-3xl md:text-6xl text-[#6B5A4D] font-bold mb-1 md:mb-2 flex items-baseline justify-center gap-1">
       {value % 1 !== 0 ? (
         <>
           {Math.floor(count)}
@@ -74,7 +74,7 @@ function Counter({ value, suffix, duration }: { value: number; suffix: string; d
         count
       )}
       {suffix === "★" ? (
-        <span className="material-icons text-[#A68A75] text-2xl md:text-5xl" aria-hidden="true">star</span>
+        <span className="material-icons text-[#6B5A4D] text-2xl md:text-5xl" aria-hidden="true">star</span>
       ) : (
         suffix
       )}

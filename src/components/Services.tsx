@@ -280,7 +280,7 @@ export default function Services() {
               Bewertungen
             </h2>
             <div className="flex items-center justify-center gap-2 mb-2">
-              <div className="flex" aria-label={`${averageRating} von 5 Sternen`}>
+              <div className="flex" role="img" aria-label={`${averageRating} von 5 Sternen`}>
                 {[...Array(5)].map((_, i) => (
                   <span
                     key={i}
@@ -362,7 +362,7 @@ export default function Services() {
                 <div className="text-left">
                   <div className="flex items-center gap-2">
                     <p className="font-bold text-gray-900">{currentReview.name}</p>
-                    <div className="flex" aria-label={`${currentReview.rating} von 5 Sternen`}>
+                    <div className="flex" role="img" aria-label={`${currentReview.rating} von 5 Sternen`}>
                       {[...Array(5)].map((_, i) => (
                         <span
                           key={i}
@@ -415,7 +415,7 @@ export default function Services() {
               href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#A68A75] text-white px-6 py-3 md:px-8 md:py-4 text-[11px] md:text-sm uppercase tracking-wider font-semibold hover:bg-opacity-90 shadow-lg rounded-full transition whitespace-nowrap"
+              className="inline-block bg-[#8B7261] text-white px-6 py-3 md:px-8 md:py-4 text-[11px] md:text-sm uppercase tracking-wider font-semibold hover:bg-[#7A6354] shadow-lg rounded-full transition whitespace-nowrap"
             >
               Alle Bewertungen auf Google ansehen
             </a>

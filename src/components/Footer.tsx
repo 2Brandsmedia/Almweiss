@@ -168,7 +168,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Copyright */}
-          <div className="border-t border-gray-800 mt-6 pt-6 text-center text-xs text-gray-500">
+          <div className="border-t border-gray-800 mt-6 pt-6 text-center text-xs text-gray-400">
             <p className="uppercase tracking-widest mb-2">
               © {new Date().getFullYear()} Almweiß. Alle Rechte vorbehalten.
             </p>
@@ -176,7 +176,7 @@ export default function Footer() {
               Website entwickelt von{" "}
               <button
                 onClick={() => setShowDevModal(true)}
-                className="text-[#A68A75] hover:text-white transition"
+                className="text-[#C9A88E] hover:text-white transition"
               >
                 2Brands Media GmbH
               </button>
