@@ -67,7 +67,7 @@ export default function Testimonials() {
                 />
                 <div>
                   <p className="font-bold text-gray-900">{testimonial.name}</p>
-                  <p className="text-sm text-gray-500">{testimonial.date}</p>
+                  <p className="text-sm text-gray-600">{testimonial.date}</p>
                 </div>
               </div>
             </div>

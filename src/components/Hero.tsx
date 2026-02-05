@@ -79,9 +79,7 @@ export default function Hero() {
             className="hero-video-bg pointer-events-none"
             src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&start=0&disablekb=1"
             allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="Hintergrundvideo: Almweiß Hochzeitslocation"
-            aria-label="Dekoratives Hintergrundvideo der Almweiß Hochzeitslocation"
+            tabIndex={-1}
             aria-hidden="true"
           />
         </div>

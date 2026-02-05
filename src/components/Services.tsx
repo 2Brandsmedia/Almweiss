@@ -309,14 +309,14 @@ export default function Services() {
             {/* Navigation Arrows - Outside */}
             <button
               onClick={prevReview}
-              className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
+              className="absolute -left-4 md:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
               aria-label="Vorherige Bewertung"
             >
               <span className="material-icons text-2xl" aria-hidden="true">chevron_left</span>
             </button>
             <button
               onClick={nextReview}
-              className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-400 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
+              className="absolute -right-4 md:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-[#A68A75] hover:shadow-xl transition-all z-20"
               aria-label="Nächste Bewertung"
             >
               <span className="material-icons text-2xl" aria-hidden="true">chevron_right</span>

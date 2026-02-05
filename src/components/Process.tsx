@@ -277,18 +277,18 @@ export default function Process() {
                 >
                   {step.icon === "rings" ? (
                     <RingsIcon
-                      className={`transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-400"}`}
+                      className={`transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-500"}`}
                     />
                   ) : (
                     <span
-                      className={`material-icons text-2xl transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-400"}`}
+                      className={`material-icons text-2xl transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-500"}`}
                       aria-hidden="true"
                     >
                       {step.icon}
                     </span>
                   )}
                   <span
-                    className={`font-display text-sm font-bold transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-400"}`}
+                    className={`font-display text-sm font-bold transition-colors duration-500 ${isIconActive ? "text-[#A68A75]" : "text-gray-500"}`}
                   >
                     {step.number}
                   </span>

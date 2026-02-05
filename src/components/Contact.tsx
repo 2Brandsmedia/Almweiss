@@ -71,7 +71,7 @@ export default function Contact() {
             <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="date"
                 >
                   Wunschtermin
@@ -86,7 +86,7 @@ export default function Contact() {
               </div>
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="altDate"
                 >
                   Alternativ Datum
@@ -105,7 +105,7 @@ export default function Contact() {
             <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="adults"
                 >
                   Gäste ab 14 J.
@@ -122,7 +122,7 @@ export default function Contact() {
               </div>
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="children"
                 >
                   Anzahl Kinder
@@ -143,7 +143,7 @@ export default function Contact() {
             <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="firstName"
                 >
                   Vorname
@@ -160,7 +160,7 @@ export default function Contact() {
               </div>
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="lastName"
                 >
                   Nachname
@@ -181,7 +181,7 @@ export default function Contact() {
             <div className="grid grid-cols-2 gap-3 md:gap-6 mb-4 md:mb-6">
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="email"
                 >
                   E-Mail
@@ -198,7 +198,7 @@ export default function Contact() {
               </div>
               <div>
                 <label
-                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-500 mb-1 md:mb-2 font-bold"
+                  className="block text-[10px] md:text-xs uppercase tracking-widest text-gray-700 mb-1 md:mb-2 font-bold"
                   htmlFor="phone"
                 >
                   Telefon

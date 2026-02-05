@@ -109,7 +109,7 @@ export default function Stats() {
               className="p-2 md:p-4"
             >
               <Counter value={stat.value} suffix={stat.suffix} duration={stat.duration} />
-              <p className="text-xs md:text-sm uppercase tracking-wider md:tracking-widest text-gray-500">
+              <p className="text-xs md:text-sm uppercase tracking-wider md:tracking-widest text-gray-700">
                 {stat.label}
               </p>
             </motion.div>
