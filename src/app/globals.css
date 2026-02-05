@@ -207,3 +207,56 @@ select:focus-visible {
   white-space: nowrap;
   border: 0;
 }
+
+/* Accessibility Widget - Font Size */
+html.a11y-font-large {
+  font-size: 118%;
+}
+
+html.a11y-font-xlarge {
+  font-size: 135%;
+}
+
+/* Accessibility Widget - High Contrast */
+html.a11y-high-contrast {
+  filter: contrast(1.3);
+}
+
+html.a11y-high-contrast img,
+html.a11y-high-contrast video,
+html.a11y-high-contrast iframe {
+  filter: contrast(0.77);
+}
+
+/* Accessibility Widget - Invert Colors */
+html.a11y-invert {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html.a11y-invert img,
+html.a11y-invert video,
+html.a11y-invert iframe {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Accessibility Widget - Grayscale (Color Blindness) */
+html.a11y-grayscale {
+  filter: grayscale(1);
+}
+
+/* Combined filters */
+html.a11y-high-contrast.a11y-invert {
+  filter: contrast(1.3) invert(1) hue-rotate(180deg);
+}
+
+html.a11y-high-contrast.a11y-grayscale {
+  filter: contrast(1.3) grayscale(1);
+}
+
+html.a11y-invert.a11y-grayscale {
+  filter: invert(1) hue-rotate(180deg) grayscale(1);
+}
+
+html.a11y-high-contrast.a11y-invert.a11y-grayscale {
+  filter: contrast(1.3) invert(1) hue-rotate(180deg) grayscale(1);
+}
