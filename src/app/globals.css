@@ -171,6 +171,22 @@ html {
   min-height: 56.25vw;
 }
 
+/* YouTube Embed - Vollbild in Hero erzwingen */
+.hero-video-bg lite-youtube {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  aspect-ratio: unset !important;
+}
+
+.hero-video-bg lite-youtube iframe {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 @media (max-width: 768px) {
   .hero-video-bg {
     position: absolute !important;
