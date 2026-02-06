@@ -43,7 +43,7 @@ export default function Hero() {
   return (
     <header className="hero-section relative flex items-center justify-center overflow-hidden bg-black">
       {/* Navigation - Burgermenü oben rechts */}
-      <nav className="absolute top-6 right-4 md:top-8 md:right-8 z-20" aria-label="Hauptnavigation">
+      <nav className="absolute top-[80px] right-4 md:top-8 md:right-8 z-20" aria-label="Hauptnavigation">
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-white/30 text-white rounded-full hover:bg-black/60 transition shadow-lg"
