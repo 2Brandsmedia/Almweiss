@@ -7,11 +7,29 @@ import { YouTubeEmbed } from "@next/third-parties/google";
 import { useBooking } from "@/context/BookingContext";
 import { useCookieConsent } from "@/context/CookieContext";
 
+const navLinks = [
+  { href: "#location", label: "Location" },
+  { href: "#extras", label: "Extras" },
+  { href: "#galerie", label: "Galerie" },
+  { href: "#bewertungen", label: "Bewertungen" },
+  { href: "#kontakt", label: "Kontakt" },
+];
+
 export default function Hero() {
   const [showVideo, setShowVideo] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { openModal } = useBooking();
   const { hasFullConsent, openConsentModal } = useCookieConsent();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   // Track scroll position for sticky CTA button - triggers when hero section ends
   useEffect(() => {
@@ -24,6 +42,52 @@ export default function Hero() {
 
   return (
     <header className="hero-section relative flex items-center justify-center overflow-hidden bg-black">
+      {/* Navigation - Burgermenü oben rechts */}
+      <nav className="absolute top-6 right-4 md:top-8 md:right-8 z-20" aria-label="Hauptnavigation">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="flex items-center justify-center w-12 h-12 bg-black/40 backdrop-blur-md border border-white/30 text-white rounded-full hover:bg-black/60 transition shadow-lg"
+          aria-label={isMenuOpen ? "Menü schließen" : "Menü öffnen"}
+          aria-expanded={isMenuOpen}
+          aria-controls="hero-menu"
+        >
+          <span className="material-icons text-2xl" aria-hidden="true">
+            {isMenuOpen ? "close" : "menu"}
+          </span>
+        </button>
+
+        {isMenuOpen && (
+          <div
+            id="hero-menu"
+            className="absolute top-14 right-0 w-56 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden"
+          >
+            <div className="flex flex-col py-2">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="px-6 py-3 text-white/90 hover:text-white hover:bg-white/10 text-sm uppercase tracking-wider font-medium transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div className="border-t border-white/15 mt-1 pt-1">
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    openModal();
+                  }}
+                  className="w-full px-6 py-3 text-[#A68A75] hover:text-white hover:bg-white/10 text-sm uppercase tracking-wider font-semibold transition-colors text-left"
+                >
+                  Termin anfragen
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
       {/* Background - YouTube wenn Consent, sonst statisches Bild */}
       <div className="hero-video-container absolute z-0 overflow-hidden bg-black">
         {hasFullConsent ? (
