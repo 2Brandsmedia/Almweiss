@@ -27,13 +27,16 @@ export default function Hero() {
       {/* Background - YouTube wenn Consent, sonst statisches Bild */}
       <div className="hero-video-container absolute z-0 overflow-hidden bg-black">
         {hasFullConsent ? (
-          // YouTube Video Background mit @next/third-parties (optimiert)
+          // YouTube Video Background - direkter iframe für sofortiges Autoplay
           <div className="absolute inset-0 overflow-hidden grayscale">
             <div className="hero-video-bg pointer-events-none">
-              <YouTubeEmbed
-                videoid="dLiXD3dJNLg"
-                params="autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-                style="width: 100%; height: 100%;"
+              <iframe
+                src="https://www.youtube.com/embed/dLiXD3dJNLg?autoplay=1&mute=1&loop=1&playlist=dLiXD3dJNLg&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+                title="Almweiß Hintergrund-Video"
+                loading="eager"
               />
             </div>
           </div>
