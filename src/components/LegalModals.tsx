@@ -63,7 +63,7 @@ const faqCategories = [
     questions: [
       {
         q: "Haben Sie noch weitere Fragen?",
-        a: "Kontaktieren Sie uns gerne telefonisch unter 0173 2814620 oder per E-Mail an info@almweiss.de. Wir helfen Ihnen gerne weiter!"
+        a: "Stellen Sie einfach eine Anfrage über unser Formular (Jetzt Wunschtermin sichern) oder schreiben Sie uns eine E-Mail an info@almweiss.de. Wir melden uns schnellstmöglich bei Ihnen!"
       },
     ]
   },
@@ -598,8 +598,7 @@ export default function LegalModals({ activeModal, onClose }: LegalModalsProps) 
           <h3 className="font-semibold text-lg mb-2">Kontakt</h3>
           <p className="mb-4">
             Bei Fragen zu unserer Cookie-Richtlinie können Sie uns kontaktieren:<br /><br />
-            E-Mail: info@almweiss.de<br />
-            Telefon: 0173 2814620
+            E-Mail: info@almweiss.de
           </p>
 
           <p className="mt-6 text-sm text-gray-500">

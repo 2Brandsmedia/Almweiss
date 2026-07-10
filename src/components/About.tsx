@@ -41,8 +41,9 @@ export default function About() {
             <p className="text-gray-600 mb-6 text-lg leading-relaxed">
               Zentral gelegen zwischen Köln und Düsseldorf erstrahlt das Almweiß als bezaubernde
               Eventlocation, die sich insbesondere für Hochzeiten und festliche Anlässe eignet.
-              Unsere einladende Blockhütte bietet Platz für bis zu 80 Gäste und vereint rustikale
-              Gemütlichkeit mit festlicher Eleganz – die perfekte Kulisse für unvergessliche Momente.
+              Unsere einladende, vollklimatisierte Blockhütte bietet Platz für 30 bis 80 Gäste und
+              vereint rustikale Gemütlichkeit mit festlicher Eleganz. Die perfekte Kulisse für
+              unvergessliche Momente, bei jedem Wetter und zu jeder Jahreszeit.
             </p>
             <p className="text-gray-600 mb-6 text-lg leading-relaxed">
               Bei Almweiß beginnt Ihre Hochzeitsreise lange vor dem großen Tag. Wir begleiten Sie
@@ -55,20 +56,31 @@ export default function About() {
               Wirklichkeit werden zu lassen.
             </p>
 
-            {/* Feature Box */}
+            {/* Feature Boxes */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]"
+              className="space-y-4"
             >
-              <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">verified</span>
-              <div>
-                <h3 className="font-bold text-gray-900">All Inclusive Service</h3>
-                <p className="text-sm text-gray-600">
-                  Von Essen bis DJ erhalten Sie alles aus einer Hand.
-                </p>
+              <div className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]">
+                <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">verified</span>
+                <div>
+                  <h3 className="font-bold text-gray-900">All Inclusive Service</h3>
+                  <p className="text-sm text-gray-600">
+                    Von Essen bis DJ erhalten Sie alles aus einer Hand.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-4 bg-[#FAF9F6] rounded border-l-4 border-[#A68A75]">
+                <span className="material-icons text-[#A68A75] text-3xl" aria-hidden="true">ac_unit</span>
+                <div>
+                  <h3 className="font-bold text-gray-900">Vollklimatisiert</h3>
+                  <p className="text-sm text-gray-600">
+                    Angenehme Temperaturen selbst an heißen Sommertagen. Ihre Gäste feiern jederzeit komfortabel.
+                  </p>
+                </div>
               </div>
             </motion.div>
 

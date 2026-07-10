@@ -22,7 +22,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [alternativDatum, setAlternativDatum] = useState<Date | null>(null);
 
   const [fullServiceConfirmed, setFullServiceConfirmed] = useState(false);
-  const [countdown, setCountdown] = useState(10);
+  const [countdown, setCountdown] = useState(5);
   const [isMobile, setIsMobile] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,7 +81,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     const baseFieldsValid =
       formData.eventType !== "" &&
       wunschtermin !== null &&
-      formData.erwachsene >= 40 &&
+      formData.erwachsene >= 30 &&
       formData.anrede !== "" &&
       formData.email !== "" &&
       formData.telefon !== "" &&
@@ -113,12 +113,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     if (isOpen && !prevIsOpenRef.current) {
       // Modal just opened - reset confirmation and countdown
       setFullServiceConfirmed(false);
-      setCountdown(10);
+      setCountdown(5);
     }
     if (!isOpen && prevIsOpenRef.current) {
       // Modal closed - reset
       setFullServiceConfirmed(false);
-      setCountdown(10);
+      setCountdown(5);
     }
     prevIsOpenRef.current = isOpen;
   }, [isOpen]);
@@ -127,7 +127,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   useEffect(() => {
     if (areFieldsComplete && !prevFieldsCompleteRef.current) {
       // Fields just became complete - start countdown
-      setCountdown(10);
+      setCountdown(5);
       setFullServiceConfirmed(false);
       // Single smooth scroll after animation completes
       setTimeout(() => {
@@ -175,7 +175,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   // Clamp guest numbers on blur
   const handleGuestBlur = () => {
-    const clamped = Math.min(80, Math.max(40, formData.erwachsene || 40));
+    const clamped = Math.min(80, Math.max(30, formData.erwachsene || 30));
     setFormData((prev) => ({ ...prev, erwachsene: clamped }));
   };
 
@@ -201,7 +201,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       setIsSubmitted(false);
       setFormData({
         eventType: "",
-        erwachsene: 40,
+        erwachsene: 30,
         kinder: 0,
         anrede: "",
         firmenname: "",
@@ -216,7 +216,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       setWunschtermin(null);
       setAlternativDatum(null);
       setFullServiceConfirmed(false);
-      setCountdown(10);
+      setCountdown(5);
     }
     onClose();
   };
@@ -255,8 +255,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             <h3 className="font-display text-3xl font-bold text-gray-900 mb-4">
               Stellen Sie noch heute eine Anfrage
             </h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
+            <p className="text-gray-600 mb-4 leading-relaxed">
               Lassen Sie uns gemeinsam Ihren besonderen Tag planen. Wir freuen uns darauf, Sie kennenzulernen und Ihre Wünsche in die Tat umzusetzen.
+            </p>
+            <p className="text-gray-600 mb-6 text-sm leading-relaxed">
+              <strong>Gut zu wissen:</strong> Almweiß bietet ausschließlich Full-Service-Pakete an, immer inklusive Personal und Catering. Für Feiern von 30 bis 80 Gästen.
             </p>
             <div className="relative w-full h-56 rounded-lg overflow-hidden mb-6">
               <Image
@@ -300,8 +303,11 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
             <h3 className="font-display text-xl font-bold text-gray-900 mb-2">
               Stellen Sie noch heute eine Anfrage
             </h3>
-            <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+            <p className="text-gray-600 text-sm mb-3 leading-relaxed">
               Lassen Sie uns gemeinsam Ihren besonderen Tag planen. Wir freuen uns darauf, Sie kennenzulernen und Ihre Wünsche in die Tat umzusetzen.
+            </p>
+            <p className="text-gray-600 text-xs mb-4 leading-relaxed">
+              <strong>Gut zu wissen:</strong> Almweiß bietet ausschließlich Full-Service-Pakete an, immer inklusive Personal und Catering. Für Feiern von 30 bis 80 Gästen.
             </p>
             <div className="relative w-full h-32 rounded-lg overflow-hidden mb-4">
               <Image
@@ -408,12 +414,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 value={formData.erwachsene || ""}
                 onChange={handleChange}
                 onBlur={handleGuestBlur}
-                min={40}
+                min={30}
                 max={80}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition text-base"
               />
-              <p className="text-xs text-gray-500 mt-1">Min. 40, max. 80</p>
+              <p className="text-xs text-gray-500 mt-1">Min. 30, max. 80</p>
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">

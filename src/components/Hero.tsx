@@ -153,7 +153,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed"
         >
-          Feiern Sie Ihre Liebe an einem Ort, der so einzigartig ist wie Ihre Geschichte. Ein Tag, der bleibt. Ein Ort, der verzaubert.
+          Feiern Sie Ihre Liebe zwischen Köln und Düsseldorf, an einem Ort, der so einzigartig ist wie Ihre Geschichte. Ein Tag, der bleibt. Ein Ort, der verzaubert.
         </motion.p>
 
         {/* CTA Button - in hero */}

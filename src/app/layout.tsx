@@ -19,8 +19,8 @@ const lato = Lato({
 export const metadata: Metadata = {
   metadataBase: new URL('https://almweiss.de'),
   title: "Almweiß - Exklusive Hochzeits- & Eventlocation in Leverkusen",
-  description: "Einzigartige Hochzeits- & Eventlocation in Leverkusen. Wo Eleganz auf Herzlichkeit trifft. Feiern Sie Ihren besonderen Tag bei Almweiß.",
-  keywords: ["Hochzeitslocation", "Eventlocation", "Leverkusen", "Hochzeit", "Feier", "Almweiß"],
+  description: "Einzigartige, vollklimatisierte Hochzeits- & Eventlocation in Leverkusen zwischen Köln und Düsseldorf. Für Feiern von 30 bis 80 Gästen. Feiern Sie Ihren besonderen Tag bei Almweiß.",
+  keywords: ["Hochzeitslocation", "Eventlocation", "Leverkusen", "Hochzeit", "Feier", "Almweiß", "klimatisierte Hochzeitslocation", "Hochzeitslocation Köln", "Hochzeitslocation Düsseldorf"],
   authors: [{ name: "2Brands Media GmbH" }],
   alternates: {
     canonical: '/',
@@ -69,7 +69,6 @@ export default function RootLayout({
               "name": "Almweiß",
               "description": "Exklusive Hochzeits- & Eventlocation in Leverkusen. Wo Eleganz auf Herzlichkeit trifft.",
               "url": "https://almweiss.de",
-              "telephone": "+49 173 2814620",
               "email": "info@almweiss.de",
               "address": {
                 "@type": "PostalAddress",
@@ -93,11 +92,18 @@ export default function RootLayout({
                 "closes": "22:00"
               },
               "amenityFeature": [
+                { "@type": "LocationFeatureSpecification", "name": "Klimaanlage", "value": true },
                 { "@type": "LocationFeatureSpecification", "name": "Parkplatz", "value": true },
                 { "@type": "LocationFeatureSpecification", "name": "Barrierefreiheit", "value": true },
                 { "@type": "LocationFeatureSpecification", "name": "Catering", "value": true }
               ],
-              "maximumAttendeeCapacity": 200
+              "maximumAttendeeCapacity": 80,
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": 4.8,
+                "reviewCount": 191,
+                "bestRating": 5
+              }
             })
           }}
         />

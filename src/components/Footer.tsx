@@ -19,7 +19,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-[#292524] text-white py-16 pb-32 border-t border-gray-800">
+      <footer id="kontakt" className="bg-[#292524] text-white py-16 pb-32 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
           initial="hidden"
@@ -66,11 +66,6 @@ export default function Footer() {
                   <li>
                     Robert-Blum-Straße 62<br />
                     51373 Leverkusen
-                  </li>
-                  <li>
-                    <a href="tel:+4917328146200" className="hover:text-white transition">
-                      0173 2814620
-                    </a>
                   </li>
                   <li>
                     <a href="mailto:info@almweiss.de" className="hover:text-white transition">

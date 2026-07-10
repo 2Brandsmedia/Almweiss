@@ -41,7 +41,7 @@ export interface BookingSuccessProps {
 
 export const initialFormData: BookingFormData = {
   eventType: "",
-  erwachsene: 40,
+  erwachsene: 30,
   kinder: 0,
   anrede: "",
   firmenname: "",
