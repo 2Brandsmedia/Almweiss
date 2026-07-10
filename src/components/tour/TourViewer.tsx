@@ -8,55 +8,55 @@ import "@photo-sphere-viewer/core/index.css";
 import "@photo-sphere-viewer/virtual-tour-plugin/index.css";
 import "@photo-sphere-viewer/markers-plugin/index.css";
 
-// Demo-Rundgang: komplettes Beispiel-Haus mit 5 verbundenen Räumen,
-// bis echte Almweiß-Aufnahmen vorliegen
+// Demo-Rundgang durch ein Beispiel-Haus (5 verbundene Räume einer Location),
+// bis echte Almweiß-Aufnahmen vorliegen. Panoramen: Poly Haven, CC0.
 const tourNodes = [
   {
     id: "eingang",
-    name: "Eingangsbereich",
-    panorama: "/images/tour/demo-raum-1.webp",
-    caption: "Eingangsbereich (Demo-Ansicht)",
-    links: [{ nodeId: "wohnzimmer", position: { yaw: "80deg", pitch: "0deg" } }],
+    name: "Eingangshalle",
+    panorama: "/images/tour/tour-eingang.webp",
+    caption: "Eingangshalle (Demo-Ansicht)",
+    links: [{ nodeId: "festsaal", position: { yaw: "0deg", pitch: "0deg" } }],
   },
   {
-    id: "wohnzimmer",
-    name: "Wohnzimmer",
-    panorama: "/images/tour/demo-raum-2.webp",
-    caption: "Wohnzimmer (Demo-Ansicht)",
+    id: "festsaal",
+    name: "Festsaal",
+    panorama: "/images/tour/tour-festsaal.webp",
+    caption: "Festsaal mit Tafel (Demo-Ansicht)",
     links: [
-      { nodeId: "eingang", position: { yaw: "-120deg", pitch: "0deg" } },
-      { nodeId: "kueche", position: { yaw: "30deg", pitch: "0deg" } },
+      { nodeId: "eingang", position: { yaw: "-140deg", pitch: "0deg" } },
+      { nodeId: "salon", position: { yaw: "40deg", pitch: "0deg" } },
       { nodeId: "terrasse", position: { yaw: "150deg", pitch: "0deg" } },
     ],
   },
   {
-    id: "kueche",
-    name: "Küche",
-    panorama: "/images/tour/demo-raum-3.webp",
-    caption: "Küche (Demo-Ansicht)",
+    id: "salon",
+    name: "Salon",
+    panorama: "/images/tour/tour-salon.webp",
+    caption: "Salon mit Flügel (Demo-Ansicht)",
     links: [
-      { nodeId: "wohnzimmer", position: { yaw: "-90deg", pitch: "0deg" } },
-      { nodeId: "schlafzimmer", position: { yaw: "60deg", pitch: "0deg" } },
+      { nodeId: "festsaal", position: { yaw: "-100deg", pitch: "0deg" } },
+      { nodeId: "lounge", position: { yaw: "60deg", pitch: "0deg" } },
     ],
   },
   {
-    id: "schlafzimmer",
-    name: "Schlafzimmer",
-    panorama: "/images/tour/demo-raum-4.webp",
-    caption: "Schlafzimmer (Demo-Ansicht)",
+    id: "lounge",
+    name: "Lounge",
+    panorama: "/images/tour/tour-lounge.webp",
+    caption: "Lounge (Demo-Ansicht)",
     links: [
-      { nodeId: "kueche", position: { yaw: "-120deg", pitch: "0deg" } },
-      { nodeId: "terrasse", position: { yaw: "45deg", pitch: "0deg" } },
+      { nodeId: "salon", position: { yaw: "-120deg", pitch: "0deg" } },
+      { nodeId: "terrasse", position: { yaw: "50deg", pitch: "0deg" } },
     ],
   },
   {
     id: "terrasse",
     name: "Terrasse",
-    panorama: "/images/tour/demo-raum-5.webp",
+    panorama: "/images/tour/tour-terrasse.webp",
     caption: "Terrasse (Demo-Ansicht)",
     links: [
-      { nodeId: "wohnzimmer", position: { yaw: "-60deg", pitch: "0deg" } },
-      { nodeId: "schlafzimmer", position: { yaw: "90deg", pitch: "0deg" } },
+      { nodeId: "festsaal", position: { yaw: "-70deg", pitch: "0deg" } },
+      { nodeId: "lounge", position: { yaw: "120deg", pitch: "0deg" } },
     ],
   },
 ];
@@ -140,7 +140,7 @@ export default function TourViewer() {
             positionMode: "manual",
             nodes: tourNodes,
             startNodeId: "eingang",
-            // Kein Preload: 5 Panoramen à ~1,5 MB, Nachbar-Räume laden erst beim Wechsel
+            // Kein Preload: Nachbar-Räume laden erst beim Wechsel (Datenvolumen mobil)
             preload: false,
             transitionOptions: {
               showLoader: true,
