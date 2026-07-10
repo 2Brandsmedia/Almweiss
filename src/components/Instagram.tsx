@@ -251,13 +251,17 @@ export default function Instagram() {
                   setCurrentIndex(index);
                   setIsAutoPlaying(false);
                 }}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? "bg-[#A68A75] w-6"
-                    : "bg-gray-300 hover:bg-gray-400"
-                }`}
+                className="py-2 px-0.5 flex items-center"
                 aria-label={`Gehe zu Beitrag ${index + 1}`}
-              />
+              >
+                <span
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? "bg-[#A68A75] w-6"
+                      : "bg-gray-300 w-2 hover:bg-gray-400"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

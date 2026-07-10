@@ -130,6 +130,7 @@ export default function Gallery() {
                         src={image.src}
                         alt={image.alt}
                         fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
@@ -190,6 +191,7 @@ export default function Gallery() {
               src={galleryImages[selectedIndex].src}
               alt={galleryImages[selectedIndex].alt}
               fill
+              sizes="85vw"
               className="object-contain"
             />
           </motion.div>

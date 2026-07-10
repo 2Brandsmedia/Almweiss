@@ -11,6 +11,7 @@ const navLinks = [
   { href: "#location", label: "Location" },
   { href: "#extras", label: "Extras" },
   { href: "#galerie", label: "Galerie" },
+  { href: "#rundgang", label: "360°-Rundgang" },
   { href: "#bewertungen", label: "Bewertungen" },
   { href: "#kontakt", label: "Kontakt" },
 ];
@@ -112,6 +113,7 @@ export default function Hero() {
               alt=""
               fill
               priority
+              sizes="100vw"
               className="object-cover"
               aria-hidden="true"
             />

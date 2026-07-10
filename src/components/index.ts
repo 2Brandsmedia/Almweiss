@@ -6,6 +6,7 @@ export { default as Services } from "./Services";
 export { default as Extras } from "./Extras";
 export { default as Process } from "./Process";
 export { default as Gallery } from "./Gallery";
+export { default as VirtualTour } from "./VirtualTour";
 export { default as Instagram } from "./Instagram";
 export { default as Testimonials } from "./Testimonials";
 export { default as Footer } from "./Footer";

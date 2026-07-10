@@ -6,6 +6,7 @@ import {
   Process,
   Services,
   Gallery,
+  VirtualTour,
   Instagram,
   Footer,
 } from "@/components";
@@ -19,6 +20,7 @@ export default function Home() {
       <Extras />
       <Process />
       <Gallery />
+      <VirtualTour />
       <Services />
       <Instagram />
       <Footer />

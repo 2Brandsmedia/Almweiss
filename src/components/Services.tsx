@@ -342,6 +342,7 @@ export default function Services() {
                         src={img}
                         alt={`Foto ${idx + 1} von ${currentReview.name}`}
                         fill
+                        sizes="56px"
                         className="object-cover"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
@@ -397,13 +398,17 @@ export default function Services() {
                       setIsAutoPlaying(false);
                       setCurrentIndex(i);
                     }}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === currentIndex
-                        ? "bg-[#A68A75] w-4"
-                        : "bg-gray-300 w-1.5 hover:bg-gray-400"
-                    }`}
+                    className="py-2 px-0.5 flex items-center"
                     aria-label={`Bewertung ${i + 1}`}
-                  />
+                  >
+                    <span
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        i === currentIndex
+                          ? "bg-[#A68A75] w-4"
+                          : "bg-gray-300 w-1.5 hover:bg-gray-400"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

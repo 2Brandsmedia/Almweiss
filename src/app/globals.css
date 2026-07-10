@@ -60,6 +60,12 @@ html, body {
   font-family: var(--font-lato), 'Lato', sans-serif;
 }
 
+/* Mobile: horizontales Scrollen sicher verhindern (Parallax/negative Margins) */
+html, body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 body > div {
   background: #FAF9F6;
 }

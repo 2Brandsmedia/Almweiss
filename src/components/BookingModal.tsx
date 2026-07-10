@@ -266,6 +266,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 src="/images/table.webp"
                 alt="Almweiß Tischdekoration"
                 fill
+                sizes="(max-width: 768px) 100vw, 40vw"
                 className="object-cover"
               />
             </div>
@@ -314,6 +315,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 src="/images/table.webp"
                 alt="Almweiß Tischdekoration"
                 fill
+                sizes="(max-width: 768px) 100vw, 40vw"
                 className="object-cover"
               />
             </div>
@@ -578,7 +580,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
               rows={4}
               required
               placeholder="Teilen Sie uns gerne weitere Details zu Ihrer Feier mit..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition resize-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A68A75] focus:border-transparent transition resize-none text-base"
             />
             <div className="mt-1 h-4">
               {wordsRemaining > 0 && (
