@@ -13,6 +13,7 @@ const navLinks = [
   { href: "#galerie", label: "Galerie" },
   { href: "#rundgang", label: "360°-Rundgang" },
   { href: "#bewertungen", label: "Bewertungen" },
+  { href: "#faq", label: "Häufige Fragen" },
   { href: "#kontakt", label: "Kontakt" },
 ];
 

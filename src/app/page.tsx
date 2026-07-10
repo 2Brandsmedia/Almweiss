@@ -7,6 +7,7 @@ import {
   Services,
   Gallery,
   VirtualTour,
+  FAQ,
   Instagram,
   Footer,
 } from "@/components";
@@ -22,6 +23,7 @@ export default function Home() {
       <Gallery />
       <VirtualTour />
       <Services />
+      <FAQ />
       <Instagram />
       <Footer />
     </main>

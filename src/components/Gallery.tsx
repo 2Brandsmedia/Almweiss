@@ -22,6 +22,7 @@ const galleryImages = [
 
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [lightboxLoaded, setLightboxLoaded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Focus Trap für Lightbox-Modal (WCAG 2.1)
@@ -53,6 +54,7 @@ export default function Gallery() {
   ];
 
   const openModal = (globalIndex: number) => {
+    setLightboxLoaded(false);
     setSelectedIndex(globalIndex);
   };
 
@@ -61,6 +63,7 @@ export default function Gallery() {
   }, []);
 
   const goToPrevious = useCallback(() => {
+    setLightboxLoaded(false);
     setSelectedIndex(prev => {
       if (prev === null) return null;
       return prev === 0 ? galleryImages.length - 1 : prev - 1;
@@ -68,6 +71,7 @@ export default function Gallery() {
   }, []);
 
   const goToNext = useCallback(() => {
+    setLightboxLoaded(false);
     setSelectedIndex(prev => {
       if (prev === null) return null;
       return prev === galleryImages.length - 1 ? 0 : prev + 1;
@@ -121,10 +125,12 @@ export default function Gallery() {
                 {column.images.map((image, imgIndex) => {
                   const globalIndex = colIndex * 3 + imgIndex;
                   return (
-                    <div
+                    <button
                       key={imgIndex}
-                      className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg cursor-pointer group"
+                      type="button"
+                      className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg cursor-pointer group block w-full text-left"
                       onClick={() => openModal(globalIndex)}
+                      aria-label={`${image.alt} vergrößern`}
                     >
                       <Image
                         src={image.src}
@@ -138,7 +144,7 @@ export default function Gallery() {
                           zoom_in
                         </span>
                       </div>
-                    </div>
+                    </button>
                   );
                 })}
               </motion.div>
@@ -187,12 +193,20 @@ export default function Gallery() {
             className="relative w-[85vw] max-w-4xl h-[80vh]"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Lade-Indikator, bis das große Bild da ist (sonst wirkt das Modal leer) */}
+            {!lightboxLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-white/80 border-t-transparent" />
+              </div>
+            )}
             <Image
               src={galleryImages[selectedIndex].src}
               alt={galleryImages[selectedIndex].alt}
               fill
               sizes="85vw"
-              className="object-contain"
+              priority
+              className={`object-contain transition-opacity duration-300 ${lightboxLoaded ? "opacity-100" : "opacity-0"}`}
+              onLoad={() => setLightboxLoaded(true)}
             />
           </motion.div>
 

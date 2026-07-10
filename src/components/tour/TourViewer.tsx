@@ -8,21 +8,56 @@ import "@photo-sphere-viewer/core/index.css";
 import "@photo-sphere-viewer/virtual-tour-plugin/index.css";
 import "@photo-sphere-viewer/markers-plugin/index.css";
 
-// Demo-Rundgang: Beispiel-Panoramen, bis echte Almweiß-Aufnahmen vorliegen
+// Demo-Rundgang: komplettes Beispiel-Haus mit 5 verbundenen Räumen,
+// bis echte Almweiß-Aufnahmen vorliegen
 const tourNodes = [
   {
-    id: "raum-1",
-    name: "Beispielraum 1",
+    id: "eingang",
+    name: "Eingangsbereich",
     panorama: "/images/tour/demo-raum-1.webp",
-    caption: "Beispielraum 1 (Demo-Ansicht)",
-    links: [{ nodeId: "raum-2", position: { yaw: "80deg", pitch: "0deg" } }],
+    caption: "Eingangsbereich (Demo-Ansicht)",
+    links: [{ nodeId: "wohnzimmer", position: { yaw: "80deg", pitch: "0deg" } }],
   },
   {
-    id: "raum-2",
-    name: "Beispielraum 2",
+    id: "wohnzimmer",
+    name: "Wohnzimmer",
     panorama: "/images/tour/demo-raum-2.webp",
-    caption: "Beispielraum 2 (Demo-Ansicht)",
-    links: [{ nodeId: "raum-1", position: { yaw: "-120deg", pitch: "0deg" } }],
+    caption: "Wohnzimmer (Demo-Ansicht)",
+    links: [
+      { nodeId: "eingang", position: { yaw: "-120deg", pitch: "0deg" } },
+      { nodeId: "kueche", position: { yaw: "30deg", pitch: "0deg" } },
+      { nodeId: "terrasse", position: { yaw: "150deg", pitch: "0deg" } },
+    ],
+  },
+  {
+    id: "kueche",
+    name: "Küche",
+    panorama: "/images/tour/demo-raum-3.webp",
+    caption: "Küche (Demo-Ansicht)",
+    links: [
+      { nodeId: "wohnzimmer", position: { yaw: "-90deg", pitch: "0deg" } },
+      { nodeId: "schlafzimmer", position: { yaw: "60deg", pitch: "0deg" } },
+    ],
+  },
+  {
+    id: "schlafzimmer",
+    name: "Schlafzimmer",
+    panorama: "/images/tour/demo-raum-4.webp",
+    caption: "Schlafzimmer (Demo-Ansicht)",
+    links: [
+      { nodeId: "kueche", position: { yaw: "-120deg", pitch: "0deg" } },
+      { nodeId: "terrasse", position: { yaw: "45deg", pitch: "0deg" } },
+    ],
+  },
+  {
+    id: "terrasse",
+    name: "Terrasse",
+    panorama: "/images/tour/demo-raum-5.webp",
+    caption: "Terrasse (Demo-Ansicht)",
+    links: [
+      { nodeId: "wohnzimmer", position: { yaw: "-60deg", pitch: "0deg" } },
+      { nodeId: "schlafzimmer", position: { yaw: "90deg", pitch: "0deg" } },
+    ],
   },
 ];
 
@@ -78,7 +113,7 @@ function createArrowElement(label: string) {
 export default function TourViewer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
-  const [currentNode, setCurrentNode] = useState("raum-1");
+  const [currentNode, setCurrentNode] = useState("eingang");
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -104,8 +139,9 @@ export default function TourViewer() {
           {
             positionMode: "manual",
             nodes: tourNodes,
-            startNodeId: "raum-1",
-            preload: true,
+            startNodeId: "eingang",
+            // Kein Preload: 5 Panoramen à ~1,5 MB, Nachbar-Räume laden erst beim Wechsel
+            preload: false,
             transitionOptions: {
               showLoader: true,
               speed: "20rpm",
