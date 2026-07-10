@@ -5,7 +5,7 @@ import * as path from "path";
 const INSTAGRAM_USERNAME = "_almweiss_";
 const MAX_POSTS = 9;
 
-// Vercel Cron Secret für Authentifizierung
+// Cron-Secret für Authentifizierung (per Env-Var gesetzt)
 const CRON_SECRET = process.env.CRON_SECRET;
 
 export async function GET(request: Request) {
