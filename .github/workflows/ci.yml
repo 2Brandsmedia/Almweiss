@@ -1,0 +1,95 @@
+name: CI + Staging-Freigabe
+
+# ═══════════════════════════════════════════════════════════════
+# „Ein Build, ein Statuslicht" (angelegt 2026-07-28)
+# ═══════════════════════════════════════════════════════════════
+# Dieses Repo hatte bisher GAR KEINE CI: Coolify baute per nixpacks direkt aus
+# Git — ohne Dockerfile, ohne Pruefung. Damit gab es weder eine Pruefung vor dem Ausrollen noch einen
+# Rueckkanal zu GitHub — ein gescheiterter Build fiel schlicht nicht auf.
+#
+# Ablauf (Blaupause: ~/.claude/docs/deploy-kette-2brands.md):
+#   pruefen   lint + build           — faengt, was erst beim Bauen auffaellt
+#   images    baut das Image, Tag <sha>
+#   freigabe  setzt :staging — erst nach gruener Pruefung
+#   Waechter  2brands-staging-watch auf werkstatt rollt den Tag aus (~30 s)
+#
+# Laeuft auf dem eigenen buildserver, nicht auf GitHub-Runnern.
+# ═══════════════════════════════════════════════════════════════
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruefen:
+    name: Lint + Tests + Build
+    runs-on: [self-hosted, buildserver]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          # dest pro Job eindeutig: alle Runner teilen sich User/HOME auf dem
+          # buildserver — das Default-Ziel ~/setup-pnpm kollidiert bei parallelen
+          # Jobs mit ENOTEMPTY.
+          dest: ${{ runner.temp }}/setup-pnpm
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Tests
+        run: pnpm test:run
+      - name: Build
+        # Der Build-Check faengt Dinge, die Lint nicht sieht (Routing, RSC,
+        # fehlende Imports). Er bleibt bewusst drin, obwohl das Image ihn
+        # ohnehin noch einmal ausfuehrt.
+        run: pnpm build
+
+  images:
+    name: Image bauen
+    runs-on: [self-hosted, buildserver]
+    timeout-minutes: 30
+    # Feature-Branches und PRs brauchen kein Image.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Bauen und in die Registry schieben
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          REG=registry.2brands.de
+          # Kein --build-arg: in Coolify steht als Build-Variable nur
+          # NIXPACKS_NODE_VERSION, die mit dem Dockerfile-Weg hinfaellig wird.
+          docker build \
+            --cache-from "$REG/almweiss:staging" \
+            -t "$REG/almweiss:$SHA" \
+            .
+          docker push "$REG/almweiss:$SHA"
+
+  freigabe:
+    name: Staging freigeben
+    runs-on: [self-hosted, buildserver]
+    needs: [pruefen, images]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    timeout-minutes: 10
+    steps:
+      - name: staging-Tag setzen
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          set -eu
+          REG=registry.2brands.de
+          docker buildx imagetools create "$REG/almweiss:$SHA" --tag "$REG/almweiss:staging"
+          echo "freigegeben: almweiss -> $SHA"
